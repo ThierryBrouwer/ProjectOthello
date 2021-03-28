@@ -21,7 +21,7 @@ public class Main{
         Scanner scan = new Scanner(System.in);
         TicTacToe game = new TicTacToe();
         game.bordAanmaken();
-        System.out.println("TicTacToe");
+        /*System.out.println("TicTacToe");
         do {
             System.out.println("Hoe het bord er nu uitziet:");
             game.bordPrinten();
@@ -43,7 +43,7 @@ public class Main{
             game.bordPrinten();
             game.beurtDoorgeven();
             System.out.println(Character.toUpperCase(game.getSpelerDieSpeelt()) + " Heeft gewonnen");
-        }
+        }*/
     }
 
 }
