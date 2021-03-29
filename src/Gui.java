@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,14 +20,21 @@ public class Gui extends Application {
     Pane gameWindow = new Pane();
     Pane connectWindow = new Pane();
     Pane menu = new Pane();
-    String playerName;
+    //String playerName;
+    //Games gameName;
+    //menu>klik spel>tictactoe>getBoardsize
     Tile[] board;
+    TextField tF;
+    Button btn;
 
+    //playerName = textField.toString();
+     //   System.out.println(playerName);
     private Parent createGameWindow() {
         window.setTitle("Game Window");
-        //Pane root = new Pane();
+
         int windowSize = 600;
         gameWindow.setPrefSize(windowSize,windowSize);
+
         Tile[] board = new Tile[9];
         double sizeOfTiles = Math.sqrt(9);
         double sizeOfTile = windowSize/sizeOfTiles;
@@ -48,25 +57,31 @@ public class Gui extends Application {
         }
         return gameWindow;
     }
+    EventHandler<ActionEvent> test = new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent e) {
+            window.setScene(new Scene(createGameWindow()));
+        }
 
+    };
     private Parent createConnectWindow() {
         connectWindow.setPrefSize(400, 200);
         window.setTitle("Verbinden");
         window.setResizable(false);
         
         Label name = new Label("Naam: ");
-        TextField textField = new TextField();
-        Button connect = new Button("Verbinden");
+        tF = new TextField();
+        btn = new Button("Verbinden");
 
         name.setLayoutX(90);
         name.setLayoutY(40);
-        textField.setLayoutX(130);
-        textField.setLayoutY(37.5);
-        connect.setLayoutX(169);
-        connect.setLayoutY(100);
+        tF.setLayoutX(130);
+        tF.setLayoutY(37.5);
+        btn.setLayoutX(169);
+        btn.setLayoutY(100);
 
-        connectWindow.getChildren().addAll(name, textField, connect);
-        connectWindow.autosize();
+        connectWindow.getChildren().addAll(name, tF, btn);
+
+        btn.setOnAction(test);
 
         return connectWindow;
     }
