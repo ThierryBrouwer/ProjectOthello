@@ -1,8 +1,7 @@
+import Controller.Connection;
+import View.Gui;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main{
@@ -18,9 +17,9 @@ public class Main{
         t2.start();
 
         new Thread(() -> Application.launch(Gui.class, args)).start();
-
+/*
         Scanner scan = new Scanner(System.in);
-        TicTacToe game = new TicTacToe();
+
         game.bordAanmaken();
         System.out.println("TicTacToe");
         do {
@@ -44,7 +43,7 @@ public class Main{
             game.bordPrinten();
             game.beurtDoorgeven();
             System.out.println(Character.toUpperCase(game.getSpelerDieSpeelt()) + " Heeft gewonnen");
-        } 
+        } */
     }
 
 }
