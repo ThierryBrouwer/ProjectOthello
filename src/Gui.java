@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,8 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
-public class Gui extends Application {
+
+public class Gui{
 
     Stage window;
     Pane gameWindow = new Pane();
@@ -25,8 +28,8 @@ public class Gui extends Application {
 
     //playerName = textField.toString();
      //   System.out.println(playerName);
-    private Parent createGameWindow() {
-        window.setTitle("Game Window");
+    public Parent createGameWindow() {
+        //window.setTitle("Game Window");
 
         int windowSize = 600;
         gameWindow.setPrefSize(windowSize,windowSize);
@@ -53,40 +56,4 @@ public class Gui extends Application {
         }
         return gameWindow;
     }
-    EventHandler<ActionEvent> test = new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent e) {
-            window.setScene(new Scene(createGameWindow()));
-        }
-
-    };
-    private Parent createConnectWindow() {
-        connectWindow.setPrefSize(400, 200);
-        window.setTitle("Verbinden");
-        window.setResizable(false);
-        
-        Label name = new Label("Naam: ");
-        tF = new TextField();
-        btn = new Button("Verbinden");
-
-        name.setLayoutX(90);
-        name.setLayoutY(40);
-        tF.setLayoutX(130);
-        tF.setLayoutY(37.5);
-        btn.setLayoutX(169);
-        btn.setLayoutY(100);
-
-        connectWindow.getChildren().addAll(name, tF, btn);
-
-        btn.setOnAction(test);
-
-        return connectWindow;
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        window = primaryStage;
-        window.setScene(new Scene(createConnectWindow()));
-        window.show();
-    }
-//    public static void main(String[] args) { launch(args); }
 }
