@@ -17,17 +17,6 @@ public class TicTacToe extends Game{
     }
 
 
-//    // Bord printen in tekst
-//    public void bordPrinten() {
-//        for (int rij = 0; rij < 3; rij++) {
-//            System.out.print("| ");
-//            for (int kol = 0; kol < 3; kol++) {
-//                System.out.print(board[rij][kol] + " | ");
-//            }
-//            System.out.println();
-//        }
-//    }
-
 
     // Win functie om de andere 3 win functies aan te roepen
     // Geeft true als er een winnaar is, false als er geen winnaar is
@@ -64,18 +53,5 @@ private boolean controleerRij(char hok1, char hok2, char hok3) {
 }
 
 
-// Controleren of het aangegeven vakje in het bord zit en nog niet gevuld is
-public boolean updateBoard(int rij, int kol) {
-
-    if ((rij >= 0) && (rij < 3)) {
-        if ((kol >= 0) && (kol < 3)) {
-            if(board[rij][kol] == '-') {
-                board[rij][kol] = spelerBeurt;
-                return true;
-            }
-        }
-    }
-return false;
-}
 
 }
