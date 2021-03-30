@@ -1,4 +1,32 @@
 public class AI {
+
+
+    Board board;
+    Game game;
+
+    public AI(Board board, Game game){
+        this.board = board;
+        this.game = game;
+    }
+
+    public int makeMove(){
+        if (game instanceof TicTacToe){
+            return moveTicTacToe();
+        }
+        else return -1;
+    }
+
+    //return eerst mogelijke zet of -1 als er geen zet mogelijk is.
+    private int moveTicTacToe(){
+        for (int i=0;i<7;i++){
+            if(board.isMoveLegal(i)){
+                return i;
+            }
+
+        }
+        return -1;
+    }
+
     /*
     *** skelet voor miniMax algoritme, moet nog recursie in. ***
     *

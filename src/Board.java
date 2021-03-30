@@ -4,7 +4,7 @@ public class Board {
     private char board[][];
 
     public Board(int boardsize){
-        board = new char[boardsize][boardsize];
+        this.board = new char[boardsize][boardsize];
         this.boardsize = boardsize;
     }
 
@@ -20,11 +20,15 @@ public class Board {
         }
     }
 
-    public boolean isMoveLegal(int move){return false;}
+    public boolean isMoveLegal(int move){
+        int row = move / 3;
+        int col = move - 3*row;
+        return board[row][col] != '-';
+    }
 
 
 
-    public void getBoard(){return ;}
+    public char[][] getBoard(){return this.board;}
 
 
     //Kijken of het bord vol is, wordt gebruikt door AI om te kijken of er nog een zet gedaan kan worden of dat het bord vol is
