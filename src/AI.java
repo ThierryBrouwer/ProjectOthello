@@ -2,7 +2,7 @@ public class AI {
     /*
     *** skelet voor miniMax algoritme, moet nog recursie in. ***
     *
-    
+
     public int[] getLegalMoves(board){
         return null;
     }
