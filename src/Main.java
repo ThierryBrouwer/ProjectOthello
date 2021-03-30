@@ -1,8 +1,5 @@
-import Controller.Connection;
 import View.Gui;
 import javafx.application.Application;
-
-import java.util.Scanner;
 
 public class Main{
 
