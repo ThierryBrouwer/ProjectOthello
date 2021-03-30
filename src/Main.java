@@ -16,6 +16,7 @@ public class Main{
 
         t1.start();
         t2.start();
+        /*
         new Thread(() -> Application.launch(Gui.class, args)).start();
 
         Scanner scan = new Scanner(System.in);
@@ -43,7 +44,7 @@ public class Main{
             game.bordPrinten();
             game.beurtDoorgeven();
             System.out.println(Character.toUpperCase(game.getSpelerDieSpeelt()) + " Heeft gewonnen");
-        }
+        } */
     }
 
 }

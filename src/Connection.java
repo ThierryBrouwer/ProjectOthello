@@ -40,6 +40,30 @@ public class Connection implements Runnable{
 
             System.out.println(this.name + ": " + servermsg);
 
+
+
+            /* ***************
+            // Zo kan het met een switch, maar het argument dat je wilt hebben staat niet altijd op dezelfde plek in de servermsg,
+            // Dus het wordt er niet perse duidelijker op denk ik
+            String[] msg = servermsg.split(" ");
+            String argument = "";
+            if (msg.length > 2) {   //om de "OK" message te negeren
+                System.out.println(msg.length);
+                argument = msg[2];
+                System.out.println("argument: " + argument);
+            }
+
+            switch (argument){
+                case "MOVE":
+                    break;
+                case "YOURTURN":
+                    break;
+                case "LOSS":
+                    break;
+            }
+            ******************** */
+
+
             if (servermsg.startsWith("SVR GAME YOURTURN")){
                 int move = makeMove();
                 pr.println("move " + move);
@@ -90,6 +114,6 @@ public class Connection implements Runnable{
         try {
             this.connect();
         }
-        catch(IOException e){}
+        catch(IOException e){e.printStackTrace();}
     }
 }
