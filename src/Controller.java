@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -13,6 +14,15 @@ import java.io.IOException;
 public class Controller {
 
     public TextField playerName;
+    public Button button0;
+    public Button button1;
+    public Button button2;
+    public Button button3;
+    public Button button4;
+    public Button button5;
+    public Button button6;
+    public Button button7;
+    public Button button8;
     Connection con;
     Gui gui;
 
@@ -43,10 +53,6 @@ public class Controller {
 
 
     // View
-    public void startGUI(){
-//        new Thread(() -> Application.launch(Gui.class)).start();
-
-    }
 
     public void changeScreenChooseGame(ActionEvent actionEvent) throws IOException {
 
@@ -92,8 +98,13 @@ public class Controller {
         window.show();
     }
 
-    public void zegIets(ActionEvent actionEvent) {
-        System.out.println("fuck u button");
+    public void changeButton(ActionEvent actionEvent) {
+
+        Button button = (Button)actionEvent.getSource();
+        String id = button.getId();
+        System.out.println(id);
+        button.setText("X");
+
     }
 
     // Model
