@@ -1,5 +1,3 @@
-package View;
-
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;

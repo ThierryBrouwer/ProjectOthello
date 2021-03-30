@@ -1,5 +1,3 @@
-package Model;
-
 public class TicTacToe {
 
     private char[][] bord;
@@ -103,16 +101,16 @@ public void beurtDoorgeven() {
 // Het hokje invullen met x of o
 public boolean kleurIn(int rij, int kol) {
 
-// controleren of het vakje in het bord zit
-if ((rij >= 0) && (rij < 3)) {
-    if ((kol >= 0) && (kol < 3)) {
-        if(bord[rij][kol] == '-') {
-            bord[rij][kol] = spelerBeurt;
-            return true;
+    // controleren of het vakje in het bord zit
+    if ((rij >= 0) && (rij < 3)) {
+        if ((kol >= 0) && (kol < 3)) {
+            if(bord[rij][kol] == '-') {
+                bord[rij][kol] = spelerBeurt;
+                return true;
+            }
         }
     }
-}
 return false;
 }
-
+    public void updateBoard(int nieuweingevuldevakje){}
 }

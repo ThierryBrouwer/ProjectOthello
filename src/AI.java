@@ -1,5 +1,3 @@
-package Model;
-
 public class AI {
     /*
     *** skelet voor miniMax algoritme, moet nog recursie in. ***
