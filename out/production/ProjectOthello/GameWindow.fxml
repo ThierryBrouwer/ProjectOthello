@@ -18,39 +18,39 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="0" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-">
+      <Button fx:id="button0" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="0" GridPane.rowIndex="0">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button1" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="1">
+      <Button fx:id="button1" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button2" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="2">
+      <Button fx:id="button2" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="2" GridPane.rowIndex="0">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button3" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.rowIndex="1">
+      <Button fx:id="button3" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="0" GridPane.rowIndex="1">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button4" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Button fx:id="button4" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button5" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <Button fx:id="button5" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button6" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.rowIndex="2">
+      <Button fx:id="button6" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="0" GridPane.rowIndex="2">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button7" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Button fx:id="button7" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="40.0" />
          </font></Button>
-      <Button fx:id="button8" mnemonicParsing="false" onAction="#changeButton" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <Button fx:id="button8" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="202.0" prefWidth="203.0" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <font>
             <Font size="40.0" />
          </font></Button>

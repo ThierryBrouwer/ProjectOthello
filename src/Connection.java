@@ -9,12 +9,12 @@ import java.util.Arrays;
 
 public class Connection implements Runnable{
 
-    String name;
-    Socket s;
-    String servermsg;
-    String cleanServermsg;
-    HashMap<String, String> serverMsgHashMap;
-    ArrayList<String> serverMsgArrayList;
+    public String name;
+    public Socket s;
+    public String servermsg;
+    public String cleanServermsg;
+    public HashMap<String, String> serverMsgHashMap;
+    public ArrayList<String> serverMsgArrayList;
 
     public PrintWriter pr;
 
@@ -26,6 +26,7 @@ public class Connection implements Runnable{
             pr = new PrintWriter(s.getOutputStream());
         }
         catch(IOException e){e.printStackTrace();}
+        serverMsgHashMap = new HashMap<String, String>();
 
     }
 
@@ -63,12 +64,16 @@ public class Connection implements Runnable{
         return (servermsg);
     }
 
+    public String getCleanServermsg(){
+        return cleanServermsg;
+    }
+
     private String dissect(String message){
         if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
-            message = message.replace(" [ ", "-"); //vervang [ voor - omdat de .split methode niet met { wil splitten
+            message = message.replace(" [ ", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
 
-            String[] rawServermsgList = message.split("-"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
+            String[] rawServermsgList = message.split("&"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
 
             serverMsgArrayList = new ArrayList<String>(Arrays.asList(rawServermsgList[1].split(" , "))); //split alle elementen en stopt ze in een ArrayList
 
@@ -76,17 +81,19 @@ public class Connection implements Runnable{
             //Wanneer Controller deze message ontvangt en bepaald heeft dat hier een Arraylist bij hoort moet deze de Connection methode getMsgArraylist() aanroepen.
         }
         else if (message.contains("{")){ //als er een { in zit dan zit er een Map in de message
-            message = message.replace(" { ", "-"); //vervang { voor - omdat de .split methode niet met { wil splitten
+            //System.out.println(message);
+            message = message.replace(" {", "&"); //vervang { voor - omdat de .split methode niet met { wil splitten
             message = message.replace("}", ""); //Haal } aan het einde weg omdat we deze niet nodig hebben
             //System.out.println(message);
-            String[] rawServermsgList = message.split("-"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
 
+            String[] rawServermsgList = message.split("&"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
+            //System.out.println("split: "+rawServermsgList[1]);
             String[] pairs = rawServermsgList[1].split(","); //Hier scheid hij alle elementen in de (String) Map van elkaar en stopt ze in een list. Ieder element in de list is dus een key en een value.
             //System.out.println(pairs[1]);
 
             for (int i=0;i<pairs.length;i++) { //loop door de lijst met keys en values, maak van 1 String waar een key en een value in staat twee Strings en stop ze in een HashMap
                 String pair = pairs[i];
-                String[] keyValue = pair.split(":");
+                String[] keyValue = pair.split(": ");
                 serverMsgHashMap.put(keyValue[0], keyValue[1]);
             }
 

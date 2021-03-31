@@ -44,22 +44,34 @@ public class Controller {
 
         con = new Connection(playerName);
 
-        //Connection con2 = new Connection("Bassie");
+        Connection con2 = new Connection("Bassie");
 
         Thread t1 = new Thread(con);
-        //Thread t2 = new Thread(con2);
+        Thread t2 = new Thread(con2);
 
         t1.start();
 
-        //t2.start();
-        playGame();
+        t2.start();
+
+        Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
+        gamethread.start();
 
     }
 
     public void playGame(){
         TicTacToe game = new TicTacToe();
-        System.out.println(con);
         con.selectGame("Tic-tac-toe");
+        System.out.println(con.getCleanServermsg());
+
+        while(true){
+            String servermsg = con.getservermsg();
+            System.out.println(servermsg);
+            if (servermsg.contains("YOURTURN")){
+                System.out.println(servermsg);
+                break;
+            }
+
+        }
 
     }
 
