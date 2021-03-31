@@ -1,13 +1,14 @@
 public class TicTacToe extends Game{
 
-    private char[][] board;
+    private char[] board;
     private int boardsize;
     private char spelerBeurt;
 
     public TicTacToe() {
-        board = new char[3][3];
+        //board = new char[3][3];
         spelerBeurt = 'x';
-        Board board = new Board(3);
+        Board b = new Board(8);
+        board = b.getBoard();
     }
 
     // Getter om de speler die aan de beurt is te krijgen
@@ -16,6 +17,17 @@ public class TicTacToe extends Game{
         return spelerBeurt;
     }
 
+
+    //zet de move op het bord en past de spelerbeurt aan zodat de volgende move van de andere speler is.
+    public void updateBoard(int move){
+        board[move] = spelerBeurt;
+        if (spelerBeurt == 'x'){
+            spelerBeurt = 'o';
+        }
+        else if (spelerBeurt == 'o'){
+            spelerBeurt = 'x';
+        }
+    }
 
 
     // Win functie om de andere 3 win functies aan te roepen
@@ -27,7 +39,7 @@ public class TicTacToe extends Game{
     // Rijen controleren op een winnaar (Verticaal)
     private boolean rijenWinnaar() {
         for (int rij = 0; rij < 3; rij++) {
-            if (controleerRij(board[rij][0], board[rij][1], board[rij][2]) == true)
+            if (controleerRij(board[3 *rij], board[3 * rij + 1], board[3 * rij + 2]) == true)
             return true;
         }
         return false;
@@ -36,7 +48,7 @@ public class TicTacToe extends Game{
     //Kolommen cotroleren op een winnaar (Horizontaal)
     private boolean kolomWinnaar() {
         for (int kol = 0; kol < 3; kol++) {
-            if (controleerRij(board[0][kol], board[1][kol], board[2][kol]) == true) {
+            if (controleerRij(board[kol * 1], board[kol * 2], board[kol * 3]) == true) {
                 return true;
             }
         }
@@ -44,7 +56,7 @@ public class TicTacToe extends Game{
 }
 // de twee diagonale mogelijkheden controleren op een winnaar
 private boolean diagonaalWinnaar() {
-    return ((controleerRij(board[0][0], board[1][1], board[2][2]) == true) || (controleerRij(board[0][2], board[1][1], board[2][0]) == true));
+    return ((controleerRij(board[0], board[4], board[8]) == true) || (controleerRij(board[2], board[4], board[6]) == true));
 }
 
 // Controleren of de 3 waardes hetzelfde zijn om te kijken of er een winnaar is

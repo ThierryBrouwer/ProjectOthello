@@ -1,34 +1,27 @@
 public class Board {
 
     private int boardsize;
-    private char board[][];
+    private char board[];
 
     public Board(int boardsize){
-        this.board = new char[boardsize][boardsize];
+        this.board = new char[boardsize];
         this.boardsize = boardsize;
     }
 
     // Bord voor betreffende spel aanmaken of resetten
     public void createBoard(){
-        // Door de rijen heen loopen (Horizontaal)
-        for (int rij = 0; rij < boardsize; rij++) {
-
-            // Door de kolom heen loopen (Verticaal)
-            for (int kol = 0; kol < boardsize; kol++) {
-                board[rij][kol] = '-';
-            }
+        for(int i=0; i < 9;i++){
+            board[i] = '-';
         }
     }
 
     public boolean isMoveLegal(int move){
-        int row = move / 3;
-        int col = move - 3*row;
-        return board[row][col] != '-';
+        return board[move] != '-';
     }
 
 
 
-    public char[][] getBoard(){return this.board;}
+    public char[] getBoard(){return this.board;}
 
 
     //Kijken of het bord vol is, wordt gebruikt door AI om te kijken of er nog een zet gedaan kan worden of dat het bord vol is
@@ -36,12 +29,11 @@ public class Board {
     public boolean BoardFilled() {
         boolean isFilled = true;
 
-        for (int rij = 0; rij < boardsize; rij++) {
-            for (int kol = 0; kol < boardsize; kol++) {
-                if (board[rij][kol] == '-') {
+        for(int i=0; i < 9; i++){
+            if (board[i] == '-'){
                     isFilled = false;
                 }
-            }
+
         }
         return isFilled;
     }
