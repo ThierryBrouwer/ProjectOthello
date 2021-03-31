@@ -8,6 +8,10 @@ public class Board {
         this.boardsize = boardsize;
     }
 
+    public Board() {
+
+    }
+
     // Bord voor betreffende spel aanmaken of resetten
     public void createBoard(){
         // Door de rijen heen loopen (Horizontaal)
