@@ -102,36 +102,44 @@ public class Connection implements Runnable{
 
     public void selectGame(String game){ //een game selecteren
         pr.println("subscribe " + game);
+        pr.flush();
     }
 
     public void makeMove(int location){ //een zet zetten
         pr.println("move " + location);
+        pr.flush();
     }
 
     public void forfeit(){ //Het hele spel opgeven
         pr.println("forfeit");
+        pr.flush();
     }
 
     public void disconnect(){
         pr.println("disconnect");
+        pr.flush();
     }
 
     public ArrayList getGamelist(){
         pr.println("get gamelist");
+        pr.flush();
         return getMsgArrayList();
     }
 
     public ArrayList getPlayerlist(){
         pr.println("get playerlist");
+        pr.flush();
         return getMsgArrayList();
     }
 
     public void challengePlayer(String opponent, String game){
         pr.println("challenge " + opponent + " " + game);
+        pr.flush();
     }
 
     public void acceptChallenge(int challengeNumber){
         pr.println("challenge accept " + challengeNumber);
+        pr.flush();
     }
 
 
