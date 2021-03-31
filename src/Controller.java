@@ -27,19 +27,18 @@ public class Controller {
     Gui gui;
 
     public Controller() {
-        startConnectie();
+
         //startGUI();
         gui = new Gui();
     }
 
-    public void startConnectie() {
+    public void startConnectie(String playerName) {
         //connectie in&output
-        Connection con = new Connection("Henk");
+        Connection con = new Connection(playerName);
         Connection con2 = new Connection("Bassie");
 
         Thread t1 = new Thread(con);
         Thread t2 = new Thread(con2);
-
 
         t1.start();
         t2.start();
@@ -58,6 +57,7 @@ public class Controller {
 
         if (!playerName.getText().isEmpty()) {
             // stuur playerName naar connection
+            startConnectie(playerName.getText());
 
             Parent nextParent = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));
             Scene nextScene = new Scene(nextParent);
@@ -92,7 +92,7 @@ public class Controller {
 //
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(nextScene);
-        window.setResizable(true);
+        window.setResizable(false);
         window.setTitle("Boter, Kaas en Eieren");
 
         window.show();
@@ -104,6 +104,7 @@ public class Controller {
         String id = button.getId();
         System.out.println(id);
         button.setText("X");
+       
 
     }
 
