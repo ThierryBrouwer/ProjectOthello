@@ -29,6 +29,7 @@ public class Controller {
     public Button button7;
     public Button button8;
     public Connection con;
+    public GridPane grid;
 
     Gui gui;
     Board board;
