@@ -8,7 +8,7 @@ public class Main extends Application{
 
     public static void main(String[] args) {
         Controller controller = new Controller();
-        controller.startConnectie();
+        //controller.startConnectie();
         launch(args);
     }
 
