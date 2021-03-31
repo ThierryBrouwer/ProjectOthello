@@ -23,7 +23,7 @@ public class Controller {
     public Button button6;
     public Button button7;
     public Button button8;
-    Connection con;
+    public Connection con;
     Gui gui;
 
     public Controller() {
@@ -34,20 +34,26 @@ public class Controller {
 
     public void startConnectie(String playerName) {
         //connectie in&output
-        Connection con = new Connection(playerName);
-        Connection con2 = new Connection("Bassie");
+
+        con = new Connection(playerName);
+
+        //Connection con2 = new Connection("Bassie");
 
         Thread t1 = new Thread(con);
-        Thread t2 = new Thread(con2);
+        //Thread t2 = new Thread(con2);
 
         t1.start();
-        t2.start();
+
+        //t2.start();
+        playGame();
+
     }
 
-    public void uitpluizenlekkerbezig(){
-        String msg = con.getservermsg();
-        //uitpluizerarij
-        //dingen voor gui worden later duidelijk met fxml
+    public void playGame(){
+        TicTacToe game = new TicTacToe();
+        System.out.println(con);
+        con.selectGame("Tic-tac-toe");
+
     }
 
 
@@ -59,6 +65,7 @@ public class Controller {
             // stuur playerName naar connection
             startConnectie(playerName.getText());
 
+
             Parent nextParent = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));
             Scene nextScene = new Scene(nextParent);
 
@@ -68,6 +75,7 @@ public class Controller {
             window.setTitle("Kies je spel");
 
             window.show();
+
         }
         // else vul naam in!
     }
