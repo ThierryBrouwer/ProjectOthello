@@ -47,7 +47,7 @@ public class Connection implements Runnable{
 
             servermsg = bf.readLine();
 
-            System.out.println(this.name + ": " + servermsg);
+            //System.out.println(this.name + ": " + servermsg);
             cleanServermsg = dissect(servermsg);
 
 
@@ -70,7 +70,7 @@ public class Connection implements Runnable{
 
     private String dissect(String message){
         if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
-            message = message.replace(" [ ", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
+            message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
 
             String[] rawServermsgList = message.split("&"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
