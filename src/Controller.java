@@ -61,6 +61,8 @@ public class Controller {
     public void playGame(){
         TicTacToe game = new TicTacToe();
         con.selectGame("Tic-tac-toe");
+        //System.out.println(con.getCleanServermsg());
+        //System.out.println(con.getCleanServermsg());
         int i = 0;
         con.selectGame("Tic-tac-toe");
 
