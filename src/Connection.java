@@ -26,7 +26,7 @@ public class Connection implements Runnable{
             pr = new PrintWriter(s.getOutputStream());
         }
         catch(IOException e){e.printStackTrace();}
-        serverMsgHashMap = new HashMap<String, String>();
+        serverMsgHashMap = new HashMap<>();
 
     }
 
@@ -94,7 +94,8 @@ public class Connection implements Runnable{
             for (int i=0;i<pairs.length;i++) { //loop door de lijst met keys en values, maak van 1 String waar een key en een value in staat twee Strings en stop ze in een HashMap
                 String pair = pairs[i];
                 String[] keyValue = pair.split(": ");
-                serverMsgHashMap.put(keyValue[0], keyValue[1]);
+
+                serverMsgHashMap.put(keyValue[0], keyValue[1].replace("\"", "")); //remove " tekens
             }
 
             return rawServermsgList[0]; //Hij geeft hier nu alleen de server message door, zoals "SVR GAME MATCH" maar nog niet de bijbehorende HashMap waarin informatie staat als het speltype, naam van de tegenstander, etc.

@@ -1,14 +1,17 @@
 public class TicTacToe extends Game{
 
-    private char[] board;
+    public char[] board;
+    private Board b;
     private int boardsize;
     private char spelerBeurt;
 
     public TicTacToe() {
         //board = new char[3][3];
         spelerBeurt = 'x';
-        Board b = new Board(8);
-        board = b.getBoard();
+        this.b = new Board(9);
+        this.board = b.getBoard();
+        System.out.println(b);
+        System.out.println(this.board);
     }
 
     // Getter om de speler die aan de beurt is te krijgen
@@ -27,6 +30,11 @@ public class TicTacToe extends Game{
         else if (spelerBeurt == 'o'){
             spelerBeurt = 'x';
         }
+        if(controleerWinnaar());    //iets doen als het spel eindigt
+    }
+
+    public Board aiGetBoard(){
+        return b;
     }
 
 

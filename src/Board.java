@@ -6,6 +6,7 @@ public class Board {
     public Board(int boardsize){
         this.board = new char[boardsize];
         this.boardsize = boardsize;
+        createBoard();
     }
 
     public Board() {
@@ -20,7 +21,7 @@ public class Board {
     }
 
     public boolean isMoveLegal(int move){
-        return board[move] != '-';
+        return board[move] == '-';
     }
 
 

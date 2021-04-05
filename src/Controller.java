@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.w3c.dom.ls.LSOutput;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Controller {
 
@@ -29,6 +30,8 @@ public class Controller {
     public Connection con;
     public GridPane grid;
 
+    public String playerNamestring;
+
     Gui gui;
     Board board;
 
@@ -39,10 +42,11 @@ public class Controller {
 
     }
 
-    public void startConnectie(String playerName) {
+    public void startConnectie(String playerNamestring) {
         //connectie in&output
-
-        con = new Connection(playerName);
+        this.playerNamestring = playerNamestring;
+        con = new Connection(playerNamestring);
+        System.out.println("ik ben speler " + playerNamestring);
 
         //Connection con2 = new Connection("Bassie");
 
@@ -60,19 +64,23 @@ public class Controller {
 
     public void playGame(){
         TicTacToe game = new TicTacToe();
-        con.selectGame("Tic-tac-toe");
+        AI ai = new AI(game);
+        //con.selectGame("Tic-tac-toe");
         //System.out.println(con.getCleanServermsg());
         //System.out.println(con.getCleanServermsg());
-        int i = 0;
-        con.selectGame("Tic-tac-toe");
+        //con.selectGame("Tic-tac-toe");
 
         while(con.getCleanServermsg() != "exit"){
             String serverMsg = con.getCleanServermsg();
+            System.out.println(serverMsg);
 
             /*if (i <= 100){
                 System.out.println(servermsg);
                 i+=1;
             }*/
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException e){e.printStackTrace();}
 
             switch(serverMsg) {
                 case "OK":
@@ -84,16 +92,43 @@ public class Controller {
                     //System.out.println(con.getMsgHashMap());
                     //je weet nu dat je een hashmap kan krijgen met welke speler er nu aan de beurt is, het speltype en de naam van je tegenstander
                     //{GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT: "<naam tegenstander>"}
+
+                    //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
+                    //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
+
+                   Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
+                   System.out.println(con.getMsgHashMap());
+                    //System.out.println(playerNamestring);
+                   if (!playertomove.equals(playerNamestring)){
+                       break;}
+                   else{
+                       int move = ai.makeMove();
+                       con.makeMove(move);
+                   }
+
                     break;
 
                 case "SVR GAME YOURTURN":
-                    //System.out.println(con.getMsgHashMap());
+                    System.out.println(con.getMsgHashMap());
                     //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
+                    //System.out.println(serverMsg);
+                    int move = ai.makeMove();
+                    con.makeMove(move);
+                    con.getMsgHashMap();
                     break;
 
                 case "SVR GAME MOVE":
-                    //System.out.println(con.getMsgHashMap());
+                    System.out.println(con.getMsgHashMap());
                     //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
+                    //System.out.println(serverMsg);
+                    System.out.println(con.getMsgHashMap());
+                    Object move1 = con.getMsgHashMap().get(" MOVE");
+                    String move2 = (String) move1;
+                    int pos =Integer.parseInt(move2);
+                    game.updateBoard(pos);
+                    if (!con.getMsgHashMap().get("PLAYERTOMOVE").equals(playerNamestring)){break;}
+                    else{  int move3 = ai.makeMove();
+                            con.makeMove(move3);}
                     break;
 
                 case "SVR GAME LOSS":
