@@ -18,39 +18,24 @@ public class Connection implements Runnable{
 
     public PrintWriter pr;
 
-    public Connection(String name)  {
+    public Connection(String name, PrintWriter pr)  {
         this.name = name;
-        try {
-            s = new Socket("localhost", 7789);
-
-            pr = new PrintWriter(s.getOutputStream());
-        }
-        catch(IOException e){e.printStackTrace();}
+        this.pr = pr;
         serverMsgHashMap = new HashMap<>();
-
     }
 
     public void connect() throws IOException {
-
-
-
         pr.println("login " + this.name);
-
         pr.flush();
+
+
 
         InputStreamReader in = new InputStreamReader(s.getInputStream());
         BufferedReader bf = new BufferedReader(in);
 
-
-
         while (bf.readLine() != "Exit") {
-
             servermsg = bf.readLine();
-
-            //System.out.println(this.name + ": " + servermsg);
             cleanServermsg = dissect(servermsg);
-
-
         }
     }
 
@@ -68,7 +53,7 @@ public class Connection implements Runnable{
         return cleanServermsg;
     }
 
-    private String dissect(String message){
+    public String dissect(String message){
         if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
             message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
@@ -160,9 +145,11 @@ public class Connection implements Runnable{
 
 
     public void run() {
-        try {
+        /*try {
             this.connect();
         }
         catch(IOException e){e.printStackTrace();}
+
+         */
     }
 }

@@ -22,9 +22,9 @@ public class AI {
 
     //return eerst mogelijke zet of -1 als er geen zet mogelijk is.
     private int moveTicTacToe(){
-        Random r = new Random();
+        //Random r = new Random();
         for (int i=0;i<8;i++){
-            i = r.nextInt(8);
+            //i = r.nextInt(8);
             if(board.isMoveLegal(i)){
                 game.updateBoard(i);
                 return i;

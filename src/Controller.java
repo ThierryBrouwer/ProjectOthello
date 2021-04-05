@@ -11,7 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.w3c.dom.ls.LSOutput;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.HashMap;
 
 public class Controller {
@@ -32,8 +37,15 @@ public class Controller {
 
     public String playerNamestring;
 
-    Gui gui;
-    Board board;
+    public Gui gui;
+    public Board board;
+    public PrintWriter pr;
+    public Socket s;
+    public String serverMsg;
+    public String cleanServermsg;
+    public BufferedReader bf;
+    public AI ai;
+    public TicTacToe game;
 
     public Controller() {
 
@@ -42,10 +54,19 @@ public class Controller {
 
     }
 
-    public void startConnectie(String playerNamestring) {
+    public void startConnectie(String playerNamestring){
         //connectie in&output
         this.playerNamestring = playerNamestring;
-        con = new Connection(playerNamestring);
+
+        try {
+            s = new Socket("localhost", 7789);
+
+            this.pr = new PrintWriter(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        con = new Connection(playerNamestring, pr);
         System.out.println("ik ben speler " + playerNamestring);
 
         //Connection con2 = new Connection("Bassie");
@@ -56,118 +77,137 @@ public class Controller {
         t1.start();
 
         //t2.start();
-
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
         gamethread.start();
 
+
     }
 
-    public void playGame(){
-        TicTacToe game = new TicTacToe();
-        AI ai = new AI(game);
+    public void playGame() {
         //con.selectGame("Tic-tac-toe");
         //System.out.println(con.getCleanServermsg());
         //System.out.println(con.getCleanServermsg());
         //con.selectGame("Tic-tac-toe");
 
-        while(con.getCleanServermsg() != "exit"){
-            String serverMsg = con.getCleanServermsg();
-            System.out.println(serverMsg);
+        pr.println("login " + playerNamestring);
+        pr.flush();
 
-            /*if (i <= 100){
-                System.out.println(servermsg);
-                i+=1;
-            }*/
-            try {
-                Thread.sleep(1000);
-            } catch(InterruptedException e){e.printStackTrace();}
+        try {
+            InputStreamReader in = new InputStreamReader(s.getInputStream());
+            BufferedReader bf = new BufferedReader(in);
 
-            switch(serverMsg) {
-                case "OK":
-                    //niks dit betekend dat een commando succesvol is uitgevoerd, hoef je eigenlijk niks mee te doen
+            int i = 0;
+            while (bf.readLine() != "Exit") {
+                serverMsg = bf.readLine();
+                cleanServermsg = con.dissect(serverMsg);
+                //System.out.println(serverMsg);
+                System.out.println("servermsg " + i + " = " + cleanServermsg);
+                useServerMessage(cleanServermsg);
+                i++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void useServerMessage(String serverMsg) {
+        switch (serverMsg) {
+            case "OK":
+                //niks dit betekend dat een commando succesvol is uitgevoerd, hoef je eigenlijk niks mee te doen
+                break;
+
+            case "SVR GAME MATCH":
+                //System.out.println(serverMsg);
+                //System.out.println(con.getMsgHashMap());
+                //je weet nu dat je een hashmap kan krijgen met welke speler er nu aan de beurt is, het speltype en de naam van je tegenstander
+                //{GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT: "<naam tegenstander>"}
+
+                //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
+                //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
+                game = new TicTacToe();
+                ai = new AI(game);
+
+                Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
+                System.out.println(con.getMsgHashMap());
+                //System.out.println("playernaam = " + playerNamestring);
+                if (!playertomove.equals(playerNamestring)) {
                     break;
-
-                case "SVR GAME MATCH":
-                    //System.out.println(serverMsg);
-                    //System.out.println(con.getMsgHashMap());
-                    //je weet nu dat je een hashmap kan krijgen met welke speler er nu aan de beurt is, het speltype en de naam van je tegenstander
-                    //{GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT: "<naam tegenstander>"}
-
-                    //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
-                    //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
-
-                   Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
-                   System.out.println(con.getMsgHashMap());
-                    //System.out.println(playerNamestring);
-                   if (!playertomove.equals(playerNamestring)){
-                       break;}
-                   else{
-                       int move = ai.makeMove();
-                       con.makeMove(move);
-                   }
-
-                    break;
-
-                case "SVR GAME YOURTURN":
-                    System.out.println(con.getMsgHashMap());
-                    //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
-                    //System.out.println(serverMsg);
+                } else {
                     int move = ai.makeMove();
                     con.makeMove(move);
-                    con.getMsgHashMap();
+                    game.updateBoard(move);
+                }
+
+                break;
+
+            case "SVR GAME YOURTURN":
+
+                System.out.println(con.getMsgHashMap());
+                //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
+                //System.out.println(serverMsg);
+                //int move = ai.makeMove();
+                //con.makeMove(move);
+                //game.updateBoard(move);
+
+
+                break;
+
+            case "SVR GAME MOVE":
+                System.out.println(con.getMsgHashMap());
+                //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
+                //System.out.println(serverMsg);
+                Object move1 = con.getMsgHashMap().get(" MOVE");
+                String move2 = (String) move1;
+                int pos = Integer.parseInt(move2);
+                game.updateBoard(pos);
+                if (!con.getMsgHashMap().get("PLAYERTOMOVE").equals(playerNamestring)) {
                     break;
+                } else {
+                    int move3 = ai.makeMove();
+                    con.makeMove(move3);
+                    game.updateBoard(move3);
+                    System.out.println("ik, " + playerNamestring + ", zet " + move3);
+                }
+                break;
 
-                case "SVR GAME MOVE":
-                    System.out.println(con.getMsgHashMap());
-                    //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
-                    //System.out.println(serverMsg);
-                    System.out.println(con.getMsgHashMap());
-                    Object move1 = con.getMsgHashMap().get(" MOVE");
-                    String move2 = (String) move1;
-                    int pos =Integer.parseInt(move2);
-                    game.updateBoard(pos);
-                    if (!con.getMsgHashMap().get("PLAYERTOMOVE").equals(playerNamestring)){break;}
-                    else{  int move3 = ai.makeMove();
-                            con.makeMove(move3);}
-                    break;
+            case "SVR GAME LOSS":
+                //verloren :(
+                //System.out.println(con.getMsgHashMap());
+                //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
+                //het laatste item, COMMENT, kan "Player forfeited match" zijn of "Client disconnected"
+                break;
 
-                case "SVR GAME LOSS":
-                    //verloren :(
-                    //System.out.println(con.getMsgHashMap());
-                    //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
-                    //het laatste item, COMMENT, kan "Player forfeited match" zijn of "Client disconnected"
-                    break;
+            case "SVR GAME WIN":
+                //gewonnen :)
+                //System.out.println(con.getMsgHashMap());
+                //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
+                break;
 
-                case "SVR GAME WIN":
-                    //gewonnen :)
-                    //System.out.println(con.getMsgHashMap());
-                    //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
-                    break;
+            case "SVR GAME CHALLENGE":
+                //System.out.println(con.getMsgHashMap());
+                //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
+                break;
 
-                case "SVR GAME CHALLENGE":
-                    //System.out.println(con.getMsgHashMap());
-                    //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
-                    break;
+            case "SVR GAME CHALLENGE CANCELLED":
+                //System.out.println(con.getMsgHashMap());
+                //hashmap: {CHALLENGENUMBER: "<uitdaging nummer>"}
+                break;
 
-                case "SVR GAME CHALLENGE CANCELLED":
-                    //System.out.println(con.getMsgHashMap());
-                    //hashmap: {CHALLENGENUMBER: "<uitdaging nummer>"}
-                    break;
+            case "(C) Copyright 2015 Hanzehogeschool Groningen":
+                //copyright melding van de Hanze
+                break;
 
-                case "(C) Copyright 2015 Hanzehogeschool Groningen":
-                    //copyright melding van de Hanze
-                    break;
-
-                default:
-                    System.out.println(serverMsg);
-
-            }
-
-            System.out.print(""); //heel vreemd, wanneer ik na de switch statement niets uitvoer word de hele switch statement niet uitgevoerd
+            default:
+                System.out.println(serverMsg);
 
         }
 
+        System.out.print(""); //heel vreemd, wanneer ik na de switch statement niets uitvoer word de hele switch statement niet uitgevoerd
     }
+
+
+
+
 
 
     // View

@@ -10,8 +10,6 @@ public class TicTacToe extends Game{
         spelerBeurt = 'x';
         this.b = new Board(9);
         this.board = b.getBoard();
-        System.out.println(b);
-        System.out.println(this.board);
     }
 
     // Getter om de speler die aan de beurt is te krijgen
