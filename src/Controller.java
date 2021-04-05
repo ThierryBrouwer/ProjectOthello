@@ -159,26 +159,13 @@ public class Controller {
     }
 
     public void changeScreenTicTacToe(ActionEvent actionEvent) throws IOException {
-//        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-//        window.hide();
-//        Parent root = gui.createGameWindow();
-//        Scene nextScene = new Scene(root);
 
-//        Parent nextParent = gui.createGameWindow();
-//        Scene nextScene = new Scene(nextParent);
-//        Stage window2 = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-//        window2.setScene(nextScene);
-//        window2.setResizable(true);
-//        window2.setTitle("Boter, Kaas en Eieren");
-//
-//        window2.show();
-
-        Parent nextParent = FXMLLoader.load(getClass().getResource("GameWindow.fxml"));
+        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversie2.fxml"));
         Scene nextScene = new Scene(nextParent);
 //
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(nextScene);
-        window.setResizable(false);
+        window.setResizable(true);
         window.setTitle("Boter, Kaas en Eieren");
 
         window.show();
