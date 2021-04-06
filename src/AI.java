@@ -4,9 +4,9 @@ public class AI {
 
 
     Board board;
-    TicTacToe game;     //nu gehardcode dat dit een TicTacToe is, moet nog opgelost worden
+    Game game;     //nu gehardcode dat dit een TicTacToe is, moet nog opgelost worden
 
-    public AI(TicTacToe game){
+    public AI(Game game){
         this.game = game;
     }
 

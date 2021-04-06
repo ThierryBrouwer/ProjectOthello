@@ -12,6 +12,8 @@ public abstract class Game {
 
     public void updateBoard(int move){}
 
+    public abstract Board aiGetBoard();
+
     //public Board aiGetBoard(){return null;}
 
 

@@ -37,7 +37,11 @@ public class Reversi extends Game {
             return '0';
         }
 
+    @Override
+    public Board aiGetBoard() {
+        return null;
     }
+}
 
 
 

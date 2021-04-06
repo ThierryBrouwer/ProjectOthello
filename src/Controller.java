@@ -22,31 +22,28 @@ import java.util.stream.Collectors;
 
 public class Controller {
 
+    public static TicTacToe ttt;
+    public static Reversi reversi;
+    public static Connection con;
     public TextField playerName;
 
-    public Connection con;
+//    public Connection con;
 
-
-    //Gui gui;
-    Board board;
     public String playerNamestring;
 
-    //public Gui gui;
-    //public Board board;
     public PrintWriter pr;
     public Socket s;
     public String serverMsg;
     public String cleanServermsg;
     public BufferedReader bf;
     public AI ai;
-    public TicTacToe game;
+    //public TicTacToe game;
     public Boolean yourturn;
+    private Game game;
 
     public Controller() {
-
-        //startGUI();
-        //gui = new Gui();
-
+        ttt = new TicTacToe();
+        reversi = new Reversi();
     }
 
     public void startConnectie(String playerNamestring){
@@ -74,7 +71,6 @@ public class Controller {
         //t2.start();
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
         gamethread.start();
-
 
     }
 
@@ -121,8 +117,8 @@ public class Controller {
 
                 //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
                 //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
-                game = new TicTacToe();
-                ai = new AI(game);
+                //game = new TicTacToe();
+                //ai = new AI(game);
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
                 //System.out.println(con.getMsgHashMap());
@@ -235,8 +231,24 @@ public class Controller {
     }
 
     public void changeScreenTicTacToe(ActionEvent actionEvent) throws IOException {
+        game = new TicTacToe();
+        ai = new AI(game);
 
-        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversie.fxml"));
+        Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
+        Scene nextScene = new Scene(nextParent);
+//
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(nextScene);
+        window.setResizable(true);
+        window.setTitle("Boter, Kaas en Eieren");
+
+        window.show();
+    }
+
+    public void reversiView(ActionEvent actionEvent) throws IOException {
+        game = new Reversi();
+
+        Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
         Scene nextScene = new Scene(nextParent);
 //
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

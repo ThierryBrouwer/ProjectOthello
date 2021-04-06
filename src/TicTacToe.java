@@ -6,7 +6,7 @@ public class TicTacToe extends Game{
 
     public TicTacToe() {
         //board = new char[3][3];
-        spelerBeurt = '1';
+        spelerBeurt = 1;
         b = new Board(9);
         board = b.getBoard();
     }
@@ -21,11 +21,11 @@ public class TicTacToe extends Game{
     //zet de move op het bord en past de spelerbeurt aan zodat de volgende move van de andere speler is.
     public void updateBoard(int move){
         board[move] = spelerBeurt;
-        if (spelerBeurt == '1'){
-            spelerBeurt = '2';
+        if (spelerBeurt == 1){
+            spelerBeurt = 2;
         }
-        else if (spelerBeurt == '2'){
-            spelerBeurt = '1';
+        else if (spelerBeurt == 2){
+            spelerBeurt = 1;
         }
     }
 
@@ -65,9 +65,14 @@ private boolean diagonaalWinnaar() {
 
 // Controleren of de 3 waardes hetzelfde zijn om te kijken of er een winnaar is
 private boolean controleerRij(int hok1, int hok2, int hok3) {
-    return ((hok1 != '0') && (hok1 == hok2) && (hok2 == hok3) && (hok1 == hok3));
+    return ((hok1 != 0) && (hok1 == hok2) && (hok2 == hok3) && (hok1 == hok3));
 }
 
+    public int[] getBoard() {
+        return board;
+    }
 
-
+    public boolean isMoveLegal(int move){
+        return board[move] == 0;
+    }
 }

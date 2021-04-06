@@ -9,19 +9,15 @@ public class Board {
         createBoard();
     }
 
-    public Board() {
-
-    }
-
     // Bord voor betreffende spel aanmaken of resetten
     public void createBoard(){
         for(int i=0; i < boardsize;i++){
-            board[i] = '0';
+            board[i] = 0;
         }
     }
 
     public boolean isMoveLegal(int move){
-        return board[move] == '0';
+        return board[move] == 0;
     }
 
 
@@ -35,7 +31,7 @@ public class Board {
         boolean isFilled = true;
 
         for(int i=0; i < boardsize; i++){
-            if (board[i] == '0'){
+            if (board[i] == 0){
                     isFilled = false;
                 }
 

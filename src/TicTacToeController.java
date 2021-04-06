@@ -12,12 +12,6 @@ public class TicTacToeController {
     public void playerRequestsMove(ActionEvent actionEvent) {
 
         Button button = (Button)actionEvent.getSource();
-        //String id = button.getId();
-        //System.out.println(id);
-        button.setText("X");
-//        System.out.println(button);
-//        System.out.println(grid.getRowIndex(button));
-//        System.out.println(grid.getColumnIndex(button));
 
         //send index to check if move is valid
         int row = grid.getRowIndex(button);
@@ -25,22 +19,32 @@ public class TicTacToeController {
         int columnsInRow = 3;
         int index = row*columnsInRow+column;
 
-        //updateBoard() testen
-        int[] arr = new int[9];
-        arr[0] = 1;
-        arr[1] = 2;
-        arr[2] = 2;
-        arr[3] = 2;
-        arr[4] = 1;
-        arr[5] = 0;
-        arr[6] = 1;
-        arr[7] = 2;
-        arr[8] = 0;
+        if (Controller.ttt.isMoveLegal(index)) {
+            Controller.ttt.updateBoard(index);
+            updateView(Controller.ttt.getBoard());
+            System.out.println(Controller.ttt.getBoard()[1]);
+        }
 
-        updateBoard(arr);
+//        for (int i=0; i<9; i++){
+//            System.out.println(Controller.ttt.getBoard()[i]);
+//        }
+
+//        //updateBoard() testen
+//        int[] arr = new int[9];
+//        arr[0] = 1;
+//        arr[1] = 2;
+//        arr[2] = 2;
+//        arr[3] = 2;
+//        arr[4] = 1;
+//        arr[5] = 0;
+//        arr[6] = 1;
+//        arr[7] = 2;
+//        arr[8] = 0;
+//
+//        updateBoard(arr);
     }
 
-    public void updateBoard(int[] board) {
+    public void updateView(int[] board) {
 
         Node result;
         ObservableList<Node> childrens = grid.getChildren();
@@ -53,7 +57,7 @@ public class TicTacToeController {
 
                     int row = i / 3;
                     int column = i-3*row;
-                    System.out.println(row + ", " + column + ", " + grid.getRowIndex(node) + ", " + grid.getColumnIndex(node));
+                    //System.out.println(row + ", " + column + ", " + grid.getRowIndex(node) + ", " + grid.getColumnIndex(node));
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
 
@@ -61,7 +65,7 @@ public class TicTacToeController {
 
                             result = node;
                             Button button = (Button) result;
-                            button.setText("-");
+                            button.setText("");
                             break;
                         }
                         if(board[i] == 1) {

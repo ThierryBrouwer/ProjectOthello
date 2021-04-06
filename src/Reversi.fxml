@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1169.0" style="-fx-background-image: url('Images/WoodenBackground.jpg');" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ReversieController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1169.0" style="-fx-background-image: url('Images/WoodenBackground.jpg');" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ReversiController">
    <center>
       <AnchorPane prefHeight="806.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
@@ -358,7 +358,7 @@
                   </Button>
                </children>
             </GridPane>
-            <Label layoutX="953.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Reversie" textFill="WHITE" >
+            <Label layoutX="953.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Reversie" textFill="WHITE">
                <font>
                   <Font size="44.0" />
                </font>
@@ -373,7 +373,7 @@
                   <Font size="26.0" />
                </font>
             </Label>
-            <Button layoutX="1054.0" layoutY="867.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="105.0" text="Opgeven" />
+            <Button layoutX="1054.0" layoutY="867.0" mnemonicParsing="false" onAction="#playerRequestsForfeit" prefHeight="36.0" prefWidth="105.0" text="Opgeven" />
             <Label layoutX="1077.0" layoutY="316.0" text="2" textFill="WHITE">
                <font>
                   <Font size="26.0" />
