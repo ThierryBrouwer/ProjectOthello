@@ -33,13 +33,16 @@ public class Reversi extends Game {
 
     // Kijkt of zwart of wit de meeste punten heeft return x als zwart wint, return o als wit wint en return 0 bij gelijkspel.
     public int gameWinner() {
-        if (blackPoints() > whitePoints())
+        if (blackPoints() > whitePoints()) {
             return 1;
-        if (blackPoints() < whitePoints())
+        }
+        if (blackPoints() < whitePoints()) {
             return 2;
-        else
+        }
+        else {
             return 0;
         }
+    }
 
     @Override
     public Board aiGetBoard() {

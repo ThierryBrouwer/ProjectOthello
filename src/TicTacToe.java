@@ -43,8 +43,9 @@ public class TicTacToe extends Game{
     // Rijen controleren op een winnaar (Verticaal)
     private boolean rijenWinnaar() {
         for (int rij = 0; rij < 3; rij++) {
-            if (controleerRij(board[3 *rij], board[3 * rij + 1], board[3 * rij + 2]) == true)
-            return true;
+            if (controleerRij(board[3 *rij], board[3 * rij + 1], board[3 * rij + 2]) == true) {
+                return true;
+            }
         }
         return false;
     }
