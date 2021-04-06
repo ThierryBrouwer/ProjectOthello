@@ -14,7 +14,7 @@ public class Board {
 
     // Bord voor betreffende spel aanmaken of resetten
     public void createBoard(){
-        for(int i=0; i < 8;i++){
+        for(int i=0; i < boardsize;i++){
             board[i] = '-';
         }
     }
@@ -33,7 +33,7 @@ public class Board {
     public boolean BoardFilled() {
         boolean isFilled = true;
 
-        for(int i=0; i < 8; i++){
+        for(int i=0; i < boardsize; i++){
             if (board[i] == '-'){
                     isFilled = false;
                 }

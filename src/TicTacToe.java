@@ -1,7 +1,6 @@
 public class TicTacToe extends Game{
 
     private char[] board;
-    private int boardsize;
     private char spelerBeurt;
 
     public TicTacToe() {
