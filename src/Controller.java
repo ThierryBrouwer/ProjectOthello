@@ -1,3 +1,4 @@
+import com.sun.security.jgss.GSSUtil;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -46,6 +48,7 @@ public class Controller {
     public BufferedReader bf;
     public AI ai;
     public TicTacToe game;
+    public Boolean yourturn;
 
     public Controller() {
 
@@ -71,10 +74,10 @@ public class Controller {
 
         //Connection con2 = new Connection("Bassie");
 
-        Thread t1 = new Thread(con);
+        //Thread t1 = new Thread(con);
         //Thread t2 = new Thread(con2);
 
-        t1.start();
+        //t1.start();
 
         //t2.start();
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
@@ -92,15 +95,17 @@ public class Controller {
         pr.println("login " + playerNamestring);
         pr.flush();
 
+
         try {
             InputStreamReader in = new InputStreamReader(s.getInputStream());
-            BufferedReader bf = new BufferedReader(in);
+            bf = new BufferedReader(in);
 
             int i = 0;
-            while (bf.readLine() != "Exit") {
-                serverMsg = bf.readLine();
-                cleanServermsg = con.dissect(serverMsg);
+            while ((serverMsg = bf.readLine()) != null) {
+                //serverMsg = bf.readLine();
                 //System.out.println(serverMsg);
+                cleanServermsg = con.dissect(serverMsg);
+
                 System.out.println("servermsg " + i + " = " + cleanServermsg);
                 useServerMessage(cleanServermsg);
                 i++;
@@ -133,26 +138,30 @@ public class Controller {
                 if (!playertomove.equals(playerNamestring)) {
                     break;
                 } else {
+                    System.out.println("ik doe een zet");
                     int move = ai.makeMove();
                     con.makeMove(move);
                     game.updateBoard(move);
+                    yourturn = false;
                 }
 
                 break;
 
             case "SVR GAME YOURTURN":
-
-                System.out.println(con.getMsgHashMap());
+                System.out.println("Het is mijn beurt");
+                //System.out.println(con.getMsgHashMap());
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
                 //System.out.println(serverMsg);
                 //int move = ai.makeMove();
                 //con.makeMove(move);
                 //game.updateBoard(move);
+                yourturn = true;
 
 
                 break;
 
             case "SVR GAME MOVE":
+                System.out.println("GAME MOVE");
                 System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
                 //System.out.println(serverMsg);
@@ -160,13 +169,15 @@ public class Controller {
                 String move2 = (String) move1;
                 int pos = Integer.parseInt(move2);
                 game.updateBoard(pos);
-                if (!con.getMsgHashMap().get("PLAYERTOMOVE").equals(playerNamestring)) {
+                if (!yourturn) {
                     break;
                 } else {
                     int move3 = ai.makeMove();
                     con.makeMove(move3);
                     game.updateBoard(move3);
-                    System.out.println("ik, " + playerNamestring + ", zet " + move3);
+                    System.out.println("ik doe een zet");
+                    //System.out.println("ik, " + playerNamestring + ", zet " + move3);
+                    yourturn = false;
                 }
                 break;
 
@@ -199,10 +210,11 @@ public class Controller {
 
             default:
                 System.out.println(serverMsg);
+                break;
 
         }
 
-        System.out.print(""); //heel vreemd, wanneer ik na de switch statement niets uitvoer word de hele switch statement niet uitgevoerd
+        //System.out.print(""); //heel vreemd, wanneer ik na de switch statement niets uitvoer word de hele switch statement niet uitgevoerd
     }
 
 

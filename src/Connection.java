@@ -36,6 +36,7 @@ public class Connection implements Runnable{
         while (bf.readLine() != "Exit") {
             servermsg = bf.readLine();
             cleanServermsg = dissect(servermsg);
+
         }
     }
 
@@ -121,10 +122,10 @@ public class Connection implements Runnable{
         pr.flush();
     }
 
-    public ArrayList getGamelist(){
+    public void getGamelist(){
         pr.println("get gamelist");
         pr.flush();
-        return getMsgArrayList();
+        //return getMsgArrayList();
     }
 
     public ArrayList getPlayerlist(){
