@@ -37,7 +37,7 @@ public class Controller {
 
     public String playerNamestring;
 
-    public Gui gui;
+    //public Gui gui;
     public Board board;
     public PrintWriter pr;
     public Socket s;
@@ -50,7 +50,7 @@ public class Controller {
     public Controller() {
 
         //startGUI();
-        gui = new Gui();
+        //gui = new Gui();
 
     }
 
@@ -99,14 +99,16 @@ public class Controller {
             int i = 0;
             while (bf.readLine() != "Exit") {
                 serverMsg = bf.readLine();
+                //System.out.println(serverMsg);
                 cleanServermsg = con.dissect(serverMsg);
                 //System.out.println(serverMsg);
-                System.out.println("servermsg " + i + " = " + cleanServermsg);
+                //System.out.println("servermsg " + i + " = " + cleanServermsg);
                 useServerMessage(cleanServermsg);
                 i++;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("COCK ALLERT, COCK ALLERT, COCK ALLERT");
         }
     }
 
@@ -128,7 +130,7 @@ public class Controller {
                 ai = new AI(game);
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
-                System.out.println(con.getMsgHashMap());
+                //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
                 if (!playertomove.equals(playerNamestring)) {
                     break;
@@ -141,8 +143,8 @@ public class Controller {
                 break;
 
             case "SVR GAME YOURTURN":
-
-                System.out.println(con.getMsgHashMap());
+                //System.out.println(serverMsg);
+                //System.out.println(con.getMsgHashMap());
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
                 //System.out.println(serverMsg);
                 //int move = ai.makeMove();
@@ -153,6 +155,7 @@ public class Controller {
                 break;
 
             case "SVR GAME MOVE":
+                System.out.println("SVR GAME MOVE is aangeroepen");
                 System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
                 //System.out.println(serverMsg);

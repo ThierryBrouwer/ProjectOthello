@@ -35,6 +35,7 @@ public class Connection implements Runnable{
 
         while (bf.readLine() != "Exit") {
             servermsg = bf.readLine();
+            System.out.println(servermsg);
             cleanServermsg = dissect(servermsg);
         }
     }
@@ -54,6 +55,7 @@ public class Connection implements Runnable{
     }
 
     public String dissect(String message){
+        System.out.println("Dissecting: " + message);
         if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
             message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
