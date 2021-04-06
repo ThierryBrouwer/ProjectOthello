@@ -133,12 +133,13 @@ public class Controller {
                 ai = new AI(game);
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
-                System.out.println(con.getMsgHashMap());
+                //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
                 if (!playertomove.equals(playerNamestring)) {
+                    yourturn = true;
                     break;
                 } else {
-                    System.out.println("ik doe een zet");
+                    System.out.println("ik doe een zet match start");
                     int move = ai.makeMove();
                     con.makeMove(move);
                     game.updateBoard(move);
@@ -155,30 +156,26 @@ public class Controller {
                 //int move = ai.makeMove();
                 //con.makeMove(move);
                 //game.updateBoard(move);
-                yourturn = true;
+                //yourturn = true;
+                int move3 = ai.makeMove();
+                con.makeMove(move3);
+                game.updateBoard(move3);
+                System.out.println("ik doe een zet game move");
+                //System.out.println("ik, " + playerNamestring + ", zet " + move3);
+                yourturn = false;
 
 
                 break;
 
             case "SVR GAME MOVE":
                 System.out.println("GAME MOVE");
-                System.out.println(con.getMsgHashMap());
+                //System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
                 //System.out.println(serverMsg);
                 Object move1 = con.getMsgHashMap().get(" MOVE");
                 String move2 = (String) move1;
                 int pos = Integer.parseInt(move2);
                 game.updateBoard(pos);
-                if (!yourturn) {
-                    break;
-                } else {
-                    int move3 = ai.makeMove();
-                    con.makeMove(move3);
-                    game.updateBoard(move3);
-                    System.out.println("ik doe een zet");
-                    //System.out.println("ik, " + playerNamestring + ", zet " + move3);
-                    yourturn = false;
-                }
                 break;
 
             case "SVR GAME LOSS":
