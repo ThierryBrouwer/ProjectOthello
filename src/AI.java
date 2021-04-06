@@ -1,16 +1,20 @@
+import java.util.Random;
+
 public class AI {
 
 
     Board board;
-    Game game;
+    TicTacToe game;     //nu gehardcode dat dit een TicTacToe is, moet nog opgelost worden
 
-    public AI(Board board, Game game){
-        this.board = board;
+    public AI(TicTacToe game){
         this.game = game;
     }
 
+    public AI(Reversi game){}
+
     public int makeMove(){
         if (game instanceof TicTacToe){
+            this.board = game.aiGetBoard();
             return moveTicTacToe();
         }
         else return -1;
@@ -18,13 +22,22 @@ public class AI {
 
     //return eerst mogelijke zet of -1 als er geen zet mogelijk is.
     private int moveTicTacToe(){
-        for (int i=0;i<7;i++){
-            if(board.isMoveLegal(i)){
-                return i;
-            }
+        Random r = new Random();
+        int i = r.nextInt(8);
+        while(!board.isMoveLegal(i)){i = r.nextInt(8);}
+        game.updateBoard(i);
+        return i;
 
-        }
-        return -1;
+
+//        for (int i=0;i<8;i++){
+//            //i = r.nextInt(8);
+//            if(board.isMoveLegal(i)){
+//                game.updateBoard(i);
+//                return i;
+//            }
+//
+//        }
+//        return -1;
     }
 
     /*

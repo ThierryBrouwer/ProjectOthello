@@ -10,7 +10,9 @@ public abstract class Game {
         return null;
     }
 
-    public void updateBoard(){}
+    public void updateBoard(int move){}
+
+    //public Board aiGetBoard(){return null;}
 
 
 

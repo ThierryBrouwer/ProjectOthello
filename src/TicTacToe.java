@@ -28,6 +28,10 @@ public class TicTacToe extends Game{
         }
     }
 
+    public Board aiGetBoard(){
+        return b;
+    }
+
 
     // Win functie om de andere 3 win functies aan te roepen
     // Geeft true als er een winnaar is, false als er geen winnaar is

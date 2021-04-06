@@ -18,38 +18,24 @@ public class Connection implements Runnable{
 
     public PrintWriter pr;
 
-    public Connection(String name)  {
+    public Connection(String name, PrintWriter pr)  {
         this.name = name;
-        try {
-            s = new Socket("localhost", 7789);
-
-            pr = new PrintWriter(s.getOutputStream());
-        }
-        catch(IOException e){e.printStackTrace();}
-        serverMsgHashMap = new HashMap<String, String>();
-
+        this.pr = pr;
+        serverMsgHashMap = new HashMap<>();
     }
 
     public void connect() throws IOException {
-
-
-
         pr.println("login " + this.name);
-
         pr.flush();
+
+
 
         InputStreamReader in = new InputStreamReader(s.getInputStream());
         BufferedReader bf = new BufferedReader(in);
 
-
-
         while (bf.readLine() != "Exit") {
-
             servermsg = bf.readLine();
-
-            //System.out.println(this.name + ": " + servermsg);
             cleanServermsg = dissect(servermsg);
-
 
         }
     }
@@ -68,7 +54,7 @@ public class Connection implements Runnable{
         return cleanServermsg;
     }
 
-    private String dissect(String message){
+    public String dissect(String message){
         if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
             message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
@@ -94,7 +80,8 @@ public class Connection implements Runnable{
             for (int i=0;i<pairs.length;i++) { //loop door de lijst met keys en values, maak van 1 String waar een key en een value in staat twee Strings en stop ze in een HashMap
                 String pair = pairs[i];
                 String[] keyValue = pair.split(": ");
-                serverMsgHashMap.put(keyValue[0], keyValue[1]);
+
+                serverMsgHashMap.put(keyValue[0], keyValue[1].replace("\"", "")); //remove " tekens
             }
 
             return rawServermsgList[0]; //Hij geeft hier nu alleen de server message door, zoals "SVR GAME MATCH" maar nog niet de bijbehorende HashMap waarin informatie staat als het speltype, naam van de tegenstander, etc.
@@ -135,10 +122,10 @@ public class Connection implements Runnable{
         pr.flush();
     }
 
-    public ArrayList getGamelist(){
+    public void getGamelist(){
         pr.println("get gamelist");
         pr.flush();
-        return getMsgArrayList();
+        //return getMsgArrayList();
     }
 
     public ArrayList getPlayerlist(){
@@ -159,9 +146,11 @@ public class Connection implements Runnable{
 
 
     public void run() {
-        try {
+        /*try {
             this.connect();
         }
         catch(IOException e){e.printStackTrace();}
+
+         */
     }
 }
