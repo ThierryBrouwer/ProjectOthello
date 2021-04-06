@@ -97,8 +97,8 @@ public class Controller {
             BufferedReader bf = new BufferedReader(in);
 
             int i = 0;
-            while (bf.readLine() != "Exit") {
-                serverMsg = bf.readLine();
+            while ((serverMsg = bf.readLine()) != "") {
+                //serverMsg = bf.readLine();
                 //System.out.println(serverMsg);
                 cleanServermsg = con.dissect(serverMsg);
                 //System.out.println(serverMsg);
@@ -155,8 +155,8 @@ public class Controller {
                 break;
 
             case "SVR GAME MOVE":
-                System.out.println("SVR GAME MOVE is aangeroepen");
-                System.out.println(con.getMsgHashMap());
+                //System.out.println("SVR GAME MOVE is aangeroepen");
+                //System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
                 //System.out.println(serverMsg);
                 Object move1 = con.getMsgHashMap().get(" MOVE");
