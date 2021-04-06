@@ -31,8 +31,8 @@ public class Controller {
     Board board;
     public String playerNamestring;
 
-    public Gui gui;
-    public Board board;
+    //public Gui gui;
+    //public Board board;
     public PrintWriter pr;
     public Socket s;
     public String serverMsg;

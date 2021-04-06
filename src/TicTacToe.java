@@ -2,11 +2,12 @@ public class TicTacToe extends Game{
 
     private int[] board;
     private int spelerBeurt;
+    public Board b;
 
     public TicTacToe() {
         //board = new char[3][3];
         spelerBeurt = '1';
-        Board b = new Board(9);
+        b = new Board(9);
         board = b.getBoard();
     }
 

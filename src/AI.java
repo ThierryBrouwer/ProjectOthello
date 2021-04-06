@@ -29,15 +29,6 @@ public class AI {
         return i;
 
 
-//        for (int i=0;i<8;i++){
-//            //i = r.nextInt(8);
-//            if(board.isMoveLegal(i)){
-//                game.updateBoard(i);
-//                return i;
-//            }
-//
-//        }
-//        return -1;
     }
 
     /*
