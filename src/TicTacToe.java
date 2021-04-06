@@ -1,17 +1,17 @@
 public class TicTacToe extends Game{
 
-    private char[] board;
-    private char spelerBeurt;
+    private int[] board;
+    private int spelerBeurt;
 
     public TicTacToe() {
         //board = new char[3][3];
-        spelerBeurt = 'x';
-        Board b = new Board(8);
+        spelerBeurt = '1';
+        Board b = new Board(9);
         board = b.getBoard();
     }
 
     // Getter om de speler die aan de beurt is te krijgen
-    public char getSpelerDieSpeelt()
+    public int getSpelerDieSpeelt()
     {
         return spelerBeurt;
     }
@@ -20,11 +20,11 @@ public class TicTacToe extends Game{
     //zet de move op het bord en past de spelerbeurt aan zodat de volgende move van de andere speler is.
     public void updateBoard(int move){
         board[move] = spelerBeurt;
-        if (spelerBeurt == 'x'){
-            spelerBeurt = 'o';
+        if (spelerBeurt == '1'){
+            spelerBeurt = '2';
         }
-        else if (spelerBeurt == 'o'){
-            spelerBeurt = 'x';
+        else if (spelerBeurt == '2'){
+            spelerBeurt = '1';
         }
     }
 
@@ -59,8 +59,8 @@ private boolean diagonaalWinnaar() {
 }
 
 // Controleren of de 3 waardes hetzelfde zijn om te kijken of er een winnaar is
-private boolean controleerRij(char hok1, char hok2, char hok3) {
-    return ((hok1 != '-') && (hok1 == hok2) && (hok2 == hok3) && (hok1 == hok3));
+private boolean controleerRij(int hok1, int hok2, int hok3) {
+    return ((hok1 != '0') && (hok1 == hok2) && (hok2 == hok3) && (hok1 == hok3));
 }
 
 
