@@ -1,26 +1,49 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class AI {
 
 
     Board board;
-    Game game;     //nu gehardcode dat dit een TicTacToe is, moet nog opgelost worden
+    Game game;
 
     public AI(Game game){
         this.game = game;
     }
 
-    public AI(Reversi game){}
+    public AI(Reversi game){this.game = game;}
 
     public int makeMove(){
         if (game instanceof TicTacToe){
             this.board = game.aiGetBoard();
             return moveTicTacToe();
         }
+        if (game instanceof Reversi){
+            return moveReversi();
+        }
         else return -1;
     }
 
-    //return eerst mogelijke zet of -1 als er geen zet mogelijk is.
+    private int moveReversi() {
+
+        Reversi rev = (Reversi) game;
+        ArrayList<Pair> movelist2d = rev.getMoveList();
+        int[] movelist = rev.convertMovesto1d(movelist2d);
+        Random r = new Random();
+        int i = r.nextInt(movelist.length);
+        System.out.println("move reversi " + movelist[i]);
+        String s = "";
+        for(int j=0; j < movelist.length;j++) {
+            s += movelist[j] + " ";
+        }
+        System.out.println(s);
+        //rev.makeMove(movelist[i]);
+        return movelist[i];
+    }
+
+    //return eerst mogelijke zet.
     private int moveTicTacToe(){
         Random r = new Random();
         int i = r.nextInt(8);

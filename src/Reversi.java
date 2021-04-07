@@ -1,4 +1,7 @@
+import javafx.util.Pair;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Reversi extends Game {
 
@@ -7,25 +10,42 @@ public class Reversi extends Game {
     private final int[][] board2d;
     private int row;
     private int col;
+    private int piece;
 
     public Reversi() {
         spelerBeurt = 1;
         Board b = new Board(64);
         board = b.getBoard();
+
+        //begin positie invullen
+        board[27] = 1;
+        board[28] = 2;
+        board[35] = 2;
+        board[36] = 1;
+
+        piece = 2;
+
         board2d = new int[8][8];
+        makeBoard2d();
     }
 
     public void makeBoard2d() {
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; i++) {
-                board2d[i][j] = board[(j * 8) + i];
+            for (int j = 0; j < 8; j++) {
+                board2d[i][j] = board[(i * 8) + j];
             }
         }
     }
 
-   public void makeMove(int[][] board2d, int row, int col, int piece) {
+   public void makeMove(int move) {
+
+
+        //convert van 1d naar 2d
+        row = move / 8;
+        col = move % 8;
+
         // Steen plaatsen op positie rij, kolom op bord
-        board2d[row][col] = spelerBeurt;
+        board2d[row][col] = piece;
 
         // Controleren welke 'kleur' (1 of 2) de tegenstander is
         int opponent = 1;
@@ -33,37 +53,50 @@ public class Reversi extends Game {
             opponent = 2;
         }
 
+
         // controleer west
         if (checkFlip(board2d, row - 1, col, -1, 0, piece, opponent))
-            flipPieces(board2d, row -1, col, -1, 0, piece, opponent);
+            flipPieces(row -1, col, -1, 0, piece, opponent);
         // controleer oost
         if (checkFlip(board2d, row + 1, col, 1, 0, piece, opponent))
-            flipPieces(board2d, row + 1, col, 1, 0, piece, opponent);
+            flipPieces(row + 1, col, 1, 0, piece, opponent);
         // controleer zuid
         if (checkFlip(board2d, row, col - 1, 0, - 1, piece, opponent))
-            flipPieces(board2d, row, col - 1, 0, - 1, piece, opponent);
+            flipPieces(row, col - 1, 0, - 1, piece, opponent);
         // controleer noord
         if (checkFlip(board2d, row, col + 1, 0, 1, piece, opponent))
-            flipPieces(board2d, row, col + 1, 0, 1, piece, opponent);
+            flipPieces(row, col + 1, 0, 1, piece, opponent);
         // controleer zuid west
         if (checkFlip(board2d, row - 1, col - 1, - 1, - 1, piece, opponent))
-            flipPieces(board2d, row - 1, col - 1, - 1, - 1, piece, opponent);
+            flipPieces(row - 1, col - 1, - 1, - 1, piece, opponent);
         // controleer oost west
         if (checkFlip(board2d, row + 1, col - 1,  1, - 1, piece, opponent))
-            flipPieces(board2d, row + 1, col - 1, 1, - 1, piece, opponent);
+            flipPieces(row + 1, col - 1, 1, - 1, piece, opponent);
         // controleer noord west
-        if (checkFlip(board2d, row - 1, col + 1, 1, 1, piece, opponent))
-            flipPieces(board2d, row - 1, col + 1, - 1, 1, piece, opponent);
+        if (checkFlip(board2d, row - 1, col + 1, -1, 1, piece, opponent))
+            flipPieces(row - 1, col + 1, - 1, 1, piece, opponent);
         // controleer noord oost
         if (checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent))
-            flipPieces(board2d, row + 1, col + 1, 1, 1, piece, opponent);
+            flipPieces(row + 1, col + 1, 1, 1, piece, opponent);
+
+
+        //swap beurt
+        //changePiece();
+       print2dBoard(board2d);
     }
 
     public boolean checkFlip(int[][] board2d, int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {
+        //check voor piece aan buitenste ring
+        if(row < 0 ||row > 7|| col < 0|| col > 7){return false;}
+
+
         if (board2d[row][col] == opponentPiece) {
             while ((row >= 0) && (row < 8) && (col >= 0) && (col <8)) {
                 row += deltaRow;
                 col += deltaCol;
+                if(row < 0 ||row > 7|| col < 0|| col > 7){return false;} //als de tile buiten het veld valt, kunnen we niet flippen
+
+
                 if (board2d[row][col] == 0) // niet opeenvolgend
                     return false;
                 if (board2d[row][col] == myPiece)
@@ -76,7 +109,7 @@ public class Reversi extends Game {
         return false; // Geen steen van tegenstander of einde van het bord
     }
 
-   public void flipPieces (int[][] board2d, int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {
+   public void flipPieces (int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {
         while (board2d[row][col] == opponentPiece) {
             board2d[row][col] = myPiece;
             row += deltaRow;
@@ -84,7 +117,8 @@ public class Reversi extends Game {
         }
    }
 
-   public boolean validMove(int[][] board2d, int row, int col, int piece) {
+   //private methode, wordt alleen gebruikt bij getMoveList
+   private boolean validMove(int row, int col) {
        // kijken of de rij en kolom leeg zijn
        if (board2d[row][col] != 0)
            return false;
@@ -114,26 +148,25 @@ public class Reversi extends Game {
         if (checkFlip(board2d, row + 1, col - 1,  1, - 1, piece, opponent))
            return true;
         // controleer noord west
-        if (checkFlip(board2d, row - 1, col + 1, 1, 1, piece, opponent))
+        if (checkFlip(board2d, row - 1, col + 1, -1, 1, piece, opponent))
            return true;
         // controleer noord oost
        return checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent);
    }
 
-    public void getMoveList(int[][] board2d, int[] moveRow, int[] moveCol, int numMoves, int piece ) {
+    public ArrayList<Pair> getMoveList() {
 
-        numMoves = 0; // We beginnen vanaf 0 gevonden moves
-
+        ArrayList<Pair> legalMoves = new ArrayList<>();
         // Het bord controleren of we daarheen mogen bewegen en de coordinaten
-        for (int row = 0; row < 8; row++)
-            for (int col = 0; col < 8; col++)
-            {
-                if (validMove(board2d, row, col, piece))  { // Coordinaten opslaan
-                    moveRow[numMoves] = row;
-                    moveCol[numMoves] = col;
-                    numMoves++;                             // Aantal moves dat gevonden is toevoegen
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (validMove(row, col)) { // Coordinaten opslaan
+                    Pair p = new Pair(row,col);
+                    legalMoves.add(p);
                 }
             }
+        }
+        return legalMoves;
     }
 
 
@@ -168,6 +201,41 @@ public class Reversi extends Game {
         else {
             return 0;
         }
+    }
+
+    public int[] convertMovesto1d(ArrayList<Pair> legalmoves2d){
+        int[] legalmoves1d = new int[legalmoves2d.size()];
+        for (int i=0;i < legalmoves2d.size();i++){
+            Pair coord = legalmoves2d.get(i);
+            Object key = coord.getKey();
+            Object value = coord.getValue();
+            int row = (int) key;
+            int col = (int) value;
+            legalmoves1d[i] = (8*row+col);
+        }
+        return legalmoves1d;
+    }
+
+    public void print2dBoard(int[][] board){
+
+        for(int i=0;i < board.length;i++){
+            String s = "";
+            for(int j=0;j < board.length;j++){
+                s = s + board[i][j];
+            }
+            System.out.println(s);
+        }
+        System.out.println("");
+    }
+
+    //functie om de beurt om te draaien
+    public void changePiece(){
+        if (piece == 1){
+            piece = 2;
+        }
+        else{piece = 1;}
+        System.out.println("Nu ben ik piece " + piece);
+
     }
 
 

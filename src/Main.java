@@ -4,12 +4,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Main extends Application{
 
     public static void main(String[] args) {
         Controller controller = new Controller();
         //controller.startConnectie();
         launch(args);
+
+//        Reversi rev = new Reversi();
+//        AI ai = new AI(rev);
+//        int i = ai.makeMove();
+//        System.out.println(i);
+//        ai.makeMove();
+//        ai.makeMove();
+
     }
 
     @Override

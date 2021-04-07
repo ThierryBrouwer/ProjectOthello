@@ -95,6 +95,7 @@ public class Controller {
                 cleanServermsg = con.dissect(serverMsg);
 
                 System.out.println("servermsg " + i + " = " + cleanServermsg);
+                System.out.println(serverMsg);
                 useServerMessage(cleanServermsg);
                 i++;
             }
@@ -117,21 +118,21 @@ public class Controller {
 
                 //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
                 //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
-                //game = new TicTacToe();
-                //ai = new AI(game);
+                game = reversi;
+                ai = new AI(game);
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
                 //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
-                if (!playertomove.equals(playerNamestring)) {
-                    yourturn = true;
+                if (playertomove.equals(playerNamestring)) {
                     break;
                 } else {
-                    System.out.println("ik doe een zet match start");
-                    int move = ai.makeMove();
-                    con.makeMove(move);
-                    game.updateBoard(move);
-                    yourturn = false;
+                    reversi.changePiece();
+                    //System.out.println("ik doe een zet match start");
+                    //int move = ai.makeMove();
+                    //con.makeMove(move);
+                    //game.updateBoard(move);
+                    //yourturn = false;
                 }
 
                 break;
@@ -147,8 +148,7 @@ public class Controller {
                 //yourturn = true;
                 int move3 = ai.makeMove();
                 con.makeMove(move3);
-                game.updateBoard(move3);
-                System.out.println("ik doe een zet game move");
+                //game.updateBoard(move3);
                 //System.out.println("ik, " + playerNamestring + ", zet " + move3);
                 yourturn = false;
 
@@ -163,7 +163,16 @@ public class Controller {
                 Object move1 = con.getMsgHashMap().get(" MOVE");
                 String move2 = (String) move1;
                 int pos = Integer.parseInt(move2);
-                game.updateBoard(pos);
+
+                Object player = con.getMsgHashMap().get("PLAYER");
+                String player1 = (String) player;
+                if (!player1.equals(playerNamestring)){
+                    reversi.changePiece();
+                    reversi.makeMove(pos);
+                    reversi.changePiece();
+                }
+                else{reversi.makeMove(pos);}
+
                 break;
 
             case "SVR GAME LOSS":
