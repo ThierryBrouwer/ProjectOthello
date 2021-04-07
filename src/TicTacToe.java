@@ -5,7 +5,6 @@ public class TicTacToe extends Game{
     public Board b;
 
     public TicTacToe() {
-        //board = new char[3][3];
         spelerBeurt = 1;
         b = new Board(9);
         board = b.getBoard();
