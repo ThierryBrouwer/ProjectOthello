@@ -76,14 +76,17 @@ public class Connection implements Runnable{
 
             String[] rawServermsgList = message.split("&"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
             //System.out.println("split: "+rawServermsgList[1]);
-            String[] pairs = rawServermsgList[1].split(","); //Hier scheid hij alle elementen in de (String) Map van elkaar en stopt ze in een list. Ieder element in de list is dus een key en een value.
-            //System.out.println(pairs[1]);
+            String[] pairs = rawServermsgList[1].split(", "); //Hier scheid hij alle elementen in de (String) Map van elkaar en stopt ze in een list. Ieder element in de list is dus een key en een value.
+            //System.out.println(pairs[1]); balls
 
             for (int i=0;i<pairs.length;i++) { //loop door de lijst met keys en values, maak van 1 String waar een key en een value in staat twee Strings en stop ze in een HashMap
                 String pair = pairs[i];
                 String[] keyValue = pair.split(": ");
 
                 serverMsgHashMap.put(keyValue[0], keyValue[1].replace("\"", "")); //remove " tekens
+
+                // serverMsgHashMap
+
             }
 
             return rawServermsgList[0]; //Hij geeft hier nu alleen de server message door, zoals "SVR GAME MATCH" maar nog niet de bijbehorende HashMap waarin informatie staat als het speltype, naam van de tegenstander, etc.

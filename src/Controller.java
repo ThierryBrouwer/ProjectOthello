@@ -52,7 +52,7 @@ public class Controller {
         this.playerNamestring = playerNamestring;
 
         try {
-            s = new Socket("145.33.225.170", 7789);
+            s = new Socket("localhost", 7789);
 
             this.pr = new PrintWriter(s.getOutputStream());
         } catch (IOException e) {
@@ -121,11 +121,12 @@ public class Controller {
                 //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
 
 
+                Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
 
                 Object gameType = con.getMsgHashMap().get("GAMETYPE");
+
                 if (gameType == "Tic-tac-toe"){
                     game = ttt;
-                    System.out.println("TTT");
                 }
                 else{
                     game = reversi;
@@ -134,7 +135,7 @@ public class Controller {
 
                 ai = new AI(game);
 
-                Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
+
                 //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
                 if (playertomove.equals(playerNamestring)) {
