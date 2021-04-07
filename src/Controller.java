@@ -25,6 +25,7 @@ public class Controller {
     public static TicTacToe ttt;
     public static Reversi reversi;
     public static Connection con;
+    public static LobbyController lobbyController;
     public TextField playerName;
 
 //    public Connection con;
@@ -51,7 +52,7 @@ public class Controller {
         this.playerNamestring = playerNamestring;
 
         try {
-            s = new Socket("localhost", 7789);
+            s = new Socket("145.33.225.170", 7789);
 
             this.pr = new PrintWriter(s.getOutputStream());
         } catch (IOException e) {
@@ -203,6 +204,7 @@ public class Controller {
             case "SVR GAME CHALLENGE":
                 //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
+                lobbyController.updateChallengedUs(con.getMsgHashMap());
                 break;
 
             case "SVR GAME CHALLENGE CANCELLED":
@@ -236,14 +238,15 @@ public class Controller {
             // stuur playerName naar connection
             startConnectie(playerName.getText());
 
+            lobbyController = new LobbyController();
+            Parent nextParent = FXMLLoader.load(getClass().getResource("Lobby.fxml"));
 
-            Parent nextParent = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));
             Scene nextScene = new Scene(nextParent);
 
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(nextScene);
             window.setResizable(false);
-            window.setTitle("Kies je spel");
+            window.setTitle("Game Lobby");
 
             window.show();
 
@@ -268,14 +271,15 @@ public class Controller {
 
     public void reversiView(ActionEvent actionEvent) throws IOException {
         game = new Reversi();
+        ai = new AI(game);
 
-        Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
+        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
         Scene nextScene = new Scene(nextParent);
 //
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(nextScene);
-        window.setResizable(true);
-        window.setTitle("Boter, Kaas en Eieren");
+        window.setResizable(false);
+        window.setTitle("Reversi");
 
         window.show();
     }

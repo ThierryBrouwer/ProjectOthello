@@ -238,6 +238,14 @@ public class Reversi extends Game {
 
     }
 
+    public int[] boardConvertto1d(int[][] board2d) {
+        for (int i=0;i<64;i++){
+            int row = i / 8;
+            int col = i % 8;
+            board[i] = board2d[row][col];
+        }
+        return board;
+    }
 
     @Override
     public Board aiGetBoard() {

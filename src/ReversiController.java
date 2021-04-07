@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
+
 public class ReversiController {
 
     public GridPane grid;
@@ -26,12 +27,19 @@ public class ReversiController {
         }
 
 //        //updateBoard() testen
-//        int[] arr = new int[64];
+        int[] array1d = new int[64];
 //        for (int i = 0; i < 64; i++) {
 //            arr[i] = (int)(Math.random() * ((2-0) + 1)) + 0;
 //        }
 //
 //        updateBoard(arr);
+        int[][] array2d = new int[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                index = i*8+j;
+                array2d[i][j] = array1d[index];
+            }
+        }
     }
 
     public void updateView(int[] board) {
