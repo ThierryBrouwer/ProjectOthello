@@ -11,7 +11,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="146.0" layoutY="122.0" mnemonicParsing="false" onAction="#changeScreenTicTacToe" prefHeight="31.0" prefWidth="95.0" text="Reversie">
+      <Button layoutX="146.0" layoutY="122.0" mnemonicParsing="false" onAction="#reversiView" prefHeight="31.0" prefWidth="95.0" text="Reversi">
          <font>
             <Font size="15.0" />
          </font>

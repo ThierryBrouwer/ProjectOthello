@@ -56,18 +56,20 @@ public class Connection implements Runnable{
 
     public String dissect(String message){
         if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
+            message = message.replace("\"", "");
             message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
 
             String[] rawServermsgList = message.split("&"); //je hebt nu een lijst met 2 elementen, het eerste element is de server message en het tweede element is de Map. De Map is nog een String en moet nog omgezet worden.
 
-            serverMsgArrayList = new ArrayList<String>(Arrays.asList(rawServermsgList[1].split(" , "))); //split alle elementen en stopt ze in een ArrayList
+            serverMsgArrayList = new ArrayList<String>(Arrays.asList(rawServermsgList[1].split(", "))); //split alle elementen en stopt ze in een ArrayList
 
             return rawServermsgList[0]; //Hij geeft hier nu alleen de server message door, zoals "SVR PLAYERLIST" maar nog niet de bijbehorende ArrayList waarin in dit geval de players staan.
             //Wanneer Controller deze message ontvangt en bepaald heeft dat hier een Arraylist bij hoort moet deze de Connection methode getMsgArraylist() aanroepen.
         }
         else if (message.contains("{")){ //als er een { in zit dan zit er een Map in de message
             //System.out.println(message);
+            message = message.replace("\"", "");
             message = message.replace(" {", "&"); //vervang { voor - omdat de .split methode niet met { wil splitten
             message = message.replace("}", ""); //Haal } aan het einde weg omdat we deze niet nodig hebben
             //System.out.println(message);
@@ -135,7 +137,7 @@ public class Connection implements Runnable{
     }
 
     public void challengePlayer(String opponent, String game){
-        pr.println("challenge " + opponent + " " + game);
+        pr.println("challenge \"" + opponent + "\" \"" + game);
         pr.flush();
     }
 
