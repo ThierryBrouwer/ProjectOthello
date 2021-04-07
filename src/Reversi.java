@@ -238,7 +238,7 @@ public class Reversi extends Game {
 
     }
 
-    public int[] boardConvertto1d(int[][] board2d) {
+    public int[] boardConvertto1d() {
         for (int i=0;i<64;i++){
             int row = i / 8;
             int col = i % 8;
