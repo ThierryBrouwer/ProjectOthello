@@ -118,7 +118,19 @@ public class Controller {
 
                 //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
                 //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
-                game = reversi;
+
+
+
+                Object gameType = con.getMsgHashMap().get("GAMETYPE");
+                if (gameType == "Tic-tac-toe"){
+                    game = ttt;
+                    System.out.println("TTT");
+                }
+                else{
+                    game = reversi;
+                    //System.out.println("REVERSI");
+                }
+
                 ai = new AI(game);
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
