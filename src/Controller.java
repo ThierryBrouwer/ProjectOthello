@@ -234,7 +234,7 @@ public class Controller {
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(nextScene);
             window.setResizable(false);
-            window.setTitle("Kies je spel");
+            window.setTitle("Game Lobby");
 
             window.show();
 
