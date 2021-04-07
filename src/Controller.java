@@ -24,6 +24,7 @@ public class Controller {
 
     public static TicTacToe ttt;
     public static Reversi reversi;
+    public static ReversiController reversiController;
     public static Connection con;
     public static LobbyController lobbyController;
     public TextField playerName;
@@ -205,6 +206,7 @@ public class Controller {
             case "SVR GAME CHALLENGE":
                 //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
+                System.out.println(con.getMsgHashMap());
                 lobbyController.updateChallengedUs(con.getMsgHashMap());
                 break;
 
@@ -273,6 +275,7 @@ public class Controller {
     public void reversiView(ActionEvent actionEvent) throws IOException {
         game = new Reversi();
         ai = new AI(game);
+        reversiController = new ReversiController();
 
         Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
         Scene nextScene = new Scene(nextParent);

@@ -37,21 +37,24 @@ public class LobbyController{
 
     // deze methode ververst de lijst van mensen die ons uitdagen voor een spel
     public void updateChallengedUs(HashMap hm) {
-        clearOnlineUsers(challengedYouGrid);
+        //clearOnlineUsers(challengedYouGrid);
+//        for ( Object map : hm.keySet() ){
+//            System.out.println(map);
+//        }
+
         String challengerName = (String) hm.get("CHALLENGER");
         challengers.put(challengerName, hm);
 
         int j =0;
         for(String i : challengers.keySet()) {
-
-            RowConstraints rowConstraints = new RowConstraints(25);
+            System.out.println("--------------------------------------------------------------------" + (String)i);
             Label gebruikersnaam = new Label(i);
             Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
             Button accepteer = new Button("Accepteer");
-            int challengerNumber = (int) (challengers.get(i)).get("CHALLENGERNUMBER");
+            System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
+            String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
             accepteer.setOnAction(e -> acceptChallenger(challengerNumber));
 
-            challengedYouGrid.getRowConstraints().add(rowConstraints);
             challengedYouGrid.add(gebruikersnaam, 0, j+1);
             challengedYouGrid.add(game, 1, j+1);
             challengedYouGrid.add(accepteer, 2, j+1);
@@ -66,14 +69,12 @@ public class LobbyController{
         playerList = Controller.con.getPlayerlist();
 
         for (int i = 0; i < playerList.size(); i++) {
-            RowConstraints rowConstraints = new RowConstraints(25);
 
             Label gebruikersnaam = new Label(playerList.get(i));
             ComboBox chooseGame = new ComboBox();
             chooseGame.getItems().addAll("Boter, kaas en eieren", "Reversi");
             chooseGame.setOnAction(e -> challenge(chooseGame));
 
-            onlineUsersGrid.getRowConstraints().add(rowConstraints);
             onlineUsersGrid.add(gebruikersnaam, 0, i+1);
             onlineUsersGrid.add(chooseGame, 1, i+1);
         }
@@ -148,8 +149,8 @@ public class LobbyController{
         grid.getChildren().removeAll(deleteNodes);
     }
 
-    private void acceptChallenger(int challengerNumber) {
-        int challengernumber = challengerNumber;
+    private void acceptChallenger(String challengerNumber) {
+        String challengernumber = challengerNumber;
         Controller.con.acceptChallenge(challengernumber);
     }
 }

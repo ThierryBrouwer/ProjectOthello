@@ -54,7 +54,7 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane fx:id="challengedYouGrid" alignment="CENTER" gridLinesVisible="true" layoutX="435.0" layoutY="134.0" prefHeight="30.0" prefWidth="314.0">
+      <GridPane fx:id="challengedYouGrid" alignment="CENTER" gridLinesVisible="true" layoutX="435.0" layoutY="135.0" prefHeight="30.0" prefWidth="314.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="152.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="90.0" />
@@ -64,7 +64,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER" text="Gebruikersnaam:">
+            <Label alignment="CENTER" text="Gebruikersnaam:" GridPane.columnIndex="0" GridPane.rowIndex="0">
                <font>
                   <Font size="17.0" />
                </font>
@@ -72,7 +72,7 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </Label>
-            <Label alignment="CENTER" text="Spel" GridPane.columnIndex="1">
+            <Label alignment="CENTER" text="Spel" GridPane.columnIndex="1" GridPane.rowIndex="0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -80,7 +80,7 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </Label>
-            <Label alignment="CENTER" text="Accepteren" GridPane.columnIndex="2">
+            <Label alignment="CENTER" text="Accepteren" GridPane.columnIndex="2" GridPane.rowIndex="0">
                <font>
                   <Font size="15.0" />
                </font>
