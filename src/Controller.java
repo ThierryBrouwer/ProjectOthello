@@ -177,7 +177,7 @@ public class Controller {
                 //System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
                 //System.out.println(serverMsg);
-                Object move1 = con.getMsgHashMap().get(" MOVE");
+                Object move1 = con.getMsgHashMap().get("MOVE");
                 String move2 = (String) move1;
                 int pos = Integer.parseInt(move2);
 
