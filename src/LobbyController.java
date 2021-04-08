@@ -19,46 +19,40 @@ public class LobbyController{
     public GridPane onlineUsersGrid;
     public GridPane challengedYouGrid;
     ArrayList<String> playerList;
-    HashMap<String, HashMap> challengers;
 
 
     public LobbyController() {
-        challengers = new HashMap<String, HashMap>();
+//        challengers = new HashMap<String, HashMap>();
     }
-
 
     @FXML
     public void ververs(ActionEvent actionEvent) {
-        // code needed for refreshing playerlist
+        System.out.println(Controller.challengers);
         updateOnlinePlayers();
-        //updateChallengedUs();
+        updateChallengedUs();
 
     }
 
     // deze methode ververst de lijst van mensen die ons uitdagen voor een spel
-    public void updateChallengedUs(HashMap hm) {
-        //clearOnlineUsers(challengedYouGrid);
-//        for ( Object map : hm.keySet() ){
-//            System.out.println(map);
-//        }
-
-        String challengerName = (String) hm.get("CHALLENGER");
-        challengers.put(challengerName, hm);
-
+    public void updateChallengedUs() {
+        clearOnlineUsers(challengedYouGrid);
         int j =0;
-        for(String i : challengers.keySet()) {
-            System.out.println("--------------------------------------------------------------------" + (String)i);
-            Label gebruikersnaam = new Label(i);
-            Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
-            Button accepteer = new Button("Accepteer");
-            System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
-            String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
-            accepteer.setOnAction(e -> acceptChallenger(challengerNumber));
+        HashMap<String, HashMap>challengers = Controller.challengers;
+        if(Controller.challengers != null) {
+            for (String i : Controller.challengers.keySet()) {
 
-            challengedYouGrid.add(gebruikersnaam, 0, j+1);
-            challengedYouGrid.add(game, 1, j+1);
-            challengedYouGrid.add(accepteer, 2, j+1);
-            j++;
+                Label gebruikersnaam = new Label(i);
+                Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
+                Button accepteer = new Button("Accepteer");
+                System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
+                String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
+                accepteer.setOnAction(e -> acceptChallenger(challengerNumber));
+
+                challengedYouGrid.add(gebruikersnaam, 0, 1);
+                challengedYouGrid.add(game, 1, j + 1);
+                challengedYouGrid.add(accepteer, 2, 1);
+                j++;
+            }
         }
     }
 

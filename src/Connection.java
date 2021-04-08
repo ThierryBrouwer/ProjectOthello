@@ -144,7 +144,7 @@ public class Connection implements Runnable{
         pr.flush();
     }
 
-    public void acceptChallenge(int challengeNumber){
+    public void acceptChallenge(String challengeNumber){
         pr.println("challenge accept " + challengeNumber);
         pr.flush();
     }

@@ -26,13 +26,14 @@ public class Controller {
     public static Reversi reversi;
     public static ReversiController reversiController;
     public static Connection con;
-    public static LobbyController lobbyController;
+    public static LobbyController lobbyController;;
     public TextField playerName;
+    public static HashMap<String, HashMap> challengers;
 
 //    public Connection con;
 
     public String playerNamestring;
-
+    Stage window;
     public PrintWriter pr;
     public Socket s;
     public String serverMsg;
@@ -46,6 +47,7 @@ public class Controller {
     public Controller() {
         ttt = new TicTacToe();
         reversi = new Reversi();
+        challengers = new HashMap<>();
     }
 
     public void startConnectie(String playerNamestring){
@@ -207,7 +209,9 @@ public class Controller {
                 //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
                 System.out.println(con.getMsgHashMap());
-                lobbyController.updateChallengedUs(con.getMsgHashMap());
+                //lobbyController.updateChallengers(con.getMsgHashMap());
+                String challengerName = (String) con.getMsgHashMap().get("CHALLENGER");
+                challengers.put(challengerName, con.getMsgHashMap());
                 break;
 
             case "SVR GAME CHALLENGE CANCELLED":
@@ -246,7 +250,7 @@ public class Controller {
 
             Scene nextScene = new Scene(nextParent);
 
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(nextScene);
             window.setResizable(false);
             window.setTitle("Game Lobby");
@@ -259,7 +263,6 @@ public class Controller {
 
     public void changeScreenTicTacToe(ActionEvent actionEvent) throws IOException {
         game = new TicTacToe();
-        ai = new AI(game);
 
         Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
         Scene nextScene = new Scene(nextParent);
@@ -272,15 +275,15 @@ public class Controller {
         window.show();
     }
 
-    public void reversiView(ActionEvent actionEvent) throws IOException {
+    public void reversiView() throws IOException {
         game = new Reversi();
-        ai = new AI(game);
+
         reversiController = new ReversiController();
 
         Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
         Scene nextScene = new Scene(nextParent);
 //
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+//        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(nextScene);
         window.setResizable(false);
         window.setTitle("Reversi");

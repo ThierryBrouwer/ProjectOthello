@@ -54,7 +54,7 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane fx:id="challengedYouGrid" alignment="CENTER" gridLinesVisible="true" layoutX="435.0" layoutY="135.0" prefHeight="30.0" prefWidth="314.0">
+      <GridPane fx:id="challengedYouGrid" alignment="CENTER" gridLinesVisible="true" layoutX="435.0" layoutY="135.0" prefWidth="314.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="152.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="90.0" />
