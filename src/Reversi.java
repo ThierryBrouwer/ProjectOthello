@@ -84,7 +84,7 @@ public class Reversi extends Game {
         //changePiece();
        print2dBoard(board2d);
 
-       Controller.reversiController.updateView(boardConvertto1d());
+       //Controller.reversiController.updateView(boardConvertto1d());
     }
 
     public boolean checkFlip(int[][] board2d, int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {
