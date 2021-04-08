@@ -87,6 +87,10 @@ public class Connection implements Runnable{
                 if (keyValue.length >= 2){
                     serverMsgHashMap.put(keyValue[0], keyValue[1].replace("\"", "")); //remove " tekens
                 }
+                else {
+                    serverMsgHashMap.put(keyValue[0], keyValue[0].replace("\"", ""));
+                }
+
 
             }
 
