@@ -133,6 +133,7 @@ public class Controller {
                 }
                 else{
                     game = reversi;
+                    reversi.resetBoard();
                     //System.out.println("REVERSI");
                 }
 

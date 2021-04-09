@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public class Reversi extends Game {
 
-    private final int[] board;
-    private final int spelerBeurt;
-    private final int[][] board2d;
+    private int[] board;
+    private int spelerBeurt;
+    private int[][] board2d;
     private int row;
     private int col;
     private int piece;
@@ -247,6 +247,23 @@ public class Reversi extends Game {
             board[i] = board2d[row][col];
         }
         return board;
+    }
+
+    public void resetBoard(){
+        spelerBeurt = 1;
+        Board b = new Board(64);
+        board = b.getBoard();
+
+        //begin positie invullen
+        board[27] = 1;
+        board[28] = 2;
+        board[35] = 2;
+        board[36] = 1;
+
+        piece = 2;
+
+        board2d = new int[8][8];
+        makeBoard2d();
     }
 
     @Override
