@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
@@ -139,7 +142,11 @@ public class Controller {
                 }
 
                 ai = new AI(game);
-                reversiController = new ReversiController();
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    Pane p = fxmlLoader.load(getClass().getResource("Reversi.fxml").openStream());
+                    reversiController = (ReversiController) fxmlLoader.getController();
+                }catch(IOException e){e.printStackTrace();}
                 Platform.runLater(this::reversiView);
 
                 //System.out.println(con.getMsgHashMap());
@@ -267,8 +274,12 @@ public class Controller {
     public void changeScreenTicTacToe(ActionEvent actionEvent) throws IOException {
         game = new TicTacToe();
 
+
+
+
         Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
         Scene nextScene = new Scene(nextParent);
+
 //
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(nextScene);
@@ -284,6 +295,12 @@ public class Controller {
 
             Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
             Scene nextScene = new Scene(nextParent);
+
+//            FXMLLoader  root = new FXMLLoader(getClass().getResource("Reversi.fxml"));
+//            root.setController(this);
+
+
+
 //
 //        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(nextScene);

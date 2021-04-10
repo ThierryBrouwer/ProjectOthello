@@ -2,14 +2,25 @@ import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import org.w3c.dom.ls.LSOutput;
+
+import java.io.IOException;
 
 
 public class ReversiController {
 
-    public GridPane grid;
+    @FXML
+    private GridPane grid;
+
+    public ReversiController(){
+        System.out.println(grid);
+    }
 
     public void playerRequestsMove(ActionEvent actionEvent) {
 
@@ -49,8 +60,8 @@ public class ReversiController {
     public void updateView() {
 
         int[] board = Controller.reversi.boardConvertto1d();
-
         Node result;
+        System.out.println(grid);
         ObservableList<Node> childrens = grid.getChildren();
 
         for (Node node : childrens) {

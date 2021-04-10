@@ -25,6 +25,7 @@ public class LobbyController{
 
     public LobbyController() {
 //        challengers = new HashMap<String, HashMap>();
+        System.out.println(onlineUsersGrid);
     }
 
     @FXML

@@ -89,7 +89,8 @@ public class Reversi extends Game {
        try {
            Controller.reversiController.updateView();
        } catch (NullPointerException n) {
-           System.out.println("nullpointer exception");
+           System.out.println(Controller.reversiController);
+           n.printStackTrace();
        }
     }
 
