@@ -2,18 +2,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class LobbyController{
     public GridPane onlineUsersGrid;
@@ -46,7 +48,13 @@ public class LobbyController{
                 Button accepteer = new Button("Accepteer");
                 System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
                 String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
-                accepteer.setOnAction(e -> acceptChallenger(challengerNumber));
+                accepteer.setOnAction(e -> {
+                    try {
+                        acceptChallenger(challengerNumber);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
 
                 challengedYouGrid.add(gebruikersnaam, 0, 1);
                 challengedYouGrid.add(game, 1, j + 1);
@@ -143,8 +151,18 @@ public class LobbyController{
         grid.getChildren().removeAll(deleteNodes);
     }
 
-    private void acceptChallenger(String challengerNumber) {
+    private void acceptChallenger(String challengerNumber) throws IOException {
         String challengernumber = challengerNumber;
         Controller.con.acceptChallenge(challengernumber);
+
+//        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
+//        Scene nextScene = new Scene(nextParent);
+////
+//        Stage window = Controller.window;
+//        window.setScene(nextScene);
+//        window.setResizable(false);
+//        window.setTitle("Reversi");
+//
+//        window.show();
     }
 }

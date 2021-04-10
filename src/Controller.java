@@ -33,7 +33,7 @@ public class Controller {
 //    public Connection con;
 
     public String playerNamestring;
-    Stage window;
+    public static Stage window;
     public PrintWriter pr;
     public Socket s;
     public String serverMsg;
@@ -55,7 +55,7 @@ public class Controller {
         this.playerNamestring = playerNamestring;
 
         try {
-            s = new Socket("localhost", 7789);
+            s = new Socket("145.33.225.170", 7789);
 
             this.pr = new PrintWriter(s.getOutputStream());
         } catch (IOException e) {
@@ -139,6 +139,11 @@ public class Controller {
 
                 ai = new AI(game);
 
+                try {
+                    reversiView();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
@@ -277,9 +282,6 @@ public class Controller {
     }
 
     public void reversiView() throws IOException {
-        game = new Reversi();
-
-        reversiController = new ReversiController();
 
         Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
         Scene nextScene = new Scene(nextParent);

@@ -120,7 +120,7 @@ public class Reversi extends Game {
    }
 
    //private methode, wordt alleen gebruikt bij getMoveList
-   private boolean validMove(int row, int col) {
+   public boolean validMove(int row, int col) {
        // kijken of de rij en kolom leeg zijn
        if (board2d[row][col] != 0)
            return false;

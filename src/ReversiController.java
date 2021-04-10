@@ -21,10 +21,12 @@ public class ReversiController {
         int columnsInRow = 3;
         int index = row*columnsInRow+column;
 
-        if (Controller.ttt.isMoveLegal(index)) {
-            Controller.ttt.updateBoard(index);
-            updateView(Controller.ttt.getBoard());
-        }
+//        if (Controller.reversi.makeMove(index)) {
+//            Controller.reversi.updateBoard(index);
+//            updateView(Controller.reversi.getBoard());
+//        }
+
+        Controller.reversi.makeMove(index);
 
 //        //updateBoard() testen
         int[] array1d = new int[64];
