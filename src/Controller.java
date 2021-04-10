@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -138,12 +139,8 @@ public class Controller {
                 }
 
                 ai = new AI(game);
-
-                try {
-                    reversiView();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                reversiController = new ReversiController();
+                Platform.runLater(this::reversiView);
 
                 //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
@@ -281,17 +278,22 @@ public class Controller {
         window.show();
     }
 
-    public void reversiView() throws IOException {
+    public void reversiView() {
 
-        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
-        Scene nextScene = new Scene(nextParent);
+        try {
+
+            Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
+            Scene nextScene = new Scene(nextParent);
 //
 //        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(nextScene);
-        window.setResizable(false);
-        window.setTitle("Reversi");
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.setTitle("Reversi");
 
-        window.show();
+            window.show();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     // Model

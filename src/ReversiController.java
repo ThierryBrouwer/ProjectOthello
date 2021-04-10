@@ -1,3 +1,5 @@
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -44,7 +46,9 @@ public class ReversiController {
         }
     }
 
-    public void updateView(int[] board) {
+    public void updateView() {
+
+        int[] board = Controller.reversi.boardConvertto1d();
 
         Node result;
         ObservableList<Node> childrens = grid.getChildren();
