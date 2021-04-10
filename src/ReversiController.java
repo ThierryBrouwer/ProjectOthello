@@ -18,10 +18,6 @@ public class ReversiController {
     @FXML
     private GridPane grid;
 
-    public ReversiController(){
-        System.out.println(grid);
-    }
-
     public void playerRequestsMove(ActionEvent actionEvent) {
 
         Button button = (Button)actionEvent.getSource();
@@ -75,6 +71,7 @@ public class ReversiController {
                     //System.out.println(row + ", " + column + ", " + grid.getRowIndex(node) + ", " + grid.getColumnIndex(node));
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
+                        System.out.println(board[i]);
 
                         if (board[i] == 0) {
 

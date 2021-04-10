@@ -142,11 +142,7 @@ public class Controller {
                 }
 
                 ai = new AI(game);
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    Pane p = fxmlLoader.load(getClass().getResource("Reversi.fxml").openStream());
-                    reversiController = (ReversiController) fxmlLoader.getController();
-                }catch(IOException e){e.printStackTrace();}
+
                 Platform.runLater(this::reversiView);
 
                 //System.out.println(con.getMsgHashMap());
@@ -275,10 +271,9 @@ public class Controller {
         game = new TicTacToe();
 
 
-
-
         Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
         Scene nextScene = new Scene(nextParent);
+
 
 //
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -293,11 +288,16 @@ public class Controller {
 
         try {
 
-            Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
-            Scene nextScene = new Scene(nextParent);
+            //Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
+            //Scene nextScene = new Scene(nextParent);
 
 //            FXMLLoader  root = new FXMLLoader(getClass().getResource("Reversi.fxml"));
 //            root.setController(this);
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Pane p = fxmlLoader.load(getClass().getResource("Reversi.fxml").openStream());
+            reversiController = fxmlLoader.getController();
+            Scene nextScene = new Scene (p);
 
 
 
