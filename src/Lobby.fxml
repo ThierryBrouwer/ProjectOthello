@@ -90,5 +90,7 @@
             </Label>
          </children>
       </GridPane>
+      <Label layoutX="26.0" layoutY="859.0" text="Ingelogd als:" />
+      <Label fx:id="uname" layoutX="110.0" layoutY="859.0" prefHeight="17.0" prefWidth="31.0" text="Gast" />
    </children>
 </Pane>

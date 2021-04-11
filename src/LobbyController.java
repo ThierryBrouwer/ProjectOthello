@@ -14,9 +14,15 @@ import java.util.*;
 public class LobbyController{
     public GridPane onlineUsersGrid;
     public GridPane challengedYouGrid;
+    public Label uname;
     ArrayList<String> playerList;
     private boolean isLobbyWindowOpen = true;
 
+    public LobbyController() {
+        Platform.runLater(() -> {
+            uname.setText(Controller.playerNamestring);
+        });
+    }
 
     @FXML
     public void ververs(ActionEvent actionEvent) {
@@ -28,29 +34,30 @@ public class LobbyController{
 
     // deze methode ververst de lijst van mensen die ons uitdagen voor een spel
     public void updateChallengedUs() {
-        clearOnlineUsers(challengedYouGrid);
+        clearGrid(challengedYouGrid);
         int j =0;
         HashMap<String, HashMap>challengers = Controller.challengers;
         if(Controller.challengers != null) {
             for (String i : Controller.challengers.keySet()) {
+                if (!nameExists(challengedYouGrid, i)) {
+                    Label gebruikersnaam = new Label(i);
+                    Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
+                    Button accepteer = new Button("Accepteer");
+                    System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
+                    String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
+                    accepteer.setOnAction(e -> {
+                        try {
+                            acceptChallenger(challengerNumber);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
 
-                Label gebruikersnaam = new Label(i);
-                Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
-                Button accepteer = new Button("Accepteer");
-                System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
-                String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
-                accepteer.setOnAction(e -> {
-                    try {
-                        acceptChallenger(challengerNumber);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                });
-
-                challengedYouGrid.add(gebruikersnaam, 0, j + 1);
-                challengedYouGrid.add(game, 1, j + 1);
-                challengedYouGrid.add(accepteer, 2, j + 1);
-                j++;
+                    challengedYouGrid.add(gebruikersnaam, 0, j + 1);
+                    challengedYouGrid.add(game, 1, j + 1);
+                    challengedYouGrid.add(accepteer, 2, j + 1);
+                    j++;
+                }
             }
         }
     }
@@ -58,7 +65,7 @@ public class LobbyController{
     // deze methode ververst de lijst van online users
     public void updateOnlinePlayers() {
         playerList = Controller.con.getPlayerlist();
-        clearOnlineUsers(onlineUsersGrid);
+        clearGrid(onlineUsersGrid);
 
         for (int i = 0; i < playerList.size(); i++) {
             if (!nameExists(onlineUsersGrid, playerList.get(i)) && !playerList.get(i).equals(Controller.playerNamestring)) {
@@ -130,10 +137,11 @@ public class LobbyController{
         return null;
     }
 
-    private void clearOnlineUsers(GridPane grid) {
-        Node result;
+    private void clearGrid(GridPane grid) {
+
         ObservableList<Node> childrens = grid.getChildren();
         Set<Node> deleteNodes = new HashSet<>();
+        ArrayList<Integer> rowsThatStay = new ArrayList<>();
 
         // loop door alle nodes van de GridPane om de lijst leeg te maken.
         for (Node node : childrens) {
@@ -143,12 +151,22 @@ public class LobbyController{
 
                         Label lb = (Label) node;
                         if (lb.getText() != null && playerList.contains(lb.getText())) {
-                            break;
+                            // loop door alle namen van playerList
+
+                            for (int i = 0; i < playerList.size(); i++) {
+                                if (playerList.get(i).equals(lb.getText())) {
+                                    rowsThatStay.add(grid.getRowIndex(node));
+                                }
+                            }
+                        // deze player is niet meer online, dus verwijderen we hem uit de challengers list (als hij hierin zit)
+                        } else {
+                            if (Controller.challengers.keySet().contains(lb.getText())) {
+                                Controller.challengers.keySet().removeIf(i -> i.equals(lb.getText()));
+                            }
                         }
-                        else {
-                            System.out.println(playerList + "----------------> " + node.getId());
-                            deleteNodes.add(node);
-                        }
+                    }
+                    if (!rowsThatStay.contains(grid.getColumnIndex(node))) {
+                        deleteNodes.add(node);
                     }
                 }
             }
@@ -178,7 +196,7 @@ public class LobbyController{
                 while(isLobbyWindowOpen) {
                     updateLobby();
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
