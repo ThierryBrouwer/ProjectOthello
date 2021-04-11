@@ -65,7 +65,7 @@ public class LobbyController{
         clearOnlineUsers(onlineUsersGrid);
 
         for (int i = 0; i < playerList.size(); i++) {
-            if (!nameExists(onlineUsersGrid, playerList.get(i))) {
+            if (!nameExists(onlineUsersGrid, playerList.get(i)) && !playerList.get(i).equals(Controller.playerNamestring)) {
                 if (!playerList.get(i).contains("Version 1.0")) {
                     Label gebruikersnaam = new Label(playerList.get(i));
                     ComboBox chooseGame = new ComboBox();

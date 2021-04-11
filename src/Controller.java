@@ -41,7 +41,7 @@ public class Controller {
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
 
-    public String playerNamestring;
+    public static String playerNamestring;
     public static Stage window;
     public PrintWriter pr;
     public Socket s;
