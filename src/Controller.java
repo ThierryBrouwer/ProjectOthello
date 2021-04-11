@@ -36,7 +36,8 @@ public class Controller {
     public static Reversi reversi;
     public static ReversiController reversiController;
     public static Connection con;
-    public static LobbyController lobbyController;;
+    public static LobbyController lobbyController;
+    ;
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
 
@@ -141,14 +142,16 @@ public class Controller {
 
                 Object gameType = con.getMsgHashMap().get("GAMETYPE");
 
-                if (gameType == "Tic-tac-toe"){
+                if (gameType == "Tic-tac-toe") {
                     game = ttt;
-                }
-                else{
+                } else {
                     game = reversi;
                     reversi.resetBoard();
                     //System.out.println("REVERSI");
                 }
+
+                // verwijder de challengers in challenger hashmap
+                challengers.clear();
 
                 ai = new AI(game);
 
@@ -198,12 +201,13 @@ public class Controller {
 
                 Object player = con.getMsgHashMap().get("PLAYER");
                 String player1 = (String) player;
-                if (!player1.equals(playerNamestring)){
+                if (!player1.equals(playerNamestring)) {
                     reversi.changePiece();
                     reversi.makeMove(pos);
                     reversi.changePiece();
+                } else {
+                    reversi.makeMove(pos);
                 }
-                else{reversi.makeMove(pos);}
 
                 break;
 
@@ -248,33 +252,41 @@ public class Controller {
     }
 
 
-
-
-
-
     // View
 
-    public void changeScreenChooseGame(ActionEvent actionEvent) throws IOException {
+    public void changeScreenChooseGame(ActionEvent actionEvent) {
+        try {
+            if (!playerName.getText().isEmpty()) {
+                // stuur playerName naar connection
+                startConnectie(playerName.getText());
 
-        if (!playerName.getText().isEmpty()) {
-            // stuur playerName naar connection
-            startConnectie(playerName.getText());
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Pane p = fxmlLoader.load(getClass().getResource("Lobby.fxml").openStream());
+                lobbyController = fxmlLoader.getController();
+                Scene nextScene = new Scene(p);
 
-            lobbyController = new LobbyController();
-            Parent nextParent = FXMLLoader.load(getClass().getResource("Lobby.fxml"));
+                window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                window.setScene(nextScene);
+                window.setResizable(false);
+                window.setTitle("Game Lobby");
 
-            Scene nextScene = new Scene(nextParent);
-
-            window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(nextScene);
-            window.setResizable(false);
-            window.setTitle("Game Lobby");
-
-            window.show();
-
+                window.show();
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
-        // else vul naam in!
+
+        try {
+            lobbyController.startInfiniteUpdating();
+
+        } catch (NullPointerException n) {
+            System.out.println(Controller.lobbyController);
+            n.printStackTrace();
+        }
+
     }
+
+        // else vul naam in!
 
     public void changeScreenTicTacToe(ActionEvent actionEvent) throws IOException {
         game = new TicTacToe();
@@ -297,21 +309,11 @@ public class Controller {
 
         try {
 
-            //Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
-            //Scene nextScene = new Scene(nextParent);
-
-//            FXMLLoader  root = new FXMLLoader(getClass().getResource("Reversi.fxml"));
-//            root.setController(this);
-
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("Reversi.fxml").openStream());
             reversiController = fxmlLoader.getController();
             Scene nextScene = new Scene (p);
 
-
-
-//
-//        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(nextScene);
             window.setResizable(false);
             window.setTitle("Reversi");

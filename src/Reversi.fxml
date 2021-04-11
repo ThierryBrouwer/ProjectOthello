@@ -363,23 +363,23 @@
                   <Font size="44.0" />
                </font>
             </Label>
-            <Label layoutX="915.0" layoutY="316.0" text="Player 1:" textFill="WHITE">
+            <Label fx:id="lblPlayer1" layoutX="915.0" layoutY="316.0" text="Player 1:" textFill="WHITE">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
-            <Label layoutX="915.0" layoutY="363.0" text="Player 2:" textFill="WHITE">
+            <Label fx:id="lblPlayer2" layoutX="915.0" layoutY="363.0" text="Player 2:" textFill="WHITE">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
             <Button layoutX="1054.0" layoutY="867.0" mnemonicParsing="false" onAction="#playerRequestsForfeit" prefHeight="36.0" prefWidth="105.0" text="Opgeven" />
-            <Label layoutX="1077.0" layoutY="316.0" text="2" textFill="WHITE">
+            <Label fx:id="lblBlackPoints" layoutX="1077.0" layoutY="316.0" text="2" textFill="WHITE">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
-            <Label layoutX="1076.0" layoutY="363.0" text="2" textFill="WHITE">
+            <Label fx:id="lblWhitePoints" layoutX="1076.0" layoutY="363.0" text="2" textFill="WHITE">
                <font>
                   <Font size="26.0" />
                </font>
@@ -389,7 +389,7 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label layoutX="1054.0" layoutY="509.0" text="Zwart" textFill="WHITE">
+            <Label fx:id="lblBeurt" layoutX="1054.0" layoutY="509.0" text="Zwart" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
@@ -404,6 +404,7 @@
                   <Font size="30.0" />
                </font>
             </Label>
+            <Button layoutX="918.0" layoutY="867.0" mnemonicParsing="false" onAction="#playerRequestsBack" prefHeight="36.0" prefWidth="105.0" text="Ga terug" />
          </children>
       </AnchorPane>
    </center>

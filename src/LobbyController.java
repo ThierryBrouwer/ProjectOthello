@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -57,9 +58,9 @@ public class LobbyController{
                     }
                 });
 
-                challengedYouGrid.add(gebruikersnaam, 0, 1);
+                challengedYouGrid.add(gebruikersnaam, 0, j + 1);
                 challengedYouGrid.add(game, 1, j + 1);
-                challengedYouGrid.add(accepteer, 2, 1);
+                challengedYouGrid.add(accepteer, 2, j + 1);
                 j++;
             }
         }
@@ -155,15 +156,41 @@ public class LobbyController{
     private void acceptChallenger(String challengerNumber) throws IOException {
         String challengernumber = challengerNumber;
         Controller.con.acceptChallenge(challengernumber);
-
-//        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
-//        Scene nextScene = new Scene(nextParent);
-////
-//        Stage window = Controller.window;
-//        window.setScene(nextScene);
-//        window.setResizable(false);
-//        window.setTitle("Reversi");
-//
-//        window.show();
     }
+
+    public void updateLobby() {
+        Platform.runLater(() -> {
+            updateOnlinePlayers();
+            updateChallengedUs();
+        });
+    }
+
+    public void startInfiniteUpdating()
+    {
+        // Create a Runnable
+        Runnable task = new Runnable()
+        {
+            public void run()
+            {
+                while(true) {
+                    updateLobby();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        // Run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // Terminate the running thread if the application exits
+        backgroundThread.setDaemon(true);
+        // Start the thread
+        backgroundThread.start();
+    }
+
+
+
 }
