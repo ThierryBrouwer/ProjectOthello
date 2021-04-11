@@ -37,9 +37,10 @@ public class Controller {
     public static ReversiController reversiController;
     public static Connection con;
     public static LobbyController lobbyController;
-    ;
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
+    public static String player1;
+    public static String player2;
 
     public static String playerNamestring;
     public static Stage window;
@@ -160,16 +161,19 @@ public class Controller {
                 //System.out.println(con.getMsgHashMap());
                 //System.out.println("playernaam = " + playerNamestring);
                 if (playertomove.equals(playerNamestring)) {
+                    player1 = (String) playertomove;
+                    player2 = (String) con.getMsgHashMap().get("OPPONENT");
                     break;
                 } else {
                     reversi.changePiece();
+                    player1 = (String) con.getMsgHashMap().get("OPPONENT");
+                    player2 = playerNamestring;
                     //System.out.println("ik doe een zet match start");
                     //int move = ai.makeMove();
                     //con.makeMove(move);
                     //game.updateBoard(move);
                     //yourturn = false;
                 }
-
                 break;
 
             case "SVR GAME YOURTURN":

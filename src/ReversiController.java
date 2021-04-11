@@ -27,8 +27,14 @@ public class ReversiController {
     public Label lblWhitePoints;
     public Label lblBeurt;
 
-    private String player1;
-    private String player2;
+    public ReversiController() {
+        // default waarden van labels veranderen
+        Platform.runLater(() -> {
+            lblPlayer1.setText(Controller.player1);
+            lblPlayer2.setText(Controller.player2);
+            lblBeurt.setText(Controller.player1);
+        });
+    }
 
     public void playerRequestsMove(ActionEvent actionEvent) {
 
@@ -49,6 +55,18 @@ public class ReversiController {
         Node result;
         System.out.println(grid);
         ObservableList<Node> childrens = grid.getChildren();
+
+        // update labels met de goede informatie
+        Platform.runLater(() -> {
+            lblBlackPoints.setText(Integer.toString(Controller.reversi.blackPoints()));
+            lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
+            // update beurt
+            if (Controller.reversi.getPiece() == 1) {
+                lblBeurt.setText(Controller.player1);
+            } else {
+                lblBeurt.setText(Controller.player2);
+            }
+        });
 
         for (Node node : childrens) {
 
@@ -91,20 +109,6 @@ public class ReversiController {
 
     public void playerRequestsForfeit(ActionEvent actionEvent) {
         Controller.con.forfeit();
-    }
-
-    public void setPlayer1(String player1) {
-        this.player1 = player1;
-        Platform.runLater(() -> {
-            lblPlayer1.setText(player1);
-        });
-    }
-
-    public void setPlayer2(String player2) {
-        this.player2 = player2;
-        Platform.runLater(() -> {
-            lblPlayer2.setText(player2);
-        });
     }
 
     public void playerRequestsBack(ActionEvent event) {

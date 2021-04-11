@@ -277,6 +277,10 @@ public class Reversi extends Game {
     public Board aiGetBoard() {
         return null;
     }
+
+    public int getPiece() {
+        return piece;
+    }
 }
 
 

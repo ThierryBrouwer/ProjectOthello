@@ -15,12 +15,8 @@ public class LobbyController{
     public GridPane onlineUsersGrid;
     public GridPane challengedYouGrid;
     ArrayList<String> playerList;
+    private boolean isLobbyWindowOpen = true;
 
-
-    public LobbyController() {
-//        challengers = new HashMap<String, HashMap>();
-        System.out.println(onlineUsersGrid);
-    }
 
     @FXML
     public void ververs(ActionEvent actionEvent) {
@@ -179,7 +175,7 @@ public class LobbyController{
         {
             public void run()
             {
-                while(true) {
+                while(isLobbyWindowOpen) {
                     updateLobby();
                     try {
                         Thread.sleep(5000);
