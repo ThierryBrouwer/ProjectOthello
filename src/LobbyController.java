@@ -1,21 +1,14 @@
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class LobbyController{
@@ -68,19 +61,23 @@ public class LobbyController{
 
     // deze methode ververst de lijst van online users
     public void updateOnlinePlayers() {
-        // onlineUsersGrid.getChildren().clear();
-        clearOnlineUsers(onlineUsersGrid);
         playerList = Controller.con.getPlayerlist();
+        clearOnlineUsers(onlineUsersGrid);
 
         for (int i = 0; i < playerList.size(); i++) {
+            if (!nameExists(onlineUsersGrid, playerList.get(i))) {
+                if (!playerList.get(i).contains("Version 1.0")) {
+                    Label gebruikersnaam = new Label(playerList.get(i));
+                    ComboBox chooseGame = new ComboBox();
+                    chooseGame.getItems().addAll("Boter, kaas en eieren", "Reversi");
+                    chooseGame.setOnAction(e -> challenge(chooseGame));
 
-            Label gebruikersnaam = new Label(playerList.get(i));
-            ComboBox chooseGame = new ComboBox();
-            chooseGame.getItems().addAll("Boter, kaas en eieren", "Reversi");
-            chooseGame.setOnAction(e -> challenge(chooseGame));
+                    int row = getRowCount(onlineUsersGrid);
 
-            onlineUsersGrid.add(gebruikersnaam, 0, i+1);
-            onlineUsersGrid.add(chooseGame, 1, i+1);
+                    onlineUsersGrid.add(gebruikersnaam, 0, row);
+                    onlineUsersGrid.add(chooseGame, 1, row);
+                }
+            }
         }
     }
 
@@ -146,7 +143,17 @@ public class LobbyController{
         for (Node node : childrens) {
             if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) {
                 if (grid.getRowIndex(node) != 0) {
-                    deleteNodes.add(node);
+                    if (grid.getColumnIndex(node) == 0) {
+
+                        Label lb = (Label) node;
+                        if (lb.getText() != null && playerList.contains(lb.getText())) {
+                            break;
+                        }
+                        else {
+                            System.out.println(playerList + "----------------> " + node.getId());
+                            deleteNodes.add(node);
+                        }
+                    }
                 }
             }
         }
@@ -189,6 +196,37 @@ public class LobbyController{
         backgroundThread.setDaemon(true);
         // Start the thread
         backgroundThread.start();
+    }
+
+    private int getRowCount(GridPane grid) {
+        int numRows = 0;
+        ObservableList<Node> childrens = grid.getChildren();
+
+        // loop door alle nodes van de GridPane om te checken hoeveel rijen er zijn
+        for (Node node : childrens) {
+            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) == 0) {
+                numRows += 1;
+            }
+        }
+        return numRows;
+    }
+
+    private boolean nameExists(GridPane grid, String name) {
+
+        ObservableList<Node> childrens = grid.getChildren();
+
+        // loop door alle nodes van de GridPane om de lijst leeg te maken.
+        for (Node node : childrens) {
+            if (grid.getRowIndex(node) != null && grid.getRowIndex(node) != 0) {
+                if (grid.getColumnIndex(node) == 0) {
+                    Label lb = (Label) node;
+                    if (lb.getText().equals(name)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 
