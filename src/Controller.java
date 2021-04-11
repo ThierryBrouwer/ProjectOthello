@@ -24,6 +24,12 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+/**
+ * Deze klasse zorgt verbind alle andere klasse met elkaar tot een geheel.
+ *
+ * @author Joost, Djordy, Joost, Thierry, Geert
+ * @version 11/4/2021
+ */
 public class Controller {
 
     public static TicTacToe ttt;
@@ -33,8 +39,6 @@ public class Controller {
     public static LobbyController lobbyController;;
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
-
-//    public Connection con;
 
     public String playerNamestring;
     public static Stage window;
@@ -48,12 +52,20 @@ public class Controller {
     public Boolean yourturn;
     private Game game;
 
+    /**
+     * Constructor voor objecten van de klasse Controller
+     */
     public Controller() {
         ttt = new TicTacToe();
         reversi = new Reversi();
         challengers = new HashMap<>();
     }
 
+    /**
+     * Met deze methode word de verbinding met de server gestart en in een aparte thread gezet
+     *
+     * @param playerNamestring is de naam van de speler waarmee je op de server inlogt
+     */
     public void startConnectie(String playerNamestring){
         //connectie in&output
         this.playerNamestring = playerNamestring;
@@ -69,25 +81,17 @@ public class Controller {
         con = new Connection(playerNamestring, pr);
         System.out.println("ik ben speler " + playerNamestring);
 
-        //Connection con2 = new Connection("Bassie");
 
-        //Thread t1 = new Thread(con);
-        //Thread t2 = new Thread(con2);
-
-        //t1.start();
-
-        //t2.start();
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
         gamethread.start();
 
     }
 
+    /**
+     * De methode die aan de server doorgeeft met welke naam de speler zichtbaar wilt zijn op het netwerk
+     *
+     */
     public void playGame() {
-        //con.selectGame("Tic-tac-toe");
-        //System.out.println(con.getCleanServermsg());
-        //System.out.println(con.getCleanServermsg());
-        //con.selectGame("Tic-tac-toe");
-
         pr.println("login " + playerNamestring);
         pr.flush();
 
@@ -112,6 +116,11 @@ public class Controller {
         }
     }
 
+    /**
+     * De methode die met behulp van een switch de juiste actie bij iedere binnenkomend server bericht uitvoerd.
+     *
+     * @param serverMsg is het gefilterde server bericht (dus zonder Map of List)
+     */
     public void useServerMessage(String serverMsg) {
         switch (serverMsg) {
             case "OK":
