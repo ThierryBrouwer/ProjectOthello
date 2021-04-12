@@ -87,7 +87,10 @@ public class Connection implements Runnable{
      * @return is het server bericht zonder de List of Map
      */
     public String dissect(String message){
-        if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
+        if (message.contains("ersion")){
+            return message;
+        }
+        else if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
             message = message.replace("\"", "");
             message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
