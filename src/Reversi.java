@@ -2,7 +2,6 @@ import javafx.application.Platform;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Reversi extends Game {
 
@@ -39,59 +38,70 @@ public class Reversi extends Game {
     }
 
    public void makeMove(int move) {
+       //convert van 1d naar 2d
+       int row = move / 8;
+       int col = move % 8;
+
+        if (isGameRunning && validMove(row, col)) {
+                // Steen plaatsen op positie rij, kolom op bord
+                board2d[row][col] = piece;
+
+                // Controleren welke 'kleur' (1 of 2) de tegenstander is
+                int opponent = 1;
+                if (piece == 1) {
+                    opponent = 2;
+                }
+
+                // controleer west
+                if (checkFlip(board2d, row - 1, col, -1, 0, piece, opponent))
+                    flipPieces(row - 1, col, -1, 0, piece, opponent);
+                // controleer oost
+                if (checkFlip(board2d, row + 1, col, 1, 0, piece, opponent))
+                    flipPieces(row + 1, col, 1, 0, piece, opponent);
+                // controleer zuid
+                if (checkFlip(board2d, row, col - 1, 0, -1, piece, opponent))
+                    flipPieces(row, col - 1, 0, -1, piece, opponent);
+                // controleer noord
+                if (checkFlip(board2d, row, col + 1, 0, 1, piece, opponent))
+                    flipPieces(row, col + 1, 0, 1, piece, opponent);
+                // controleer zuid west
+                if (checkFlip(board2d, row - 1, col - 1, -1, -1, piece, opponent))
+                    flipPieces(row - 1, col - 1, -1, -1, piece, opponent);
+                // controleer oost west
+                if (checkFlip(board2d, row + 1, col - 1, 1, -1, piece, opponent))
+                    flipPieces(row + 1, col - 1, 1, -1, piece, opponent);
+                // controleer noord west
+                if (checkFlip(board2d, row - 1, col + 1, -1, 1, piece, opponent))
+                    flipPieces(row - 1, col + 1, -1, 1, piece, opponent);
+                // controleer noord oost
+                if (checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent))
+                    flipPieces(row + 1, col + 1, 1, 1, piece, opponent);
 
 
-        //convert van 1d naar 2d
-        row = move / 8;
-        col = move % 8;
+                //swap beurt
+                //changePiece();
+                print2dBoard(board2d);
 
-        // Steen plaatsen op positie rij, kolom op bord
-        board2d[row][col] = piece;
+                //Platform.runLater(Controller.reversiController::updateView);
+                try {
+                    Platform.runLater(() -> {
+                        Controller.reversiController.updateView();
+                    });
 
-        // Controleren welke 'kleur' (1 of 2) de tegenstander is
-        int opponent = 1;
-        if (piece == 1) {
-            opponent = 2;
+                } catch (NullPointerException n) {
+                    System.out.println(Controller.reversiController);
+                    n.printStackTrace();
+                }
+
+                if (!isAI) {
+                    Controller.con.makeMove(move);
+                }
+
+            System.out.println("Het is niet jouw beurt");
         }
-
-
-        // controleer west
-        if (checkFlip(board2d, row - 1, col, -1, 0, piece, opponent))
-            flipPieces(row -1, col, -1, 0, piece, opponent);
-        // controleer oost
-        if (checkFlip(board2d, row + 1, col, 1, 0, piece, opponent))
-            flipPieces(row + 1, col, 1, 0, piece, opponent);
-        // controleer zuid
-        if (checkFlip(board2d, row, col - 1, 0, - 1, piece, opponent))
-            flipPieces(row, col - 1, 0, - 1, piece, opponent);
-        // controleer noord
-        if (checkFlip(board2d, row, col + 1, 0, 1, piece, opponent))
-            flipPieces(row, col + 1, 0, 1, piece, opponent);
-        // controleer zuid west
-        if (checkFlip(board2d, row - 1, col - 1, - 1, - 1, piece, opponent))
-            flipPieces(row - 1, col - 1, - 1, - 1, piece, opponent);
-        // controleer oost west
-        if (checkFlip(board2d, row + 1, col - 1,  1, - 1, piece, opponent))
-            flipPieces(row + 1, col - 1, 1, - 1, piece, opponent);
-        // controleer noord west
-        if (checkFlip(board2d, row - 1, col + 1, -1, 1, piece, opponent))
-            flipPieces(row - 1, col + 1, - 1, 1, piece, opponent);
-        // controleer noord oost
-        if (checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent))
-            flipPieces(row + 1, col + 1, 1, 1, piece, opponent);
-
-
-        //swap beurt
-        //changePiece();
-       print2dBoard(board2d);
-
-       //Platform.runLater(Controller.reversiController::updateView);
-       try {
-           Controller.reversiController.updateView();
-       } catch (NullPointerException n) {
-           System.out.println(Controller.reversiController);
-           n.printStackTrace();
-       }
+        else {
+            System.out.println("Oeps, je kan geen steentje zetten hier!");
+        }
     }
 
     public boolean checkFlip(int[][] board2d, int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {

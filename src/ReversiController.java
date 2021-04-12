@@ -30,9 +30,9 @@ public class ReversiController {
     public ReversiController() {
         // default waarden van labels veranderen
         Platform.runLater(() -> {
-            lblPlayer1.setText(Controller.player1);
-            lblPlayer2.setText(Controller.player2);
-            lblBeurt.setText(Controller.player1);
+            lblPlayer1.setText(Controller.game.player1);
+            lblPlayer2.setText(Controller.game.player2);
+            lblBeurt.setText(Controller.game.player1);
         });
     }
 
@@ -46,14 +46,15 @@ public class ReversiController {
         int columnsInRow = 8;
         int index = row*columnsInRow+column;
 
-        Controller.reversi.makeMove(index);
+        if (Controller.game.turn.equals(Controller.game.ourUsername)) {
+            Controller.reversi.makeMove(index);
+        }
     }
 
     public void updateView() {
 
         int[] board = Controller.reversi.boardConvertto1d();
         Node result;
-        System.out.println(grid);
         ObservableList<Node> childrens = grid.getChildren();
 
         // update labels met de goede informatie
@@ -62,9 +63,9 @@ public class ReversiController {
             lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
             // update beurt
             if (Controller.reversi.getPiece() == 1) {
-                lblBeurt.setText(Controller.player1);
+                lblBeurt.setText(Controller.game.player1);
             } else {
-                lblBeurt.setText(Controller.player2);
+                lblBeurt.setText(Controller.game.player2);
             }
         });
 

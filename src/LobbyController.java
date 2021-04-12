@@ -25,11 +25,10 @@ public class LobbyController{
     }
 
     @FXML
-    public void ververs(ActionEvent actionEvent) {
+    public void refresh(ActionEvent event) {
         System.out.println(Controller.challengers);
         updateOnlinePlayers();
         updateChallengedUs();
-
     }
 
     // deze methode ververst de lijst van mensen die ons uitdagen voor een spel
@@ -242,7 +241,5 @@ public class LobbyController{
         }
         return false;
     }
-
-
 
 }

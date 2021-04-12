@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="244.0" prefWidth="468.0" style="-fx-background-image: url('Images/Texture.jpg');" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <Button layoutX="146.0" layoutY="65.0" mnemonicParsing="false" onAction="#changeScreenTicTacToe" text="Boter, kaas en eieren">
+      <Button layoutX="146.0" layoutY="65.0" mnemonicParsing="false" onAction="#tttView" text="Boter, kaas en eieren">
          <font>
             <Font size="15.0" />
          </font>

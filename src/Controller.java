@@ -1,20 +1,12 @@
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +14,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 /**
  * Deze klasse zorgt verbind alle andere klasse met elkaar tot een geheel.
@@ -35,12 +26,12 @@ public class Controller {
     public static TicTacToe ttt;
     public static Reversi reversi;
     public static ReversiController reversiController;
+    public static TicTacToeController tttController;
     public static Connection con;
     public static LobbyController lobbyController;
+    public static Game game;
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
-    public static String player1;
-    public static String player2;
 
     public static String playerNamestring;
     public static Stage window;
@@ -52,7 +43,7 @@ public class Controller {
     public AI ai;
     //public TicTacToe game;
     public Boolean yourturn;
-    private Game game;
+
 
     /**
      * Constructor voor objecten van de klasse Controller
@@ -97,7 +88,6 @@ public class Controller {
         pr.println("login " + playerNamestring);
         pr.flush();
 
-
         try {
             InputStreamReader in = new InputStreamReader(s.getInputStream());
             bf = new BufferedReader(in);
@@ -130,75 +120,61 @@ public class Controller {
                 break;
 
             case "SVR GAME MATCH":
-                //System.out.println(serverMsg);
-                //System.out.println(con.getMsgHashMap());
-                //je weet nu dat je een hashmap kan krijgen met welke speler er nu aan de beurt is, het speltype en de naam van je tegenstander
                 //{GAMTYPE: "<speltype>", PLAYERTOMOVE: "<naam speler1>", OPPONENT: "<naam tegenstander>"}
-
-                //System.out.println(con.getMsgHashMap().get("PLAYERTOMOVE"));
-                //System.out.println(con.getMsgHashMap().get(" OPPONENT")); //Er moet een spatie voor de keys die niet het eerste in de hashmap staan. (dissect() moet daar nog op worden aangepast)
-
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
 
                 Object gameType = con.getMsgHashMap().get("GAMETYPE");
 
+                game.isGameRunning = true;
+
                 if (gameType == "Tic-tac-toe") {
                     game = ttt;
+                    Platform.runLater(this::tttView);
                 } else {
                     game = reversi;
                     reversi.resetBoard();
+                    Platform.runLater(this::reversiView);
                     //System.out.println("REVERSI");
                 }
 
                 // verwijder de challengers in challenger hashmap
                 challengers.clear();
 
-                ai = new AI(game);
+                ai = new AI();
 
-                Platform.runLater(this::reversiView);
-
-                //System.out.println(con.getMsgHashMap());
-                //System.out.println("playernaam = " + playerNamestring);
                 if (playertomove.equals(playerNamestring)) {
-                    player1 = (String) playertomove;
-                    player2 = (String) con.getMsgHashMap().get("OPPONENT");
+                    game.ourUsername = (String) playertomove;
+                    game.player1 = (String) playertomove;
+                    game.player2 = (String) con.getMsgHashMap().get("OPPONENT");
+                    game.turn = (String) playertomove;
                     break;
                 } else {
                     reversi.changePiece();
-                    player1 = (String) con.getMsgHashMap().get("OPPONENT");
-                    player2 = playerNamestring;
-                    //System.out.println("ik doe een zet match start");
-                    //int move = ai.makeMove();
-                    //con.makeMove(move);
-                    //game.updateBoard(move);
-                    //yourturn = false;
+                    game.player1 = (String) con.getMsgHashMap().get("OPPONENT");
+                    game.turn = (String) con.getMsgHashMap().get("OPPONENT");
+                    game.player2 = playerNamestring;
+                    game.ourUsername = playerNamestring;
+                    game.turn = (String) con.getMsgHashMap().get("OPPONENT");
                 }
                 break;
 
             case "SVR GAME YOURTURN":
                 System.out.println("Het is mijn beurt");
-                //System.out.println(con.getMsgHashMap());
-                //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
-                //System.out.println(serverMsg);
-                //int move = ai.makeMove();
-                //con.makeMove(move);
-                //game.updateBoard(move);
-                //yourturn = true;
-                int move3 = ai.makeMove();
-                con.makeMove(move3);
-                //game.updateBoard(move3);
-                //System.out.println("ik, " + playerNamestring + ", zet " + move3);
-                yourturn = false;
 
+                //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
+                if (game.isAI) {
+                    int move3 = ai.makeMove();
+                    con.makeMove(move3);
+                    yourturn = false;
+                }
 
                 break;
 
             case "SVR GAME MOVE":
                 System.out.println("GAME MOVE");
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
-                //System.out.println(serverMsg);
+
                 Object move1 = con.getMsgHashMap().get("MOVE");
                 String move2 = (String) move1;
                 int pos = Integer.parseInt(move2);
@@ -217,15 +193,19 @@ public class Controller {
 
             case "SVR GAME LOSS":
                 //verloren :(
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
                 //het laatste item, COMMENT, kan "Player forfeited match" zijn of "Client disconnected"
+                game.isGameRunning = false;
                 break;
 
             case "SVR GAME WIN":
                 //gewonnen :)
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
+                game.isGameRunning = false;
+                break;
+
+            case "DRAW":
+                game.isGameRunning = false;
                 break;
 
             case "SVR GAME CHALLENGE":
@@ -249,12 +229,8 @@ public class Controller {
             default:
                 System.out.println(serverMsg);
                 break;
-
         }
-
-
     }
-
 
     // View
 
@@ -292,21 +268,22 @@ public class Controller {
 
         // else vul naam in!
 
-    public void changeScreenTicTacToe(ActionEvent actionEvent) throws IOException {
-        game = new TicTacToe();
+    public void tttView(){
+        try {
 
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Pane p = fxmlLoader.load(getClass().getResource("TicTacToe.fxml").openStream());
+            tttController = fxmlLoader.getController();
+            Scene nextScene = new Scene (p);
 
-        Parent nextParent = FXMLLoader.load(getClass().getResource("TicTacToe.fxml"));
-        Scene nextScene = new Scene(nextParent);
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.setTitle("Boter, Kaas en Eieren");
 
-
-//
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(nextScene);
-        window.setResizable(true);
-        window.setTitle("Boter, Kaas en Eieren");
-
-        window.show();
+            window.show();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     public void reversiView() {

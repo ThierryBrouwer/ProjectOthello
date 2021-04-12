@@ -9,11 +9,10 @@ public class AI {
     Board board;
     Game game;
 
-    public AI(Game game){
-        this.game = game;
+    public AI() {
+        this.game = Controller.game;
     }
 
-    public AI(Reversi game){this.game = game;}
 
     public int makeMove(){
         if (game instanceof TicTacToe){
