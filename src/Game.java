@@ -4,6 +4,7 @@ public abstract class Game {
     int boardSize;
     public static String turn;
     public static String ourUsername;
+    public static String opponent;
     public static String player1;
     public static String player2;
     public static boolean isGameRunning;
@@ -21,8 +22,4 @@ public abstract class Game {
     public abstract Board aiGetBoard();
 
     //public Board aiGetBoard(){return null;}
-
-    public static void setTurn(String turn) {
-        Game.turn = turn;
-    }
 }

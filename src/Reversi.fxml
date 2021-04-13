@@ -172,12 +172,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/BlackCircle113.png');"  GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/WhiteCircle113.png')" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="4" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -212,12 +212,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/BlackCircle113.png');" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/WhiteCircle113.png');" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="4" GridPane.rowIndex="4">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -448,6 +448,20 @@
                   <Label layoutX="55.0" layoutY="11.0" style="-fx-font-weight: bold;" text="Reversie" textFill="WHITE">
                      <font>
                         <Font size="35.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="912.0" layoutY="97.0" prefHeight="29.0" prefWidth="253.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
+               <children>
+                  <Label layoutX="5.0" layoutY="3.0" prefHeight="26.0" prefWidth="91.0" text="Ingelogd als: " textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="loggedInAs" layoutX="94.0" layoutY="3.0" prefHeight="26.0" prefWidth="91.0" text="Gast" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
                      </font>
                   </Label>
                </children>

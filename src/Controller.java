@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 /**
- * Deze klasse zorgt verbind alle andere klasse met elkaar tot een geheel.
+ * Deze klasse verbindt alle andere klasse met elkaar tot een geheel.
  *
  * @author Joost, Djordy, Joost, Thierry, Geert
  * @version 11/4/2021
@@ -126,14 +126,15 @@ public class Controller {
 
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
 
-                Object gameType = con.getMsgHashMap().get("GAMETYPE");
+                Object gameType = (String) con.getMsgHashMap().get("GAMETYPE");
+                System.out.println(gameType);
 
                 game.isGameRunning = true;
 
-                if (gameType == "Tic-tac-toe") {
+                if (gameType.equals("Tic-tac-toe")) {
                     game = ttt;
                     Platform.runLater(this::tttView);
-                } else {
+                } else if (gameType.equals("Reversi")){
                     game = reversi;
                     reversi.resetBoard();
                     Platform.runLater(this::reversiView);
@@ -146,24 +147,25 @@ public class Controller {
                 ai = new AI();
 
                 if (playertomove.equals(playerNamestring)) {
-                    game.ourUsername = (String) playertomove;
-                    game.player1 = (String) playertomove;
-                    game.player2 = (String) con.getMsgHashMap().get("OPPONENT");
-                    game.turn = (String) playertomove;
+                    Game.ourUsername = (String) playertomove;
+                    Game.opponent = (String) con.getMsgHashMap().get("OPPONENT");
+                    Game.player1 = Game.ourUsername;
+                    Game.player2 = Game.opponent;
+
                     break;
                 } else {
                     reversi.changePiece();
-                    game.player1 = (String) con.getMsgHashMap().get("OPPONENT");
-                    game.turn = (String) con.getMsgHashMap().get("OPPONENT");
-                    game.player2 = playerNamestring;
-                    game.ourUsername = playerNamestring;
-                    game.turn = (String) con.getMsgHashMap().get("OPPONENT");
+                    Game.player1 = (String) con.getMsgHashMap().get("OPPONENT");
+                    Game.opponent = (String) con.getMsgHashMap().get("OPPONENT");
+                    Game.turn = Game.opponent;
+                    Game.player2 = playerNamestring;
+                    Game.ourUsername = playerNamestring;
+                    Game.turn = (String) con.getMsgHashMap().get("OPPONENT");
                 }
                 break;
 
             case "SVR GAME YOURTURN":
-                System.out.println("Het is mijn beurt");
-
+                Game.turn = Game.ourUsername;
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
                 if (game.isAI) {
                     int move3 = ai.makeMove();
@@ -238,12 +240,16 @@ public class Controller {
 
     public void changeScreenToLobby(ActionEvent actionEvent) {
         try {
+            // object aanmaken van LoginCheck, zodat we zijn methode kunnen gebruiken om te kijken of de username Valide is.
             LoginCheck loginCheck = new LoginCheck();
+
+            // check of alle waarden zijn ingevuld en controleer of de gebruikersnaam aan alle eisen voldoet.
             if (loginCheck.isUsernameValid(playerName.getText()) && !portNumber.getText().isEmpty() && !ip.getText().isEmpty()) {
-                System.out.println(loginCheck.isUsernameValid(playerName.getText()));
+
                 // stuur playerName naar connection
                 startConnectie(playerName.getText());
 
+                // verander huidige scherm naar het Lobby scherm
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Pane p = fxmlLoader.load(getClass().getResource("Lobby.fxml").openStream());
                 lobbyController = fxmlLoader.getController();
@@ -257,6 +263,7 @@ public class Controller {
                 window.show();
 
                 try {
+                    // deze methode wordt aangeroepen om de lijst van spelers en uitnodigenen elke x aantal seconden te verversen.
                     lobbyController.startInfiniteUpdating();
                 } catch (NullPointerException n) {
                     System.out.println(Controller.lobbyController);
@@ -278,6 +285,7 @@ public class Controller {
     public void tttView(){
         try {
 
+            // verander scherm naar TicTacToe scherm
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("TicTacToe.fxml").openStream());
             tttController = fxmlLoader.getController();
@@ -296,7 +304,7 @@ public class Controller {
     public void reversiView() {
 
         try {
-
+            // verander scherm naar Reversie scherm
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("Reversi.fxml").openStream());
             reversiController = fxmlLoader.getController();

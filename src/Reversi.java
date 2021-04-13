@@ -12,23 +12,6 @@ public class Reversi extends Game {
     private int col;
     private int piece;
 
-    public Reversi() {
-        spelerBeurt = 1;
-        Board b = new Board(64);
-        board = b.getBoard();
-
-        //begin positie invullen
-        board[27] = 1;
-        board[28] = 2;
-        board[35] = 2;
-        board[36] = 1;
-
-        piece = 2;
-
-        board2d = new int[8][8];
-        makeBoard2d();
-    }
-
     public void makeBoard2d() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -80,10 +63,16 @@ public class Reversi extends Game {
 
                 //swap beurt
                 //changePiece();
-                print2dBoard(board2d);
+                //print2dBoard(board2d);
+
+                if (!isAI) {
+                    Controller.con.makeMove(move);
+                }
 
                 //Platform.runLater(Controller.reversiController::updateView);
                 try {
+                    Game.turn = Game.opponent;
+                    //Controller.game.turn = Controller.game.opponent;
                     Platform.runLater(() -> {
                         Controller.reversiController.updateView();
                     });
@@ -93,9 +82,6 @@ public class Reversi extends Game {
                     n.printStackTrace();
                 }
 
-                if (!isAI) {
-                    Controller.con.makeMove(move);
-                }
 
             System.out.println("Het is niet jouw beurt");
         }
@@ -272,12 +258,12 @@ public class Reversi extends Game {
         board = b.getBoard();
 
         //begin positie invullen
-        board[27] = 1;
-        board[28] = 2;
-        board[35] = 2;
-        board[36] = 1;
+        board[27] = 2;
+        board[28] = 1;
+        board[35] = 1;
+        board[36] = 2;
 
-        piece = 2;
+        piece = 1;
 
         board2d = new int[8][8];
         makeBoard2d();

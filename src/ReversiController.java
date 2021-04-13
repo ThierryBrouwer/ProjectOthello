@@ -19,6 +19,9 @@ import java.io.IOException;
 
 public class ReversiController {
 
+    public static boolean isReversiOpen;
+    public Label loggedInAs;
+
     @FXML
     private GridPane grid;
     public Label lblPlayer1;
@@ -30,23 +33,27 @@ public class ReversiController {
     public ReversiController() {
         // default waarden van labels veranderen
         Platform.runLater(() -> {
-            lblPlayer1.setText(Controller.game.player1);
-            lblPlayer2.setText(Controller.game.player2);
-            lblBeurt.setText(Controller.game.player1);
+            lblPlayer1.setText(Game.player1);
+            lblPlayer2.setText(Game.player2);
+            lblBeurt.setText(Game.player1);
+            loggedInAs.setText(Game.ourUsername);
+            updateView();
         });
+        isReversiOpen = true;
+        refreshTurnNonStop();
     }
 
     public void playerRequestsMove(ActionEvent actionEvent) {
 
         Button button = (Button)actionEvent.getSource();
 
-        //send index to check if move is valid
+        // send index to check if move is valid
         int row = grid.getRowIndex(button);
         int column = grid.getColumnIndex(button);
         int columnsInRow = 8;
         int index = row*columnsInRow+column;
 
-        if (Controller.game.turn.equals(Controller.game.ourUsername)) {
+        if (Game.turn.equals(Game.ourUsername)) {
             Controller.reversi.makeMove(index);
         }
     }
@@ -63,9 +70,9 @@ public class ReversiController {
             lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
             // update beurt
             if (Controller.reversi.getPiece() == 1) {
-                lblBeurt.setText(Controller.game.player1);
+                lblBeurt.setText(Game.player1);
             } else {
-                lblBeurt.setText(Controller.game.player2);
+                lblBeurt.setText(Game.player2);
             }
         });
 
@@ -79,7 +86,6 @@ public class ReversiController {
                     int column = i - 8 * row;
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
-                        System.out.println(board[i]);
 
                         if (board[i] == 0) {
 
@@ -108,11 +114,11 @@ public class ReversiController {
         }
     }
 
-    public void playerRequestsForfeit(ActionEvent actionEvent) {
+    public void playerRequestsForfeit() {
         Controller.con.forfeit();
     }
 
-    public void playerRequestsBack(ActionEvent event) {
+    public void playerRequestsBack() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("Lobby.fxml").openStream());
@@ -125,6 +131,9 @@ public class ReversiController {
 
             Controller.window.show();
 
+            // zet updaten beurt uit
+            isReversiOpen = false;
+
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -135,5 +144,35 @@ public class ReversiController {
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
+    }
+
+    public void updateTurn() {
+        Platform.runLater(() -> {
+            lblBeurt.setText(Game.turn);
+        });
+    }
+
+    public void refreshTurnNonStop()
+    {
+        // Create a Runnable
+        Runnable task = new Runnable()
+        {
+            public void run()
+            {
+                while(isReversiOpen) {
+                    updateTurn();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        // run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // start the thread
+        backgroundThread.start();
     }
 }
