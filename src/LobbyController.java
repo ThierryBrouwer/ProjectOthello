@@ -65,7 +65,9 @@ public class LobbyController{
     public void updateOnlinePlayers() {
         playerList = Controller.con.getPlayerlist();
         clearGrid(onlineUsersGrid);
-
+        if (playerList == null){ //als de lijst met spelers leeg is gaan hebben we hier niks aan, dit is om een nullPointerError te voorkomen
+            return;
+        }
         for (int i = 0; i < playerList.size(); i++) {
             if (!nameExists(onlineUsersGrid, playerList.get(i)) && !playerList.get(i).equals(Controller.playerNamestring)) {
                 if (!playerList.get(i).contains("Version 1.0")) {
