@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -27,70 +28,78 @@
          </font>
       </Label>
       <Button layoutX="721.0" layoutY="842.0" mnemonicParsing="false" onAction="#refresh" text="Ververs" />
-      <GridPane fx:id="onlineUsersGrid" alignment="CENTER" gridLinesVisible="true" layoutX="42.0" layoutY="135.0" prefWidth="314.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label alignment="CENTER" text="Gebruikersnaam:" GridPane.RowIndex="0" GridPane.columnIndex="0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" text="Uitdagen voor:" GridPane.RowIndex="0" GridPane.columnIndex="1">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-         </children>
-      </GridPane>
-      <GridPane fx:id="challengedYouGrid" alignment="CENTER" gridLinesVisible="true" layoutX="435.0" layoutY="135.0" prefWidth="314.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="152.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="90.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" prefWidth="107.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Label alignment="CENTER" text="Gebruikersnaam:" GridPane.columnIndex="0" GridPane.rowIndex="0">
-               <font>
-                  <Font size="17.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" text="Spel" GridPane.columnIndex="1" GridPane.rowIndex="0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" text="Accepteren" GridPane.columnIndex="2" GridPane.rowIndex="0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-         </children>
-      </GridPane>
       <Label layoutX="26.0" layoutY="859.0" text="Ingelogd als:" />
-      <Label fx:id="uname" layoutX="110.0" layoutY="859.0" prefHeight="17.0" prefWidth="31.0" text="Gast" />
+      <Label fx:id="uname" layoutX="110.0" layoutY="859.0" prefHeight="17.0" prefWidth="223.0" text="Gast" />
+      <ScrollPane fitToWidth="true" layoutX="42.0" layoutY="135.0" maxHeight="630.0" maxWidth="326.0" prefHeight="630.0" prefWidth="326.0">
+         <content>
+            <GridPane fx:id="onlineUsersGrid" alignment="CENTER" gridLinesVisible="true" prefWidth="314.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" text="Gebruikersnaam:" GridPane.RowIndex="0" GridPane.columnIndex="0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER" text="Uitdagen voor:" GridPane.RowIndex="0" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <ScrollPane fitToWidth="true" layoutX="430.0" layoutY="135.0" maxHeight="630.0" maxWidth="326.0" prefHeight="630.0" prefWidth="326.0">
+         <content>
+            <GridPane fx:id="challengedYouGrid" alignment="CENTER" gridLinesVisible="true" prefWidth="314.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="152.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="90.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" prefWidth="107.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" text="Gebruikersnaam:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER" text="Spel" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER" text="Accepteren" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
 </Pane>

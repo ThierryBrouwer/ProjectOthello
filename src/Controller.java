@@ -43,6 +43,8 @@ public class Controller {
     public AI ai;
     //public TicTacToe game;
     public Boolean yourturn;
+    public TextField portNumber;
+    public TextField ip;
 
 
     /**
@@ -64,7 +66,7 @@ public class Controller {
         this.playerNamestring = playerNamestring;
 
         try {
-            s = new Socket("145.33.225.170", 7789);
+            s = new Socket(ip.getText(), Integer.parseInt(portNumber.getText()));
 
             this.pr = new PrintWriter(s.getOutputStream());
         } catch (IOException e) {
@@ -234,9 +236,11 @@ public class Controller {
 
     // View
 
-    public void changeScreenChooseGame(ActionEvent actionEvent) {
+    public void changeScreenToLobby(ActionEvent actionEvent) {
         try {
-            if (!playerName.getText().isEmpty()) {
+            LoginCheck loginCheck = new LoginCheck();
+            if (loginCheck.isUsernameValid(playerName.getText()) && !portNumber.getText().isEmpty() && !ip.getText().isEmpty()) {
+                System.out.println(loginCheck.isUsernameValid(playerName.getText()));
                 // stuur playerName naar connection
                 startConnectie(playerName.getText());
 
@@ -251,17 +255,20 @@ public class Controller {
                 window.setTitle("Game Lobby");
 
                 window.show();
+
+                try {
+                    lobbyController.startInfiniteUpdating();
+                } catch (NullPointerException n) {
+                    System.out.println(Controller.lobbyController);
+                    n.printStackTrace();
+                }
+
+            }
+            else {
+                System.out.println("Niet alle velden zijn correct ingevuld");
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
-        }
-
-        try {
-            lobbyController.startInfiniteUpdating();
-
-        } catch (NullPointerException n) {
-            System.out.println(Controller.lobbyController);
-            n.printStackTrace();
         }
 
     }
