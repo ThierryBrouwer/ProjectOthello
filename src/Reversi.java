@@ -76,12 +76,13 @@ public class Reversi extends Game {
                 //swap beurt
                 //changePiece();
                 //print2dBoard(board2d);
-                if (turn.equals(ourUsername)) {
-                    Controller.con.makeMove(move);
-                }
+
 
                 //Platform.runLater(Controller.reversiController::updateView);
             if (updateGui) {
+                if (turn.equals(ourUsername)) {
+                    Controller.con.makeMove(move);
+                }
                 try {
                     if (turn.equals(player1)) {
                         turn = player2;
@@ -98,9 +99,6 @@ public class Reversi extends Game {
                     n.printStackTrace();
                 }
             }
-        }
-        else {
-            System.out.println("Oeps, je kan geen steentje zetten hier!");
         }
     }
 
