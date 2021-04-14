@@ -439,7 +439,7 @@
             </GridPane>
             <AnchorPane layoutX="913.0" layoutY="854.0" prefHeight="55.0" prefWidth="253.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
                <children>
-                  <Button layoutX="13.0" layoutY="9.0" mnemonicParsing="false" onAction="#playerRequestsBack" prefHeight="36.0" prefWidth="105.0" text="Ga terug" />
+                  <Button disable="true" layoutX="13.0" layoutY="9.0" mnemonicParsing="false" onAction="#playerRequestsBack" prefHeight="36.0" prefWidth="105.0" text="Ga terug" />
                   <Button layoutX="135.0" layoutY="9.0" mnemonicParsing="false" onAction="#playerRequestsForfeit" prefHeight="36.0" prefWidth="105.0" text="Opgeven" />
                </children>
             </AnchorPane>

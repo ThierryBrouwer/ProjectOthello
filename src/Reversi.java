@@ -71,20 +71,23 @@ public class Reversi extends Game {
 
         board = boardConvertto1d();
 
-       //print2dBoard(board2d);
+            //print2dBoard(board2d);
 
                 //swap beurt
                 //changePiece();
                 //print2dBoard(board2d);
-
-                if (!isAI) {
+                if (turn.equals(ourUsername)) {
                     Controller.con.makeMove(move);
                 }
 
                 //Platform.runLater(Controller.reversiController::updateView);
             if (updateGui) {
                 try {
-                    Game.turn = Game.opponent;
+                    if (turn.equals(player1)) {
+                        turn = player2;
+                    } else {
+                        turn = player1;
+                    }
                     //Controller.game.turn = Controller.game.opponent;
                     Platform.runLater(() -> {
                         Controller.reversiController.updateView();
@@ -95,9 +98,6 @@ public class Reversi extends Game {
                     n.printStackTrace();
                 }
             }
-
-
-            System.out.println("Het is niet jouw beurt");
         }
         else {
             System.out.println("Oeps, je kan geen steentje zetten hier!");

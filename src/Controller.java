@@ -160,7 +160,6 @@ public class Controller {
                     Game.turn = Game.opponent;
                     Game.player2 = playerNamestring;
                     Game.ourUsername = playerNamestring;
-                    Game.turn = (String) con.getMsgHashMap().get("OPPONENT");
                 }
                 break;
 
@@ -170,7 +169,8 @@ public class Controller {
                 if (Game.isAI) {
                     System.out.println("binnen");
                     int move3 = ai.makeMove();
-                    con.makeMove(move3);
+                    reversi.makeMove(move3, true);
+                    //con.makeMove(move3);
                     yourturn = false;
                 }
 
