@@ -3,89 +3,179 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.lang.Integer.max;
+import static java.lang.Integer.min;
+
 public class AI {
 
 
     Board board;
     Game game;
+    private final int MAX_DEPTH = 8;
 
-    public AI(Game game){
+
+    public AI(Game game) {
         this.game = game;
     }
 
-    public AI(Reversi game){this.game = game;}
+    public AI(Reversi game) {
+        this.game = game;
+    }
 
-    public int makeMove(){
-        if (game instanceof TicTacToe){
+    public int makeMove() {
+        if (game instanceof TicTacToe) {
             this.board = game.aiGetBoard();
             return moveTicTacToe();
         }
-        if (game instanceof Reversi){
+        if (game instanceof Reversi) {
             return moveReversi();
-        }
-        else return -1;
+        } else return -1;
     }
 
     private int moveReversi() {
 
+
+//        Reversi rev = (Reversi) game;
+//        ArrayList<Pair> movelist2d = rev.getMoveList();
+//        int[] movelist = rev.convertMovesto1d(movelist2d);
+//        Random r = new Random();
+//        int i = r.nextInt(movelist.length);
+//        System.out.println("move reversi " + movelist[i]);
+//        String s = "";
+//        for(int j=0; j < movelist.length;j++) {
+//            s += movelist[j] + " ";
+//        }
+//        System.out.println(s);
+//        //rev.makeMove(movelist[i]);
+//        return movelist[i];
+
+
         Reversi rev = (Reversi) game;
         ArrayList<Pair> movelist2d = rev.getMoveList();
         int[] movelist = rev.convertMovesto1d(movelist2d);
-        Random r = new Random();
-        int i = r.nextInt(movelist.length);
-        System.out.println("move reversi " + movelist[i]);
-        String s = "";
-        for(int j=0; j < movelist.length;j++) {
-            s += movelist[j] + " ";
+
+
+        ArrayList<Reversi> children = new ArrayList<>();
+
+        int highestvalue = Integer.MIN_VALUE;
+        int lowestvalue = Integer.MAX_VALUE;
+        int bestmove = movelist[0];
+        int[] oldboard = rev.getBoard();
+        for (int i : movelist){
+
+            Reversi child = new Reversi();
+            int[] newboard = rev.copyboard(oldboard);
+
+            child.setBoard(newboard);
+
+            child.makeMove(i,false);
+            child.changePiece();
+            int value = miniMax(child, 0, true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+            if(rev.getPiece() == 2){
+                if (value > highestvalue){
+                    highestvalue = value;
+                    bestmove = i;
+
+                }
+                System.out.println("value: " + value + " move: " + i +  " bestmove: " + bestmove);
+            }
+
+            else{
+                if (value < lowestvalue){
+                    lowestvalue = value;
+                    bestmove = i;
+
+                }
+                System.out.println("value: " + value + " move: " + i +  " bestmove: " + bestmove);
+            }
+
+
         }
-        System.out.println(s);
-        //rev.makeMove(movelist[i]);
-        return movelist[i];
+
+
+
+        return bestmove;
     }
 
-    //return eerst mogelijke zet.
-    private int moveTicTacToe(){
+    //return random mogelijke zet.
+    private int moveTicTacToe() {
         Random r = new Random();
         int i = r.nextInt(8);
-        while(!board.isMoveLegal(i)){i = r.nextInt(8);}
+        while (!board.isMoveLegal(i)) {
+            i = r.nextInt(8);
+        }
         game.updateBoard(i);
         return i;
 
 
     }
 
-    /*
-    *** skelet voor miniMax algoritme, moet nog recursie in. ***
-    *
-
-    public int[] getLegalMoves(board){
-        return null;
+    private int evaluate(Reversi game) {
+        return game.whitePoints() - game.blackPoints();
     }
 
-    public int getBestMove(){
-        int[] legalmoves = getLegalMoves();
 
-        int bestvalue = -2;
-        int bestmove = -1;
+    public int miniMax(Reversi position, int depth, boolean isMax, int alpha, int beta) {
 
-        for (int move : legalmoves){
-            int movevalue = evaluatemove(move);
-            if (movevalue > bestvalue){
-                movevalue = bestvalue;
-                move = bestmove;
-            }
+        if (depth == MAX_DEPTH || position.convertMovesto1d(position.getMoveList()).length == 0){
+            return evaluate(position);
         }
-        return bestmove;
+
+        if (isMax){
+            int maxEval = Integer.MIN_VALUE;
+            for (Reversi child : position.getChildren(false)){
+                int eval = miniMax(child, depth +1, false, alpha, beta);
+                maxEval = max(maxEval, eval);
+                alpha = max(alpha, eval);
+                if (beta <= alpha){break;}
+            }
+            return maxEval;
+        }
+        else{
+            int minEval = Integer.MAX_VALUE;
+            for (Reversi child : position.getChildren(true)){
+                int eval = miniMax(child, depth +1, true, alpha, beta);
+                minEval = min(minEval, eval);
+                beta = min(alpha, eval);
+                if (beta <= alpha){break;}
+            }
+            return minEval;
+        }
     }
-
-    public int evaluateMove(int move){
-        checkWinner();
-        if (movewins){return 1;}
-        if (!movewins){return -1;}
-        else(movedraw){return 0;}
-    }
-
-    */
-
 }
+
+/*
+    public Move alphaBeta(Move move, int depth, int alp, int bet, boolean isMax) {
+        if (depth == MAXDEPTH || noChildren(move)) {
+            setScore(move);
+            return move;
+        }
+
+        if (isMax) {
+            int v = -inf;
+            for (Move child : getChildren(move)) {
+                v = max(v, alphaBeta(child, depth + 1, alp, bet, false);
+                alp = max(alp, v);
+                if (bet <= alp)
+                    break;
+            }
+            return v;
+        }
+        else {
+            int v = inf;
+            for (Move child : getChildren(board)) {
+                v = min(v, alphaBeta(child, depth + 1, alp, bet, true);
+                bet = min(bet, v);
+                if (bet <= alp)
+                    break;
+            }
+            return v;
+        }
+    }
+
+    Move root = new Move(0, this.board, “”);
+    Move nextMove = alphaBeta(root, 0, -inf, inf, true);
+*/
+
 

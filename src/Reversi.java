@@ -2,6 +2,7 @@ import javafx.application.Platform;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Reversi extends Game {
@@ -12,33 +13,35 @@ public class Reversi extends Game {
     private int row;
     private int col;
     private int piece;
+    private Board b;
+    private int lastmove;
 
     public Reversi() {
         spelerBeurt = 1;
-        Board b = new Board(64);
-        board = b.getBoard();
+        b = new Board(64);
+        this.board = b.getBoard();
 
         //begin positie invullen
-        board[27] = 1;
-        board[28] = 2;
-        board[35] = 2;
-        board[36] = 1;
+        this.board[27] = 1;
+        this.board[28] = 2;
+        this.board[35] = 2;
+        this.board[36] = 1;
 
         piece = 2;
 
-        board2d = new int[8][8];
+        this.board2d = new int[8][8];
         makeBoard2d();
     }
 
     public void makeBoard2d() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board2d[i][j] = board[(i * 8) + j];
+                this.board2d[i][j] = this.board[(i * 8) + j];
             }
         }
     }
 
-   public void makeMove(int move) {
+   public void makeMove(int move, boolean updateGui) {
 
 
         //convert van 1d naar 2d
@@ -46,6 +49,7 @@ public class Reversi extends Game {
         col = move % 8;
 
         // Steen plaatsen op positie rij, kolom op bord
+       makeBoard2d();
         board2d[row][col] = piece;
 
         // Controleren welke 'kleur' (1 of 2) de tegenstander is
@@ -80,17 +84,16 @@ public class Reversi extends Game {
         if (checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent))
             flipPieces(row + 1, col + 1, 1, 1, piece, opponent);
 
+        board = boardConvertto1d();
 
-        //swap beurt
-        //changePiece();
-       print2dBoard(board2d);
-
-       //Platform.runLater(Controller.reversiController::updateView);
-       try {
-           Controller.reversiController.updateView();
-       } catch (NullPointerException n) {
-           System.out.println(Controller.reversiController);
-           n.printStackTrace();
+       //print2dBoard(board2d);
+       if (updateGui) {
+           try {
+               Controller.reversiController.updateView();
+           } catch (NullPointerException n) {
+               System.out.println(Controller.reversiController);
+               n.printStackTrace();
+           }
        }
     }
 
@@ -182,7 +185,7 @@ public class Reversi extends Game {
     public int blackPoints() {
         int counter = 0;
         for (int i = 0; i < board.length; i++) {
-            if (board[i] == 1) {
+            if (board[i] == 2) {
                 counter++;
             }
         }
@@ -192,7 +195,7 @@ public class Reversi extends Game {
     public int whitePoints() {
         int counter = 0;
         for (int i = 0; i < board.length; i++) {
-            if (board[i] == 2) {
+            if (board[i] == 1) {
                 counter++;
             }
         }
@@ -243,7 +246,7 @@ public class Reversi extends Game {
             piece = 2;
         }
         else{piece = 1;}
-        System.out.println("Nu ben ik piece " + piece);
+        //System.out.println("Nu ben ik piece " + piece);
 
     }
 
@@ -271,6 +274,49 @@ public class Reversi extends Game {
 
         board2d = new int[8][8];
         makeBoard2d();
+    }
+
+    public void setBoard(int[] board){
+        this.board = board;
+        makeBoard2d();
+    }
+
+    public int[] getBoard() {
+        return this.board;
+    }
+
+    public ArrayList<Reversi> getChildren(boolean isOtherPlayer){
+        ArrayList<Reversi> children = new ArrayList<>();
+        //System.out.println(isOtherPlayer);
+        if (isOtherPlayer){changePiece();}
+        int[] movelist = convertMovesto1d(getMoveList());
+        for (int i : movelist){
+            Reversi child = new Reversi();
+            int[] oldboard = getBoard();
+            int[] newboard = copyboard(oldboard);
+
+            child.setBoard(newboard);
+
+            if (isOtherPlayer){child.changePiece();}
+            child.makeMove(i, false);
+            child.lastmove = i;
+            children.add(child);
+        }
+        return children;
+    }
+
+    public int[] copyboard(int[] board) {
+        int[] newboard = new int[64];
+        int j = 0;
+        for (int i : board) {
+            newboard[j] = i;
+            j++;
+        }
+        return newboard;
+    }
+
+    public int getPiece(){
+        return piece;
     }
 
     @Override

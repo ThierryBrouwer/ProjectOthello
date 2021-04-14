@@ -59,7 +59,7 @@ public class Controller {
         this.playerNamestring = playerNamestring;
 
         try {
-            s = new Socket("145.33.225.170", 7789);
+            s = new Socket("145.33.225.170", 7789); //145.33.225.170
 
             this.pr = new PrintWriter(s.getOutputStream());
         } catch (IOException e) {
@@ -164,15 +164,13 @@ public class Controller {
                 System.out.println("Het is mijn beurt");
                 //System.out.println(con.getMsgHashMap());
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
-                //System.out.println(serverMsg);
-                //int move = ai.makeMove();
-                //con.makeMove(move);
-                //game.updateBoard(move);
-                //yourturn = true;
+                //if ai speelt
                 int move3 = ai.makeMove();
+                reversi.makeMove(move3, true);
                 con.makeMove(move3);
-                //game.updateBoard(move3);
-                //System.out.println("ik, " + playerNamestring + ", zet " + move3);
+
+                //if speler speelt
+
                 yourturn = false;
 
 
@@ -191,10 +189,10 @@ public class Controller {
                 String player1 = (String) player;
                 if (!player1.equals(playerNamestring)){
                     reversi.changePiece();
-                    reversi.makeMove(pos);
+                    reversi.makeMove(pos, true);
                     reversi.changePiece();
                 }
-                else{reversi.makeMove(pos);}
+                else{reversi.makeMove(pos, true);}
 
                 break;
 

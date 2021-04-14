@@ -4,26 +4,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class Main extends Application{
 
     public static void main(String[] args) {
-//        Main main = new Main();
-//        main.test();
         Controller controller = new Controller();
-        //controller.startConnectie();
         launch(args);
 
-
-    }
-
-    public void test(){
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            Parent root = FXMLLoader.load(getClass().getResource("Lobby.fxml"));
-        }catch(IOException e){e.printStackTrace();}
+//        Reversi rev = new Reversi();
+//
+//        AI ai = new AI(rev);
+//        ai.makeMove();
+//        rev.changePiece();
+//        ai.makeMove();
     }
 
     @Override

@@ -27,7 +27,7 @@ public class ReversiController {
         //send index to check if move is valid
         int row = grid.getRowIndex(button);
         int column = grid.getColumnIndex(button);
-        int columnsInRow = 3;
+        int columnsInRow = 8;
         int index = row*columnsInRow+column;
 
 //        if (Controller.reversi.makeMove(index)) {
@@ -35,7 +35,7 @@ public class ReversiController {
 //            updateView(Controller.reversi.getBoard());
 //        }
 
-        Controller.reversi.makeMove(index);
+        Controller.reversi.makeMove(index,true);
 
 //        //updateBoard() testen
         int[] array1d = new int[64];
