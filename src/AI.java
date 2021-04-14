@@ -12,6 +12,7 @@ public class AI {
     Board board;
     Game game;
     private final int MAX_DEPTH = 8;
+    static int difficulty;
 
 
     public AI() {
@@ -31,70 +32,76 @@ public class AI {
     }
 
     private int moveReversi() {
+        if (difficulty == 1){
+            int move = useMiniMax();
+            return move;
+        }
+        else{
+            int move = useRandomMove();
+            return move;
+        }
 
+    }
 
-//        Reversi rev = (Reversi) game;
-//        ArrayList<Pair> movelist2d = rev.getMoveList();
-//        int[] movelist = rev.convertMovesto1d(movelist2d);
-//        Random r = new Random();
-//        int i = r.nextInt(movelist.length);
-//        System.out.println("move reversi " + movelist[i]);
-//        String s = "";
-//        for(int j=0; j < movelist.length;j++) {
-//            s += movelist[j] + " ";
-//        }
-//        System.out.println(s);
-//        //rev.makeMove(movelist[i]);
-//        return movelist[i];
-
-
+    private int useRandomMove(){
         Reversi rev = (Reversi) game;
         ArrayList<Pair> movelist2d = rev.getMoveList();
         int[] movelist = rev.convertMovesto1d(movelist2d);
+        Random r = new Random();
+        int i = r.nextInt(movelist.length);
+        System.out.println("move reversi " + movelist[i]);
+        String s = "";
+        for(int j=0; j < movelist.length;j++) {
+            s += movelist[j] + " ";
+        }
+        System.out.println(s);
+        //rev.makeMove(movelist[i]);
+        return movelist[i];
+    }
+
+    private int useMiniMax(){
+            Reversi rev = (Reversi) game;
+            ArrayList<Pair> movelist2d = rev.getMoveList();
+            int[] movelist = rev.convertMovesto1d(movelist2d);
 
 
-        ArrayList<Reversi> children = new ArrayList<>();
+            ArrayList<Reversi> children = new ArrayList<>();
 
-        int highestvalue = Integer.MIN_VALUE;
-        int lowestvalue = Integer.MAX_VALUE;
-        int bestmove = movelist[0];
-        int[] oldboard = rev.getBoard();
-        for (int i : movelist){
+            int highestvalue = Integer.MIN_VALUE;
+            int lowestvalue = Integer.MAX_VALUE;
+            int bestmove = movelist[0];
+            int[] oldboard = rev.getBoard();
+            for (int i : movelist){
 
-            Reversi child = new Reversi();
-            int[] newboard = rev.copyboard(oldboard);
+                Reversi child = new Reversi();
+                int[] newboard = rev.copyboard(oldboard);
 
-            child.setBoard(newboard);
+                child.setBoard(newboard);
 
-            child.makeMove(i,false);
-            child.changePiece();
-            int value = miniMax(child, 0, true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                child.makeMove(i,false);
+                child.changePiece();
+                int value = miniMax(child, 0, true, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
-            if(rev.getPiece() == 2){
-                if (value > highestvalue){
-                    highestvalue = value;
-                    bestmove = i;
-
+                if(rev.getPiece() == 1){
+                    if (value > highestvalue){
+                        highestvalue = value;
+                        bestmove = i;
+                    }
+                    System.out.println("value: " + value + " move: " + i +  " bestmove: " + bestmove);
                 }
-                System.out.println("value: " + value + " move: " + i +  " bestmove: " + bestmove);
-            }
-
-            else{
-                if (value < lowestvalue){
-                    lowestvalue = value;
-                    bestmove = i;
-
+                else{
+                    if (value < lowestvalue){
+                        lowestvalue = value;
+                        bestmove = i;
+                    }
+                    System.out.println("value: " + value + " move: " + i +  " bestmove: " + bestmove);
                 }
-                System.out.println("value: " + value + " move: " + i +  " bestmove: " + bestmove);
+
+
             }
-
-
+            return bestmove;
         }
 
-
-
-        return bestmove;
-    }
 
     //return random mogelijke zet.
     private int moveTicTacToe() {

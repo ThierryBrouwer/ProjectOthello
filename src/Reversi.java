@@ -190,7 +190,7 @@ public class Reversi extends Game {
     public int blackPoints() {
         int counter = 0;
         for (int i = 0; i < board.length; i++) {
-            if (board[i] == 2) {
+            if (board[i] == 1) {
                 counter++;
             }
         }
@@ -200,7 +200,7 @@ public class Reversi extends Game {
     public int whitePoints() {
         int counter = 0;
         for (int i = 0; i < board.length; i++) {
-            if (board[i] == 1) {
+            if (board[i] == 2) {
                 counter++;
             }
         }
