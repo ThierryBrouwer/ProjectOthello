@@ -46,72 +46,68 @@ public class ReversiController {
 
             updateView();
         });
+
         isReversiOpen = true;
-        refreshTurnNonStop();
+        refreshTurnNonStop(); // refresh elke x aantal seconden waarden in deze window
     }
 
     public void playerRequestsMove(ActionEvent actionEvent) {
 
         Button button = (Button)actionEvent.getSource();
 
-        // send index to check if move is valid
+        // maak van een 2d positie een 1d positie
         int row = grid.getRowIndex(button);
         int column = grid.getColumnIndex(button);
         int columnsInRow = 8;
         int index = row*columnsInRow+column;
 
-        if (Game.turn.equals(Game.ourUsername)) {
-            Controller.reversi.makeMove(index, true);
+        if (Game.turn.equals(Game.ourUsername)) { // check of het onze beurt is
+            Controller.reversi.makeMove(index, true); // verzend de gewenste positie
         }
     }
 
     public void updateView() {
-
+        // sla het huidige board op in int[] board
         int[] board = Controller.reversi.boardConvertto1d();
-        Node result;
+
+        // maak een ObservableList met nodes, zodat we door alle nodes van de grid kunnen loopen
         ObservableList<Node> childrens = grid.getChildren();
 
-        // update labels met de goede informatie
-
+        // update labels met de goede informatie van de punten
         lblBlackPoints.setText(Integer.toString(Controller.reversi.blackPoints()));
         lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
-        // update beurt
-        if (Controller.reversi.getPiece() == 1) {
-            lblBeurt.setText(Game.player1);
-        } else {
-            lblBeurt.setText(Game.player2);
-        }
 
+        for (Node node : childrens) { // loop door alle nodes van de grid
 
-        for (Node node : childrens) {
+            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) { // check of de row en column index niet null zijn, nullpointer exceptions te voorkomen
 
-            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) {
-
-                for (int i = 0; i < board.length; i++) {
+                for (int i = 0; i < board.length; i++) { // loop door de lengte van het board
 
                     int row = i / 8;
                     int column = i - 8 * row;
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
 
-                        if (board[i] == 0) {
+                        if (board[i] == 0) { // dit vakje is door niemand in bezit
 
-                            result = node;
-                            Button button = (Button) result;
-                            button.setStyle("-fx-background-color: green;");
+                            // cast de node naar een button, zodat we de styling hiervan kunnen veranden
+                            Button button = (Button) node;
+                            button.setStyle("-fx-background-color: green;"); // maak het vakje groen
                             break;
                         }
-                        if (board[i] == 1) {
+                        if (board[i] == 1) { // dit vakje is door zwart in bezit
 
-                            result = node;
-                            Button button = (Button) result;
+                            // cast de node naar een button, zodat we de styling hiervan kunnen veranden
+                            Button button = (Button) node;
+                            // maak het vakje groen en zet er een zwart steentje op
                             button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/BlackCircle113.png')");
                             break;
                         }
-                        if (board[i] == 2) {
+                        if (board[i] == 2) { // dit vakje is door wit in bezit
 
-                            result = node;
-                            Button button = (Button) result;
+                            // cast de node naar een button, zodat we de styling hiervan kunnen veranden
+                            Button button = (Button) node;
+                            // maak het vakje groen en zet er een wit steentje op
                             button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/WhiteCircle113.png')");
                             break;
                         }
@@ -122,11 +118,14 @@ public class ReversiController {
     }
 
     public void playerRequestsForfeit() {
-        Controller.con.forfeit();
+        Controller.con.forfeit(); // geeft de server mee dat we op willen geven
     }
 
     public void playerRequestsBack() {
         try {
+            isReversiOpen = false; // zet de infinite loop om gegevens op te halen uit
+
+            // open de window van de Lobby
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("Lobby.fxml").openStream());
             Controller.lobbyController = fxmlLoader.getController();
@@ -135,11 +134,7 @@ public class ReversiController {
             Controller.window.setScene(nextScene);
             Controller.window.setResizable(false);
             Controller.window.setTitle("Game Lobby");
-
             Controller.window.show();
-
-            // zet updaten beurt uit
-            isReversiOpen = false;
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -155,7 +150,7 @@ public class ReversiController {
 
     public void updateTurn() {
         Platform.runLater(() -> {
-            lblBeurt.setText(Game.turn);
+            lblBeurt.setText(Game.turn); // set de beurt naar de persoon die aan de beurt is.
         });
     }
 
@@ -202,7 +197,7 @@ public class ReversiController {
                     }
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(100); // we voeren elke x aantal miliseconden de bovenstaande code uit
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -210,9 +205,9 @@ public class ReversiController {
             }
         };
 
-        // run the task in a background thread
+        // voer de opdracht in een background thread uit
         Thread backgroundThread = new Thread(task);
-        // start the thread
+        // start de thread
         backgroundThread.start();
     }
 }

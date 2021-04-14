@@ -17,9 +17,10 @@ public class LobbyController{
     public Label uname;
     public ComboBox cbDifficultyAI;
     ArrayList<String> playerList;
-    private boolean isLobbyWindowOpen = true;
+    static boolean isLobbyWindowOpen;
 
     public LobbyController() {
+        isLobbyWindowOpen = true;
         Platform.runLater(() -> {
             uname.setText(Controller.playerNamestring);
             cbDifficultyAI.getItems().addAll("Normaal", "Moeilijk");
@@ -209,8 +210,7 @@ public class LobbyController{
 
         // Run the task in a background thread
         Thread backgroundThread = new Thread(task);
-        // Terminate the running thread if the application exits
-        backgroundThread.setDaemon(true);
+
         // Start the thread
         backgroundThread.start();
     }
@@ -263,7 +263,6 @@ public class LobbyController{
                 Platform.runLater(() -> {
                     AI.difficulty = 0; // verander de difficulty van de AI
                 });
-
                 break;
 
             case "Moeilijk":

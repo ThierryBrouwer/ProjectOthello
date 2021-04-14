@@ -131,6 +131,7 @@ public class Controller {
 
                 Game.isGameRunning = true;
                 Game.stateOfGame = 0;
+                LobbyController.isLobbyWindowOpen = false;
 
                 if (gameType.equals("Tic-tac-toe")) {
                     game = ttt;
@@ -211,7 +212,7 @@ public class Controller {
                 Game.stateOfGame = 1;
                 break;
 
-            case "DRAW":
+            case "SVR GAME DRAW":
                 Game.isGameRunning = false;
                 Game.stateOfGame = 3;
                 break;
