@@ -129,7 +129,8 @@ public class Controller {
                 Object gameType = (String) con.getMsgHashMap().get("GAMETYPE");
                 System.out.println(gameType);
 
-                game.isGameRunning = true;
+                Game.isGameRunning = true;
+                Game.stateOfGame = 0;
 
                 if (gameType.equals("Tic-tac-toe")) {
                     game = ttt;
@@ -199,17 +200,20 @@ public class Controller {
                 //verloren :(
                 //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
                 //het laatste item, COMMENT, kan "Player forfeited match" zijn of "Client disconnected"
-                game.isGameRunning = false;
+                Game.isGameRunning = false;
+                Game.stateOfGame = 2;
                 break;
 
             case "SVR GAME WIN":
                 //gewonnen :)
                 //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
-                game.isGameRunning = false;
+                Game.isGameRunning = false;
+                Game.stateOfGame = 1;
                 break;
 
             case "DRAW":
-                game.isGameRunning = false;
+                Game.isGameRunning = false;
+                Game.stateOfGame = 3;
                 break;
 
             case "SVR GAME CHALLENGE":

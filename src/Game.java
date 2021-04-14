@@ -7,6 +7,7 @@ public abstract class Game {
     public static String opponent;
     public static String player1;
     public static String player2;
+    public static int stateOfGame; // 0 = game is still going; 1 = won; 2 = lost; 3 = Draw
     public static boolean isGameRunning;
     public static boolean isAI = false;
 
