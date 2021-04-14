@@ -14,22 +14,20 @@ public class AI {
     private final int MAX_DEPTH = 8;
 
 
-    public AI(Game game) {
-        this.game = game;
+    public AI() {
+        this.game = Controller.game;
     }
 
-    public AI(Reversi game) {
-        this.game = game;
-    }
 
-    public int makeMove() {
-        if (game instanceof TicTacToe) {
+    public int makeMove(){
+        if (game instanceof TicTacToe){
             this.board = game.aiGetBoard();
             return moveTicTacToe();
         }
-        if (game instanceof Reversi) {
+        if (game instanceof Reversi){
             return moveReversi();
-        } else return -1;
+        }
+        else return -1;
     }
 
     private int moveReversi() {
@@ -145,37 +143,5 @@ public class AI {
     }
 }
 
-/*
-    public Move alphaBeta(Move move, int depth, int alp, int bet, boolean isMax) {
-        if (depth == MAXDEPTH || noChildren(move)) {
-            setScore(move);
-            return move;
-        }
-
-        if (isMax) {
-            int v = -inf;
-            for (Move child : getChildren(move)) {
-                v = max(v, alphaBeta(child, depth + 1, alp, bet, false);
-                alp = max(alp, v);
-                if (bet <= alp)
-                    break;
-            }
-            return v;
-        }
-        else {
-            int v = inf;
-            for (Move child : getChildren(board)) {
-                v = min(v, alphaBeta(child, depth + 1, alp, bet, true);
-                bet = min(bet, v);
-                if (bet <= alp)
-                    break;
-            }
-            return v;
-        }
-    }
-
-    Move root = new Move(0, this.board, “”);
-    Move nextMove = alphaBeta(root, 0, -inf, inf, true);
-*/
 
 

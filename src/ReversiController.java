@@ -6,8 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
@@ -15,41 +19,42 @@ import java.io.IOException;
 
 public class ReversiController {
 
+    public static boolean isReversiOpen;
+    public Label loggedInAs;
+
     @FXML
     private GridPane grid;
+    public Label lblPlayer1;
+    public Label lblPlayer2;
+    public Label lblBlackPoints;
+    public Label lblWhitePoints;
+    public Label lblBeurt;
+
+    public ReversiController() {
+        // default waarden van labels veranderen
+        Platform.runLater(() -> {
+            lblPlayer1.setText(Game.player1);
+            lblPlayer2.setText(Game.player2);
+            lblBeurt.setText(Game.player1);
+            loggedInAs.setText(Game.ourUsername);
+            updateView();
+        });
+        isReversiOpen = true;
+        refreshTurnNonStop();
+    }
 
     public void playerRequestsMove(ActionEvent actionEvent) {
 
         Button button = (Button)actionEvent.getSource();
 
-         //button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/WhiteCircle113.png')");
-
-        //send index to check if move is valid
+        // send index to check if move is valid
         int row = grid.getRowIndex(button);
         int column = grid.getColumnIndex(button);
         int columnsInRow = 8;
         int index = row*columnsInRow+column;
 
-//        if (Controller.reversi.makeMove(index)) {
-//            Controller.reversi.updateBoard(index);
-//            updateView(Controller.reversi.getBoard());
-//        }
-
-        Controller.reversi.makeMove(index,true);
-
-//        //updateBoard() testen
-        int[] array1d = new int[64];
-//        for (int i = 0; i < 64; i++) {
-//            arr[i] = (int)(Math.random() * ((2-0) + 1)) + 0;
-//        }
-//
-//        updateBoard(arr);
-        int[][] array2d = new int[8][8];
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                index = i*8+j;
-                array2d[i][j] = array1d[index];
-            }
+        if (Game.turn.equals(Game.ourUsername)) {
+            Controller.reversi.makeMove(index);
         }
     }
 
@@ -57,8 +62,19 @@ public class ReversiController {
 
         int[] board = Controller.reversi.boardConvertto1d();
         Node result;
-        System.out.println(grid);
         ObservableList<Node> childrens = grid.getChildren();
+
+        // update labels met de goede informatie
+        Platform.runLater(() -> {
+            lblBlackPoints.setText(Integer.toString(Controller.reversi.blackPoints()));
+            lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
+            // update beurt
+            if (Controller.reversi.getPiece() == 1) {
+                lblBeurt.setText(Game.player1);
+            } else {
+                lblBeurt.setText(Game.player2);
+            }
+        });
 
         for (Node node : childrens) {
 
@@ -68,10 +84,8 @@ public class ReversiController {
 
                     int row = i / 8;
                     int column = i - 8 * row;
-                    //System.out.println(row + ", " + column + ", " + grid.getRowIndex(node) + ", " + grid.getColumnIndex(node));
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
-                        System.out.println(board[i]);
 
                         if (board[i] == 0) {
 
@@ -100,7 +114,65 @@ public class ReversiController {
         }
     }
 
-    public void playerRequestsForfeit(ActionEvent actionEvent) {
+    public void playerRequestsForfeit() {
         Controller.con.forfeit();
+    }
+
+    public void playerRequestsBack() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Pane p = fxmlLoader.load(getClass().getResource("Lobby.fxml").openStream());
+            Controller.lobbyController = fxmlLoader.getController();
+            Scene nextScene = new Scene(p);
+
+            Controller.window.setScene(nextScene);
+            Controller.window.setResizable(false);
+            Controller.window.setTitle("Game Lobby");
+
+            Controller.window.show();
+
+            // zet updaten beurt uit
+            isReversiOpen = false;
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+        try {
+            Platform.runLater(Controller.lobbyController::startInfiniteUpdating);
+
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
+    }
+
+    public void updateTurn() {
+        Platform.runLater(() -> {
+            lblBeurt.setText(Game.turn);
+        });
+    }
+
+    public void refreshTurnNonStop()
+    {
+        // Create a Runnable
+        Runnable task = new Runnable()
+        {
+            public void run()
+            {
+                while(isReversiOpen) {
+                    updateTurn();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        // run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // start the thread
+        backgroundThread.start();
     }
 }

@@ -16,23 +16,6 @@ public class Reversi extends Game {
     private Board b;
     private int lastmove;
 
-    public Reversi() {
-        spelerBeurt = 1;
-        b = new Board(64);
-        this.board = b.getBoard();
-
-        //begin positie invullen
-        this.board[27] = 1;
-        this.board[28] = 2;
-        this.board[35] = 2;
-        this.board[36] = 1;
-
-        piece = 2;
-
-        this.board2d = new int[8][8];
-        makeBoard2d();
-    }
-
     public void makeBoard2d() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -42,59 +25,79 @@ public class Reversi extends Game {
     }
 
    public void makeMove(int move, boolean updateGui) {
-
-
         //convert van 1d naar 2d
         row = move / 8;
         col = move % 8;
 
-        // Steen plaatsen op positie rij, kolom op bord
-       makeBoard2d();
-        board2d[row][col] = piece;
+        if (isGameRunning && validMove(row, col)) {
+                // Steen plaatsen op positie rij, kolom op bord
+                makeBoard2d();
+                board2d[row][col] = piece;
 
-        // Controleren welke 'kleur' (1 of 2) de tegenstander is
-        int opponent = 1;
-        if (piece == 1) {
-            opponent = 2;
-        }
+                // Controleren welke 'kleur' (1 of 2) de tegenstander is
+                int opponent = 1;
+                if (piece == 1) {
+                    opponent = 2;
+                }
 
-
-        // controleer west
-        if (checkFlip(board2d, row - 1, col, -1, 0, piece, opponent))
-            flipPieces(row -1, col, -1, 0, piece, opponent);
-        // controleer oost
-        if (checkFlip(board2d, row + 1, col, 1, 0, piece, opponent))
-            flipPieces(row + 1, col, 1, 0, piece, opponent);
-        // controleer zuid
-        if (checkFlip(board2d, row, col - 1, 0, - 1, piece, opponent))
-            flipPieces(row, col - 1, 0, - 1, piece, opponent);
-        // controleer noord
-        if (checkFlip(board2d, row, col + 1, 0, 1, piece, opponent))
-            flipPieces(row, col + 1, 0, 1, piece, opponent);
-        // controleer zuid west
-        if (checkFlip(board2d, row - 1, col - 1, - 1, - 1, piece, opponent))
-            flipPieces(row - 1, col - 1, - 1, - 1, piece, opponent);
-        // controleer oost west
-        if (checkFlip(board2d, row + 1, col - 1,  1, - 1, piece, opponent))
-            flipPieces(row + 1, col - 1, 1, - 1, piece, opponent);
-        // controleer noord west
-        if (checkFlip(board2d, row - 1, col + 1, -1, 1, piece, opponent))
-            flipPieces(row - 1, col + 1, - 1, 1, piece, opponent);
-        // controleer noord oost
-        if (checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent))
-            flipPieces(row + 1, col + 1, 1, 1, piece, opponent);
+                // controleer west
+                if (checkFlip(board2d, row - 1, col, -1, 0, piece, opponent))
+                    flipPieces(row - 1, col, -1, 0, piece, opponent);
+                // controleer oost
+                if (checkFlip(board2d, row + 1, col, 1, 0, piece, opponent))
+                    flipPieces(row + 1, col, 1, 0, piece, opponent);
+                // controleer zuid
+                if (checkFlip(board2d, row, col - 1, 0, -1, piece, opponent))
+                    flipPieces(row, col - 1, 0, -1, piece, opponent);
+                // controleer noord
+                if (checkFlip(board2d, row, col + 1, 0, 1, piece, opponent))
+                    flipPieces(row, col + 1, 0, 1, piece, opponent);
+                // controleer zuid west
+                if (checkFlip(board2d, row - 1, col - 1, -1, -1, piece, opponent))
+                    flipPieces(row - 1, col - 1, -1, -1, piece, opponent);
+                // controleer oost west
+                if (checkFlip(board2d, row + 1, col - 1, 1, -1, piece, opponent))
+                    flipPieces(row + 1, col - 1, 1, -1, piece, opponent);
+                // controleer noord west
+                if (checkFlip(board2d, row - 1, col + 1, -1, 1, piece, opponent))
+                    flipPieces(row - 1, col + 1, -1, 1, piece, opponent);
+                // controleer noord oost
+                if (checkFlip(board2d, row + 1, col + 1, 1, 1, piece, opponent))
+                    flipPieces(row + 1, col + 1, 1, 1, piece, opponent);
 
         board = boardConvertto1d();
 
        //print2dBoard(board2d);
-       if (updateGui) {
-           try {
-               Controller.reversiController.updateView();
-           } catch (NullPointerException n) {
-               System.out.println(Controller.reversiController);
-               n.printStackTrace();
-           }
-       }
+
+                //swap beurt
+                //changePiece();
+                //print2dBoard(board2d);
+
+                if (!isAI) {
+                    Controller.con.makeMove(move);
+                }
+
+                //Platform.runLater(Controller.reversiController::updateView);
+            if (updateGui) {
+                try {
+                    Game.turn = Game.opponent;
+                    //Controller.game.turn = Controller.game.opponent;
+                    Platform.runLater(() -> {
+                        Controller.reversiController.updateView();
+                    });
+
+                } catch (NullPointerException n) {
+                    System.out.println(Controller.reversiController);
+                    n.printStackTrace();
+                }
+            }
+
+
+            System.out.println("Het is niet jouw beurt");
+        }
+        else {
+            System.out.println("Oeps, je kan geen steentje zetten hier!");
+        }
     }
 
     public boolean checkFlip(int[][] board2d, int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {
@@ -265,12 +268,12 @@ public class Reversi extends Game {
         board = b.getBoard();
 
         //begin positie invullen
-        board[27] = 1;
-        board[28] = 2;
-        board[35] = 2;
-        board[36] = 1;
+        board[27] = 2;
+        board[28] = 1;
+        board[35] = 1;
+        board[36] = 2;
 
-        piece = 2;
+        piece = 1;
 
         board2d = new int[8][8];
         makeBoard2d();
@@ -322,6 +325,10 @@ public class Reversi extends Game {
     @Override
     public Board aiGetBoard() {
         return null;
+    }
+
+    public int getPiece() {
+        return piece;
     }
 }
 

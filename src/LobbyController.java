@@ -1,85 +1,85 @@
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class LobbyController{
     public GridPane onlineUsersGrid;
     public GridPane challengedYouGrid;
+    public Label uname;
     ArrayList<String> playerList;
-
+    private boolean isLobbyWindowOpen = true;
 
     public LobbyController() {
-//        challengers = new HashMap<String, HashMap>();
-        System.out.println(onlineUsersGrid);
+        Platform.runLater(() -> {
+            uname.setText(Controller.playerNamestring);
+        });
     }
 
     @FXML
-    public void ververs(ActionEvent actionEvent) {
+    public void refresh() {
         System.out.println(Controller.challengers);
         updateOnlinePlayers();
         updateChallengedUs();
-
     }
 
     // deze methode ververst de lijst van mensen die ons uitdagen voor een spel
     public void updateChallengedUs() {
-        clearOnlineUsers(challengedYouGrid);
-        int j =0;
         HashMap<String, HashMap>challengers = Controller.challengers;
+        clearGrid(challengedYouGrid);
+        int j =0;
         if(Controller.challengers != null) {
             for (String i : Controller.challengers.keySet()) {
-
-                Label gebruikersnaam = new Label(i);
-                Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
-                Button accepteer = new Button("Accepteer");
-                System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
-                String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
-                accepteer.setOnAction(e -> {
-                    try {
-                        acceptChallenger(challengerNumber);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                });
-
-                challengedYouGrid.add(gebruikersnaam, 0, 1);
-                challengedYouGrid.add(game, 1, j + 1);
-                challengedYouGrid.add(accepteer, 2, 1);
-                j++;
+                if (!nameExists(challengedYouGrid, i)) {
+                    Label gebruikersnaam = new Label(i);
+                    Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
+                    Button accepteer = new Button("Accepteer");
+                    System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
+                    String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
+                    accepteer.setOnAction(e -> {
+                        try {
+                            acceptChallenger(challengerNumber);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                    challengedYouGrid.add(gebruikersnaam, 0, j + 1);
+                    challengedYouGrid.add(game, 1, j + 1);
+                    challengedYouGrid.add(accepteer, 2, j + 1);
+                    j++;
+                }
             }
         }
     }
 
     // deze methode ververst de lijst van online users
     public void updateOnlinePlayers() {
-        // onlineUsersGrid.getChildren().clear();
-        clearOnlineUsers(onlineUsersGrid);
         playerList = Controller.con.getPlayerlist();
+        clearGrid(onlineUsersGrid);
+        if (playerList == null){ //als de lijst met spelers leeg is gaan hebben we hier niks aan, dit is om een nullPointerError te voorkomen
+            return;
+        }
+        for (String name : playerList) {
+            if (!nameExists(onlineUsersGrid, name) && !name.equals(Controller.playerNamestring)) {
+//                if (!playerList.get(i).contains("Version 1.0")) {
+                Label gebruikersnaam = new Label(name);
+                ComboBox chooseGame = new ComboBox();
+                chooseGame.getItems().addAll("Boter, kaas en eieren", "Reversi");
+                chooseGame.setOnAction(e -> challenge(chooseGame));
 
-        for (int i = 0; i < playerList.size(); i++) {
+                int row = getRowCount(onlineUsersGrid);
 
-            Label gebruikersnaam = new Label(playerList.get(i));
-            ComboBox chooseGame = new ComboBox();
-            chooseGame.getItems().addAll("Boter, kaas en eieren", "Reversi");
-            chooseGame.setOnAction(e -> challenge(chooseGame));
-
-            onlineUsersGrid.add(gebruikersnaam, 0, i+1);
-            onlineUsersGrid.add(chooseGame, 1, i+1);
+                onlineUsersGrid.add(gebruikersnaam, 0, row);
+                onlineUsersGrid.add(chooseGame, 1, row);
+//                }
+            }
         }
     }
 
@@ -136,16 +136,37 @@ public class LobbyController{
         return null;
     }
 
-    private void clearOnlineUsers(GridPane grid) {
-        Node result;
+    private void clearGrid(GridPane grid) {
+
         ObservableList<Node> childrens = grid.getChildren();
         Set<Node> deleteNodes = new HashSet<>();
+        ArrayList<Integer> rowsThatStay = new ArrayList<>();
 
         // loop door alle nodes van de GridPane om de lijst leeg te maken.
         for (Node node : childrens) {
             if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) {
                 if (grid.getRowIndex(node) != 0) {
-                    deleteNodes.add(node);
+                    if (grid.getColumnIndex(node) == 0) {
+
+                        Label lb = (Label) node;
+                        if (lb.getText() != null && playerList.contains(lb.getText())) {
+                            // loop door alle namen van playerList
+
+                            for (int i = 0; i < playerList.size(); i++) {
+                                if (playerList.get(i).equals(lb.getText())) {
+                                    rowsThatStay.add(grid.getRowIndex(node));
+                                }
+                            }
+                        // deze player is niet meer online, dus verwijderen we hem uit de challengers list (als hij hierin zit)
+                        } else {
+                            if (Controller.challengers.containsKey(lb.getText())) {
+                                Controller.challengers.keySet().removeIf(i -> i.equals(lb.getText()));
+                            }
+                        }
+                    }
+                    if (!rowsThatStay.contains(grid.getColumnIndex(node))) {
+                        deleteNodes.add(node);
+                    }
                 }
             }
         }
@@ -155,15 +176,70 @@ public class LobbyController{
     private void acceptChallenger(String challengerNumber) throws IOException {
         String challengernumber = challengerNumber;
         Controller.con.acceptChallenge(challengernumber);
-
-//        Parent nextParent = FXMLLoader.load(getClass().getResource("Reversi.fxml"));
-//        Scene nextScene = new Scene(nextParent);
-////
-//        Stage window = Controller.window;
-//        window.setScene(nextScene);
-//        window.setResizable(false);
-//        window.setTitle("Reversi");
-//
-//        window.show();
     }
+
+    public void updateLobby() {
+        Platform.runLater(() -> {
+            updateOnlinePlayers();
+            updateChallengedUs();
+        });
+    }
+
+    public void startInfiniteUpdating()
+    {
+        // Create a Runnable
+        Runnable task = new Runnable()
+        {
+            public void run()
+            {
+                while(isLobbyWindowOpen) {
+                    updateLobby();
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        // Run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // Terminate the running thread if the application exits
+        backgroundThread.setDaemon(true);
+        // Start the thread
+        backgroundThread.start();
+    }
+
+    private int getRowCount(GridPane grid) {
+        int numRows = 0;
+        ObservableList<Node> childrens = grid.getChildren();
+
+        // loop door alle nodes van de GridPane om te checken hoeveel rijen er zijn
+        for (Node node : childrens) {
+            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) == 0) {
+                numRows += 1;
+            }
+        }
+        return numRows;
+    }
+
+    private boolean nameExists(GridPane grid, String name) {
+
+        ObservableList<Node> childrens = grid.getChildren();
+
+        // loop door alle nodes van de GridPane om te checken of de gevraagdee naam hierin staat.
+        for (Node node : childrens) {
+            if (grid.getRowIndex(node) != null && grid.getRowIndex(node) != 0) {
+                if (grid.getColumnIndex(node) == 0) {
+                    Label lb = (Label) node;
+                    if (lb.getText().equals(name)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }

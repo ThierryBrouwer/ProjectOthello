@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -171,12 +172,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/WhiteCircle113.png')" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/BlackCircle113.png');" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="4" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -211,12 +212,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/BlackCircle113.png');" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green; -fx-background-image: url('Images/WhiteCircle113.png');" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                  <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="112.5" prefWidth="112.5" style="-fx-background-color: green;" GridPane.columnIndex="4" GridPane.rowIndex="4">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -358,52 +359,113 @@
                   </Button>
                </children>
             </GridPane>
-            <Label layoutX="953.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Reversie" textFill="WHITE">
-               <font>
-                  <Font size="44.0" />
-               </font>
-            </Label>
-            <Label layoutX="915.0" layoutY="316.0" text="Player 1:" textFill="WHITE">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Label layoutX="915.0" layoutY="363.0" text="Player 2:" textFill="WHITE">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Button layoutX="1054.0" layoutY="867.0" mnemonicParsing="false" onAction="#playerRequestsForfeit" prefHeight="36.0" prefWidth="105.0" text="Opgeven" />
-            <Label layoutX="1077.0" layoutY="316.0" text="2" textFill="WHITE">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Label layoutX="1076.0" layoutY="363.0" text="2" textFill="WHITE">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Label layoutX="915.0" layoutY="504.0" text="Beurt: " textFill="WHITE">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-            <Label layoutX="1054.0" layoutY="509.0" text="Zwart" textFill="WHITE">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label layoutX="1037.0" layoutY="238.0" text="Punten" textFill="WHITE">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-            <Label layoutX="917.0" layoutY="238.0" text="Speler" textFill="WHITE">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
+            <GridPane gridLinesVisible="true" layoutX="913.0" layoutY="326.0" prefHeight="183.0" prefWidth="252.0" style="-fx-background-color: green;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="146.0" minWidth="10.0" prefWidth="130.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.0" minWidth="10.0" prefWidth="122.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="43.0" minHeight="8.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="50.0" minHeight="6.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="38.0" minHeight="0.0" prefHeight="34.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Punten" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Speler" textFill="WHITE">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lblPlayer1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Player 1:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lblPlayer2" text="Player 2:" textFill="WHITE" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lblBlackPoints" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lblWhitePoints" text="2" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Beurt: " textFill="WHITE" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lblBeurt" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Zwart" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+            </GridPane>
+            <AnchorPane layoutX="913.0" layoutY="854.0" prefHeight="55.0" prefWidth="253.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
+               <children>
+                  <Button layoutX="13.0" layoutY="9.0" mnemonicParsing="false" onAction="#playerRequestsBack" prefHeight="36.0" prefWidth="105.0" text="Ga terug" />
+                  <Button layoutX="135.0" layoutY="9.0" mnemonicParsing="false" onAction="#playerRequestsForfeit" prefHeight="36.0" prefWidth="105.0" text="Opgeven" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="915.0" layoutY="9.0" prefHeight="72.0" prefWidth="248.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
+               <children>
+                  <Label layoutX="55.0" layoutY="11.0" style="-fx-font-weight: bold;" text="Reversie" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="912.0" layoutY="97.0" prefHeight="29.0" prefWidth="253.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
+               <children>
+                  <Label layoutX="5.0" layoutY="3.0" prefHeight="26.0" prefWidth="91.0" text="Ingelogd als: " textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="loggedInAs" layoutX="94.0" layoutY="3.0" prefHeight="26.0" prefWidth="91.0" text="Gast" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </center>
