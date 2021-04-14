@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -23,6 +24,8 @@ public class ReversiController {
     public Label loggedInAs;
     public Button btnBack;
     public Button btnForfeit;
+    public AnchorPane popUpAfterGame;
+    public Label lblStateOfGame;
 
     @FXML
     private GridPane grid;
@@ -171,6 +174,31 @@ public class ReversiController {
                         btnBack.setDisable(false);
                         btnForfeit.setDisable(true);
                         btnForfeit.setVisible(false);
+
+                        Platform.runLater(() -> {
+                            // als het potje is afgelopen geven we de user een pop up met daarin de staat van het potje
+                            switch (Game.stateOfGame) {//check for a match
+
+                                case 1: // we hebben gewonnen
+                                    lblStateOfGame.setText("Je hebt gewonnen!");
+                                    popUpAfterGame.setVisible(true);
+                                    break;
+
+                                case 2: // we hebben verloren
+                                    lblStateOfGame.setText("Je hebt verloren");
+                                    popUpAfterGame.setVisible(true);
+                                    break;
+
+                                case 3: // we hebben gelijk gespeeld
+                                    lblStateOfGame.setText("Je hebt gelijk gespeeld");
+                                    popUpAfterGame.setVisible(true);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        });
+
                     }
 
                     try {

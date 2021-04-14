@@ -466,6 +466,15 @@
                   </Label>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="popUpAfterGame" layoutX="912.0" layoutY="573.0" prefHeight="29.0" prefWidth="253.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;" visible="false">
+               <children>
+                  <Label fx:id="lblStateOfGame" layoutX="14.0" layoutY="6.0" prefHeight="26.0" prefWidth="212.0" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </center>
