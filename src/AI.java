@@ -117,13 +117,34 @@ public class AI {
     }
 
     private int evaluate(Reversi game) {
-        return game.whitePoints() - game.blackPoints();
+        int eval = game.blackPoints() - game.whitePoints();
+
+        int[] board = game.getBoard();
+        int whitecorners = 0;
+        int blackcorners = 0;
+
+        if (board[0] == 1) {blackcorners++;}
+        if (board[7] == 1){blackcorners++;}
+        if (board[56] == 1){blackcorners++;}
+        if (board[63] == 1){blackcorners++;}
+        if (board[0] == 2) {whitecorners++;}
+        if (board[7] == 2){whitecorners++;}
+        if (board[56] == 2){whitecorners++;}
+        if (board[63] == 2){whitecorners++;}
+
+        eval += blackcorners * 24;
+        eval -= whitecorners * 24;
+        return eval;
     }
 
 
     public int miniMax(Reversi position, int depth, boolean isMax, int alpha, int beta) {
 
         if (depth == MAX_DEPTH || position.convertMovesto1d(position.getMoveList()).length == 0){
+            if (evaluate(position) > 2000000){
+                System.out.println("alpha: " + alpha);
+                System.out.println("beta: " + beta);
+            }
             return evaluate(position);
         }
 
