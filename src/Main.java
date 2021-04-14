@@ -4,6 +4,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Deze klasse is verantwoordelijk voor het opstarten van het hele framework
+ *
+ * @author
+ * @version 14/2/2021
+ */
 public class Main extends Application{
 
     public static void main(String[] args) {
@@ -18,6 +24,11 @@ public class Main extends Application{
 //        ai.makeMove();
     }
 
+    /**
+     * Zorgt er voor dat de Stage iets ander is, wat verander is dat deze nu afgeleid is van Login.fxml en de titel van het eerste gui venster "Login" is.
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
