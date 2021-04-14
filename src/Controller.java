@@ -242,7 +242,11 @@ public class Controller {
     }
 
     // View
-
+    /**
+     * Deze methode zorgt er voor dat je van het huidige scherm naar het lobby scherm gaat
+     *
+     * @param actionEvent variable waarmee je kan achterhalen in welke stage je nu zit/zat
+     */
     public void changeScreenToLobby(ActionEvent actionEvent) {
         try {
             // object aanmaken van LoginCheck, zodat we zijn methode kunnen gebruiken om te kijken of de username Valide is.
@@ -285,8 +289,10 @@ public class Controller {
 
     }
 
-        // else vul naam in!
 
+    /**
+     * Met deze methode verander je het huidige scherm naar het TicTacToe speelbord
+     */
     public void tttView(){
         try {
 
@@ -306,6 +312,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Met deze methode verander je het huidige scherm naar het Reversi speelbord
+     */
     public void reversiView() {
 
         try {
