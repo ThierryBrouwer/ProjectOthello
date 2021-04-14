@@ -21,6 +21,8 @@ public class ReversiController {
 
     public static boolean isReversiOpen;
     public Label loggedInAs;
+    public Button btnBack;
+    public Button btnForfeit;
 
     @FXML
     private GridPane grid;
@@ -37,6 +39,8 @@ public class ReversiController {
             lblPlayer2.setText(Game.player2);
             lblBeurt.setText(Game.player1);
             loggedInAs.setText(Game.ourUsername);
+            btnBack.setVisible(false);
+
             updateView();
         });
         isReversiOpen = true;
@@ -161,6 +165,14 @@ public class ReversiController {
             {
                 while(isReversiOpen) {
                     updateTurn();
+
+                    if (!Game.isGameRunning) {
+                        btnBack.setVisible(true);
+                        btnBack.setDisable(false);
+                        btnForfeit.setDisable(true);
+                        btnForfeit.setVisible(false);
+                    }
+
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
