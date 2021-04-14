@@ -167,9 +167,10 @@ public class Controller {
             case "SVR GAME YOURTURN":
                 Game.turn = Game.ourUsername;
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
-                if (game.isAI) {
+                if (Game.isAI) {
+                    System.out.println("binnen");
                     int move3 = ai.makeMove();
-                    con.makeMove(move3, true);
+                    con.makeMove(move3);
                     yourturn = false;
                 }
 

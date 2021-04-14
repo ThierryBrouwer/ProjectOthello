@@ -54,7 +54,7 @@ public class ReversiController {
         int index = row*columnsInRow+column;
 
         if (Game.turn.equals(Game.ourUsername)) {
-            Controller.reversi.makeMove(index);
+            Controller.reversi.makeMove(index, true);
         }
     }
 
