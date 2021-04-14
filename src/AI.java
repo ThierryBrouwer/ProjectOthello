@@ -12,7 +12,7 @@ public class AI {
     Board board;
     Game game;
     private final int MAX_DEPTH = 8;
-    static int difficulty;
+    static int difficulty = 1;
 
 
     public AI() {

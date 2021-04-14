@@ -1,5 +1,6 @@
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,12 +15,15 @@ public class LobbyController{
     public GridPane onlineUsersGrid;
     public GridPane challengedYouGrid;
     public Label uname;
+    public ComboBox cbDifficultyAI;
     ArrayList<String> playerList;
     private boolean isLobbyWindowOpen = true;
 
     public LobbyController() {
         Platform.runLater(() -> {
             uname.setText(Controller.playerNamestring);
+            cbDifficultyAI.getItems().addAll("Normaal", "Moeilijk");
+            cbDifficultyAI.setOnAction(e -> setDifficulty(cbDifficultyAI));
         });
     }
 
@@ -242,4 +246,34 @@ public class LobbyController{
         return false;
     }
 
+    public void playerIsAI() {
+        if (!Game.isAI) {
+            Game.isAI = true;
+        } else {
+            Game.isAI = false;
+        }
+    }
+
+    private void setDifficulty(ComboBox cb) {
+        String difficulty = (String) cb.getValue();
+
+        switch (difficulty) {//check for a match
+
+            case "Normaal":
+                Platform.runLater(() -> {
+                    AI.difficulty = 0; // verander de difficulty van de AI
+                });
+
+                break;
+
+            case "Moeilijk":
+                Platform.runLater(() -> {
+                    AI.difficulty = 1; // verander de difficulty van de AI
+                });
+                break;
+
+            default:
+                break;
+        }
+    }
 }

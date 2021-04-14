@@ -69,16 +69,16 @@ public class ReversiController {
         ObservableList<Node> childrens = grid.getChildren();
 
         // update labels met de goede informatie
-        Platform.runLater(() -> {
-            lblBlackPoints.setText(Integer.toString(Controller.reversi.blackPoints()));
-            lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
-            // update beurt
-            if (Controller.reversi.getPiece() == 1) {
-                lblBeurt.setText(Game.player1);
-            } else {
-                lblBeurt.setText(Game.player2);
-            }
-        });
+
+        lblBlackPoints.setText(Integer.toString(Controller.reversi.blackPoints()));
+        lblWhitePoints.setText(Integer.toString(Controller.reversi.whitePoints()));
+        // update beurt
+        if (Controller.reversi.getPiece() == 1) {
+            lblBeurt.setText(Game.player1);
+        } else {
+            lblBeurt.setText(Game.player2);
+        }
+
 
         for (Node node : childrens) {
 

@@ -8,7 +8,7 @@ public abstract class Game {
     public static String player1;
     public static String player2;
     public static boolean isGameRunning;
-    public static boolean isAI = true;
+    public static boolean isAI = false;
 
     public String getPlayerTurn() {return "";} //returned naam van de speler die aan de beurt is
 
