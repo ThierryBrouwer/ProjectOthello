@@ -2,12 +2,20 @@ import java.util.regex.*;
 
 public class LoginCheck {
 
+    /**
+     * Wanneer een gebruiker wil inloggen moet de naam gecontroleerd worden op
+     * een aantal eisen. Zoals een naam dat een lengte moet hebben tussen 3 en 15 characters,
+     * en de naam mag niet met een cijfer beginnen.
+     *
+     * @param uName is een String dat een naam bevat.
+     * @return true of false
+     */
     public boolean isUsernameValid(String uName) {
 
-        // Regex to check valid username.
-        String regex = "^[A-Za-z]\\w{2,15}$";
+        // Regex om te checken of uName valide is.
+        String regex = "^[A-Za-z]\\w{1,15}$";
 
-        // Compile the ReGex
+        // compileer de ReGex
         Pattern p = Pattern.compile(regex);
 
         // als uName null is returnen we false
@@ -18,7 +26,7 @@ public class LoginCheck {
         // nu controlleren we met de matcher() methode of uName aan onze requirements voldoet
         Matcher m = p.matcher(uName);
 
-        // return als de uName met de ReGex matched.
+        // return true als de uName met de ReGex matched, anders false
         return m.matches();
     }
 }

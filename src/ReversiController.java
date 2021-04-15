@@ -21,11 +21,6 @@ import java.io.IOException;
 public class ReversiController {
 
     public static boolean isReversiOpen;
-    public Label loggedInAs;
-    public Button btnBack;
-    public Button btnForfeit;
-    public AnchorPane popUpAfterGame;
-    public Label lblStateOfGame;
 
     @FXML
     private GridPane grid;
@@ -34,7 +29,19 @@ public class ReversiController {
     public Label lblBlackPoints;
     public Label lblWhitePoints;
     public Label lblBeurt;
+    public Label loggedInAs;
+    public Button btnBack;
+    public Button btnForfeit;
+    public AnchorPane popUpAfterGame;
+    public Label lblStateOfGame;
 
+    /**
+     * Dit is de constructor van ReversiController. Hierin worden labels en buttons geset
+     * Ook roepen we hierin de updateView methode aan om de begin situatie van het board
+     * op te halen.
+     * Daarbij roept de constructor de refreshTurnNonStop methode aan die constant gegevens op
+     * blijft halen tot isReversiOpen op false wordt gezet.
+     */
     public ReversiController() {
         // default waarden van labels veranderen
         Platform.runLater(() -> {
@@ -51,9 +58,15 @@ public class ReversiController {
         refreshTurnNonStop(); // refresh elke x aantal seconden waarden in deze window
     }
 
+    /**
+     * De speler heeft op een veld geklikt. Dit veld/positie wordt omgerekend naar een 1d index.
+     * Als het onze beurt is, sturen we deze index mee aan de makeMove functie van Reversi.java
+     *
+     * @param actionEvent de actionEvent wordt meegegeven om te achterhalen op welke knop is gedrukt
+     */
     public void playerRequestsMove(ActionEvent actionEvent) {
 
-        Button button = (Button)actionEvent.getSource();
+        Button button = (Button)actionEvent.getSource(); // returnt het object waarop het event plaatsvond
 
         // maak van een 2d positie een 1d positie
         int row = grid.getRowIndex(button);
@@ -66,6 +79,10 @@ public class ReversiController {
         }
     }
 
+    /**
+     * De updateview haalt met name informatie op van Reversi.java
+     * en update met behulp hiervan het board
+     */
     public void updateView() {
         // sla het huidige board op in int[] board
         int[] board = Controller.reversi.boardConvertto1d();
@@ -117,10 +134,18 @@ public class ReversiController {
         }
     }
 
+    /**
+     * Wanneer de speler op de knop "Opgeven" drukt, wordt de server forfeit() mee gegeven
+     * en is het potje hierbij ook afgelopen.
+     */
     public void playerRequestsForfeit() {
-        Controller.con.forfeit(); // geeft de server mee dat we op willen geven
+        Controller.con.forfeit();
     }
 
+    /**
+     * Wanneer de speler op de knop "Terug" drukt, wordt de boolean isReversiOpen op false gezet
+     * en openen we LobbyController.java
+     */
     public void playerRequestsBack() {
         try {
             isReversiOpen = false; // zet de infinite loop om gegevens op te halen uit

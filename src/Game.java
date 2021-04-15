@@ -22,5 +22,9 @@ public abstract class Game {
 
     public abstract Board aiGetBoard();
 
+    public abstract void changePiece();
+
+    public abstract void makeMove(int pos, boolean b);
+
     //public Board aiGetBoard(){return null;}
 }

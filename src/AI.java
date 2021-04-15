@@ -11,7 +11,7 @@ public class AI {
 
     Board board;
     Game game;
-    private final int MAX_DEPTH = 8;
+    private final int MAX_DEPTH = 7;
     static int difficulty;
 
 

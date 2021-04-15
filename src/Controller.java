@@ -29,7 +29,7 @@ public class Controller {
     public static TicTacToeController tttController;
     public static Connection con;
     public static LobbyController lobbyController;
-    public static Game game;
+    public Game game;
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
 
@@ -148,12 +148,12 @@ public class Controller {
 
                 ai = new AI();
 
+                // set de juiste waarden op de variabelen
                 if (playertomove.equals(playerNamestring)) {
                     Game.ourUsername = (String) playertomove;
                     Game.opponent = (String) con.getMsgHashMap().get("OPPONENT");
                     Game.player1 = Game.ourUsername;
                     Game.player2 = Game.opponent;
-
                     break;
                 } else {
                     reversi.changePiece();
@@ -189,11 +189,11 @@ public class Controller {
                 Object player = con.getMsgHashMap().get("PLAYER");
                 String player1 = (String) player;
                 if (!player1.equals(playerNamestring)){
-                    reversi.changePiece();
-                    reversi.makeMove(pos, true);
-                    reversi.changePiece();
+                    game.changePiece();
+                    game.makeMove(pos, true);
+                    game.changePiece();
                 }
-                else{reversi.makeMove(pos, true);}
+                else{game.makeMove(pos, true);}
 
                 break;
 

@@ -104,7 +104,7 @@
          </content>
       </ScrollPane>
       <Label layoutX="42.0" layoutY="791.0" />
-      <CheckBox layoutX="42.0" layoutY="764.0" mnemonicParsing="false" onAction="#playerIsAI" text="Ik wil de AI voor mij laten spelen" />
+      <CheckBox fx:id="isAICheckbox" layoutX="42.0" layoutY="764.0" mnemonicParsing="false" onAction="#playerIsAI" text="Ik wil de AI voor mij laten spelen" />
       <ComboBox fx:id="cbDifficultyAI" layoutX="264.0" layoutY="760.0" prefHeight="25.0" prefWidth="166.0" promptText="Moeilijkheid van de AI" />
    </children>
 </Pane>
