@@ -66,13 +66,13 @@ public class ReversiController {
      */
     public void playerRequestsMove(ActionEvent actionEvent) {
 
-        Button button = (Button)actionEvent.getSource(); // returnt het object waarop het event plaatsvond
+        Button button = (Button) actionEvent.getSource(); // returnt het object waarop het event plaatsvond
 
         // maak van een 2d positie een 1d positie
         int row = grid.getRowIndex(button);
         int column = grid.getColumnIndex(button);
         int columnsInRow = 8;
-        int index = row*columnsInRow+column;
+        int index = row * columnsInRow + column;
 
         if (Game.turn.equals(Game.ourUsername)) { // check of het onze beurt is
             Controller.reversi.makeMove(index, true); // verzend de gewenste positie
@@ -185,14 +185,11 @@ public class ReversiController {
     /**
      * deze methode blijft net zolang draaien tot dat er een ander scherm wordt geopend
      */
-    public void refreshTurnNonStop()
-    {
+    public void refreshTurnNonStop() {
         // Create a Runnable
-        Runnable task = new Runnable()
-        {
-            public void run()
-            {
-                while(isReversiOpen) {
+        Runnable task = new Runnable() {
+            public void run() {
+                while (isReversiOpen) {
                     updateTurn();
 
                     if (!Game.isGameRunning) {

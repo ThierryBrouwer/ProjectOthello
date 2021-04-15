@@ -18,7 +18,6 @@ public class Reversi extends Game {
     private int row;
     private int col;
     private int piece;
-    private Board b;
     private int lastmove;
 
     /**
@@ -101,7 +100,6 @@ public class Reversi extends Game {
                     } else {
                         turn = player1;
                     }
-                    //Controller.game.turn = Controller.game.opponent;
                     Platform.runLater(() -> {
                         Controller.reversiController.updateView();
                     });
@@ -312,7 +310,6 @@ public class Reversi extends Game {
             piece = 1;
         }
         //System.out.println("Nu ben ik piece " + piece);
-
     }
 
     /**
@@ -374,7 +371,6 @@ public class Reversi extends Game {
      */
     public ArrayList<Reversi> getChildren(boolean isOtherPlayer) {
         ArrayList<Reversi> children = new ArrayList<>();
-        //System.out.println(isOtherPlayer);
         if (isOtherPlayer) {
             changePiece();
         }

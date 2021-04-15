@@ -60,7 +60,7 @@ public class Controller {
      *
      * @param playerNamestring is de naam van de speler waarmee je op de server inlogt
      */
-    public void startConnectie(String playerNamestring){
+    public void startConnectie(String playerNamestring) {
         //connectie in&output
         this.playerNamestring = playerNamestring;
 
@@ -82,7 +82,6 @@ public class Controller {
 
     /**
      * De methode die aan de server doorgeeft met welke naam de speler zichtbaar wilt zijn op het netwerk
-     *
      */
     public void playGame() {
         pr.println("login " + playerNamestring);
@@ -96,8 +95,6 @@ public class Controller {
             while ((serverMsg = bf.readLine()) != null) {
                 cleanServermsg = con.dissect(serverMsg);
 
-                //System.out.println("servermsg " + i + " = " + cleanServermsg);
-                //System.out.println(serverMsg);
                 useServerMessage(cleanServermsg);
                 i++;
             }
@@ -131,7 +128,7 @@ public class Controller {
                 if (gameType.equals("Tic-tac-toe")) {
                     game = ttt;
                     Platform.runLater(this::tttView);
-                } else if (gameType.equals("Reversi")){
+                } else if (gameType.equals("Reversi")) {
                     game = reversi;
                     Platform.runLater(this::reversiView);
                 }
@@ -178,12 +175,13 @@ public class Controller {
 
                 Object player = con.getMsgHashMap().get("PLAYER");
                 String player1 = (String) player;
-                if (!player1.equals(playerNamestring)){
+                if (!player1.equals(playerNamestring)) {
                     game.changePiece();
                     game.makeMove(pos, true);
                     game.changePiece();
+                } else {
+                    game.makeMove(pos, true);
                 }
-                else{game.makeMove(pos, true);}
 
                 break;
 
@@ -232,6 +230,7 @@ public class Controller {
     }
 
     // View
+
     /**
      * Deze methode zorgt er voor dat je van het huidige scherm naar het lobby scherm gaat
      *
@@ -269,8 +268,7 @@ public class Controller {
                     n.printStackTrace();
                 }
 
-            }
-            else {
+            } else {
                 System.out.println("Niet alle velden zijn correct ingevuld");
             }
         } catch (IOException ioException) {
@@ -283,14 +281,14 @@ public class Controller {
     /**
      * Met deze methode verander je het huidige scherm naar het TicTacToe speelbord
      */
-    public void tttView(){
+    public void tttView() {
         try {
 
             // verander scherm naar TicTacToe scherm
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("TicTacToe.fxml").openStream());
             tttController = fxmlLoader.getController();
-            Scene nextScene = new Scene (p);
+            Scene nextScene = new Scene(p);
 
             window.setScene(nextScene);
             window.setResizable(false);
@@ -312,7 +310,7 @@ public class Controller {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Pane p = fxmlLoader.load(getClass().getResource("Reversi.fxml").openStream());
             reversiController = fxmlLoader.getController();
-            Scene nextScene = new Scene (p);
+            Scene nextScene = new Scene(p);
 
             window.setScene(nextScene);
             window.setResizable(false);

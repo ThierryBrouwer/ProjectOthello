@@ -10,22 +10,16 @@ import javafx.stage.Stage;
  * @author Geert, Thierry, Djordy, Joost J, Joost P
  * @version 14/4/2021
  */
-public class Main extends Application{
+public class Main extends Application {
 
     public static void main(String[] args) {
         Controller controller = new Controller();
         launch(args);
-
-//        Reversi rev = new Reversi();
-//
-//        AI ai = new AI(rev);
-//        ai.makeMove();
-//        rev.changePiece();
-//        ai.makeMove();
     }
 
     /**
      * Zorgt er voor dat de Stage iets ander is, wat verander is dat deze nu afgeleid is van Login.fxml en de titel van het eerste gui venster "Login" is.
+     *
      * @param primaryStage
      * @throws Exception
      */

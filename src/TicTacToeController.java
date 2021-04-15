@@ -28,7 +28,7 @@ public class TicTacToeController {
     public Label lblStateOfGame;
     public AnchorPane popUpAfterGame;
 
-    public TicTacToeController(){
+    public TicTacToeController() {
 // default waarden van labels veranderen
         Platform.runLater(() -> {
             lblPlayer1.setText(Game.player1);
@@ -44,18 +44,17 @@ public class TicTacToeController {
     }
 
 
-
     public void playerRequestsMove(ActionEvent actionEvent) {
 
-        Button button = (Button)actionEvent.getSource();
+        Button button = (Button) actionEvent.getSource();
 
         //send index to check if move is valid
         int row = grid.getRowIndex(button);
         int column = grid.getColumnIndex(button);
         int columnsInRow = 3;
-        int index = row*columnsInRow+column;
+        int index = row * columnsInRow + column;
 
-        if(Game.turn.equals(Game.ourUsername)){
+        if (Game.turn.equals(Game.ourUsername)) {
             Controller.ttt.makeMove(index, true);
         }
     }
@@ -78,37 +77,34 @@ public class TicTacToeController {
 
         for (Node node : childrens) {
 
-            if(grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) {
+            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) {
 
-                for (int i=0; i < board.length ; i++) {
+                for (int i = 0; i < board.length; i++) {
 
                     int row = i / 3;
-                    int column = i-3*row;
-                    //System.out.println(row + ", " + column + ", " + grid.getRowIndex(node) + ", " + grid.getColumnIndex(node));
+                    int column = i - 3 * row;
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
 
-                        if(board[i] == 0) {
+                        if (board[i] == 0) {
 
                             result = node;
                             Button button = (Button) result;
                             button.setText("");
                             break;
                         }
-                        if(board[i] == 1) {
+                        if (board[i] == 1) {
 
                             result = node;
                             Button button = (Button) result;
-                            button.setText("X");
-                            button.setStyle("-fx-background-color: green; -fx-font-size: 50");
+                            button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/blackX_160px.png')");
                             break;
                         }
-                        if(board[i] == 2) {
+                        if (board[i] == 2) {
 
                             result = node;
                             Button button = (Button) result;
-                            button.setText("O");
-                            button.setStyle("-fx-background-color: green; -fx-font-size: 50");
+                            button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/blackCircle_160px.png')");
                             break;
                         }
                     }
@@ -155,14 +151,11 @@ public class TicTacToeController {
         });
     }
 
-    public void refreshTurnNonStop()
-    {
+    public void refreshTurnNonStop() {
         // Create a Runnable
-        Runnable task = new Runnable()
-        {
-            public void run()
-            {
-                while(isTttOpen) {
+        Runnable task = new Runnable() {
+            public void run() {
+                while (isTttOpen) {
                     updateTurn();
 
                     if (!Game.isGameRunning) {

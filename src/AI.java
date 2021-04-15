@@ -138,16 +138,16 @@ public class AI {
     private int moveTicTacToe() {
         Random r = new Random();
         int i = r.nextInt(9);
-        int row = i/3;
-        int col = i%3;
+        int row = i / 3;
+        int col = i % 3;
         while (!game.validMove(row, col)) {
 
             i = r.nextInt(9);
-            row = i/3;
-            col = i%3;
+            row = i / 3;
+            col = i % 3;
         }
 
-        int index = row*3+col;
+        int index = row * 3 + col;
         //game.updateBoard(i);
         return index;
 

@@ -1,9 +1,6 @@
 import javafx.application.Platform;
-import javafx.util.Pair;
 
-import java.util.ArrayList;
-
-public class TicTacToe extends Game{
+public class TicTacToe extends Game {
 
     private int[] board;
     private int[][] board2d;
@@ -11,7 +8,6 @@ public class TicTacToe extends Game{
     private int col;
     private int piece;
     private Board b;
-    //private int lastmove;
 
     public TicTacToe() {
         resetBoard();
@@ -41,7 +37,6 @@ public class TicTacToe extends Game{
                 Controller.con.makeMove(move);
             }
 
-            //Platform.runLater(Controller.reversiController::updateView);
             if (updateGui) {
                 try {
                     if (turn.equals(player1)) {
@@ -49,7 +44,6 @@ public class TicTacToe extends Game{
                     } else {
                         turn = player1;
                     }
-                    //Controller.game.turn = Controller.game.opponent;
                     Platform.runLater(() -> {
                         Controller.tttController.updateView();
                     });
@@ -60,36 +54,31 @@ public class TicTacToe extends Game{
                 }
             }
         }
-        else {
-            System.out.println("Oeps, je kan geen steentje zetten hier!");
-        }
     }
-
-
 
 
     //private methode, wordt alleen gebruikt bij getMoveList
     public boolean validMove(int row, int col) {
         // kijken of de rij en kolom leeg zijn
-        if (board2d[row][col] != 0){
+        if (board2d[row][col] != 0) {
             return false;
         }
-
         return true;
     }
 
 
     //functie om de beurt om te draaien
-    public void changePiece(){
-        if (piece == 1){
+    public void changePiece() {
+        if (piece == 1) {
             piece = 2;
+        } else {
+            piece = 1;
         }
-        else{piece = 1;}
-        System.out.println("Nu ben ik piece " + piece);
+        //System.out.println("Nu ben ik piece " + piece);
     }
 
     public int[] boardConvertto1d() {
-        for (int i=0;i<9;i++){
+        for (int i = 0; i < 9; i++) {
             int row = i / 3;
             int col = i % 3;
             board[i] = board2d[row][col];
@@ -97,7 +86,7 @@ public class TicTacToe extends Game{
         return board;
     }
 
-    public void resetBoard(){
+    public void resetBoard() {
         piece = 1;
         b = new Board(9);
         board = b.getBoard();
@@ -107,16 +96,12 @@ public class TicTacToe extends Game{
 
     }
 
-//    public int[] getBoard(){
-//        return this.board;
-//    }
-
-    public int getPiece(){
+    public int getPiece() {
         return piece;
     }
 
     @Override
-    public Board aiGetBoard(){
+    public Board aiGetBoard() {
         return b;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Arrays;
  * @author Geert
  * @version 10/4/2021
  */
-public class Connection implements Runnable{
+public class Connection implements Runnable {
 
     public String name;
     public Socket s;
@@ -27,10 +27,10 @@ public class Connection implements Runnable{
     /**
      * Constructor voor objecten van de klasse Connection
      *
-     * @param name  De gebruikersnaam die andere spelers op het netwerk tezien krijgen
-     * @param pr    De PrintWriter
+     * @param name De gebruikersnaam die andere spelers op het netwerk tezien krijgen
+     * @param pr   De PrintWriter
      */
-    public Connection(String name, PrintWriter pr)  {
+    public Connection(String name, PrintWriter pr) {
         this.name = name;
         this.pr = pr;
         serverMsgHashMap = new HashMap<>();
@@ -57,9 +57,9 @@ public class Connection implements Runnable{
     /**
      * De methode om een server commando uit te voeren die nog niet is toegevoegd aan deze klasse
      *
-     * @param commando  Het commando die je wilt uitvoeren in de vorm van een String
+     * @param commando Het commando die je wilt uitvoeren in de vorm van een String
      */
-    public void command(String commando){
+    public void command(String commando) {
         pr.println(commando);
         pr.flush();
     }
@@ -67,30 +67,32 @@ public class Connection implements Runnable{
 
     /**
      * Geeft het ruwe server bericht zoals deze ontvangen was van de server in de vorm van een String
-     * @return  servermsg het ruwe onverwerkte server bericht
+     *
+     * @return servermsg het ruwe onverwerkte server bericht
      */
-    public String getservermsg(){
+    public String getservermsg() {
         return (servermsg);
     }
 
     /**
      * Geeft alleen het eerste gedeelte van het originele server bericht.
-     * @return  Het verfijnde server bericht zonder de mogelijke list of map waarmee deze origineel werd ontvangen
+     *
+     * @return Het verfijnde server bericht zonder de mogelijke list of map waarmee deze origineel werd ontvangen
      */
-    public String getCleanServermsg(){
+    public String getCleanServermsg() {
         return cleanServermsg;
     }
 
     /**
      * Split het server bericht van de List of Map en slaat de List als ArrayList op en de Map als Hashmap
+     *
      * @param message is het originele ruwe server bericht
      * @return is het server bericht zonder de List of Map
      */
-    public String dissect(String message){
-        if (message.contains("ersion")){
+    public String dissect(String message) {
+        if (message.contains("ersion")) {
             return message;
-        }
-        else if (message.contains("[")){ //als er een [ in zit dan zit er een List in de message
+        } else if (message.contains("[")) { //als er een [ in zit dan zit er een List in de message
             message = message.replace("\"", "");
             message = message.replace(" [", "&"); //vervang [ voor - omdat de .split methode niet met { wil splitten
             message = message.replace("]", ""); //Haal ] aan het einde weg omdat we deze niet nodig hebben
@@ -101,8 +103,7 @@ public class Connection implements Runnable{
 
             return rawServermsgList[0]; //Hij geeft hier nu alleen de server message door, zoals "SVR PLAYERLIST" maar nog niet de bijbehorende ArrayList waarin in dit geval de players staan.
             //Wanneer Controller deze message ontvangt en bepaald heeft dat hier een Arraylist bij hoort moet deze de Connection methode getMsgArraylist() aanroepen.
-        }
-        else if (message.contains("{")){ //als er een { in zit dan zit er een Map in de message
+        } else if (message.contains("{")) { //als er een { in zit dan zit er een Map in de message
             //System.out.println(message);
             message = message.replace("\"", "");
             message = message.replace(" {", "&"); //vervang { voor - omdat de .split methode niet met { wil splitten
@@ -115,15 +116,14 @@ public class Connection implements Runnable{
             //System.out.println(pairs[1]); balls
 
 
-            for (int i=0;i<pairs.length;i++) { //loop door de lijst met keys en values, maak van 1 String waar een key en een value in staat twee Strings en stop ze in een HashMap
+            for (int i = 0; i < pairs.length; i++) { //loop door de lijst met keys en values, maak van 1 String waar een key en een value in staat twee Strings en stop ze in een HashMap
                 String pair = pairs[i];
                 String[] keyValue = pair.split(": ");
 
-                if (keyValue.length >= 2){
+                if (keyValue.length >= 2) {
                     serverMsgHashMap.put(keyValue[0], keyValue[1].replace("\"", "")); //remove " tekens
-                }
-                else {
-                    serverMsgHashMap.put(keyValue[0].replace("\"", "") , keyValue[0].replace("\"", ""));
+                } else {
+                    serverMsgHashMap.put(keyValue[0].replace("\"", ""), keyValue[0].replace("\"", ""));
                 }
 
 
@@ -131,14 +131,14 @@ public class Connection implements Runnable{
 
             return rawServermsgList[0]; //Hij geeft hier nu alleen de server message door, zoals "SVR GAME MATCH" maar nog niet de bijbehorende HashMap waarin informatie staat als het speltype, naam van de tegenstander, etc.
             //Wanneer Controller deze message ontvangt en bepaald heeft dat hier een HashMap bij hoort moet deze de Connection methode getMsgHashMap() aanroepen.
-        }
-
-        else { //Zit dus geen List of Map in de message
+        } else { //Zit dus geen List of Map in de message
             return message;
         }
     }
+
     /**
      * Geeft de laatst ontvangen Map terug die de server gestuurd had.
+     *
      * @return De hashmap die in het laatste server bericht zat.
      */
     public HashMap getMsgHashMap() {
@@ -147,17 +147,19 @@ public class Connection implements Runnable{
 
     /**
      * Geeft de laatst ontvangen List terug die de server gestuurd had.
+     *
      * @return De ArrayList die in het laatste server bericht zat.
      */
-    public ArrayList getMsgArrayList(){
+    public ArrayList getMsgArrayList() {
         return serverMsgArrayList;
     }
 
     /**
      * Geeft aan de server door welke game de speler wilt spelen
+     *
      * @param game is het spel die je wilt spelen
      */
-    public void selectGame(String game){
+    public void selectGame(String game) {
 
         pr.println("subscribe " + game);
         pr.flush();
@@ -165,9 +167,10 @@ public class Connection implements Runnable{
 
     /**
      * Geeft aan de server door op welke locatie de speler een zet doet
+     *
      * @param location is de locatie van de zet in de vorm van een integer
      */
-    public void makeMove(int location){
+    public void makeMove(int location) {
         pr.println("move " + location);
         pr.flush();
     }
@@ -175,7 +178,7 @@ public class Connection implements Runnable{
     /**
      * Geeft aan de server door dat de speler het hele potje opgeeft
      */
-    public void forfeit(){
+    public void forfeit() {
         pr.println("forfeit");
         pr.flush();
     }
@@ -183,7 +186,7 @@ public class Connection implements Runnable{
     /**
      * Verbreekt de verbinding met de server
      */
-    public void disconnect(){
+    public void disconnect() {
         pr.println("disconnect");
         pr.flush();
     }
@@ -191,7 +194,7 @@ public class Connection implements Runnable{
     /**
      * Vraagt de server om een lijst met alle spellen die de server ondersteunt
      */
-    public void getGamelist(){
+    public void getGamelist() {
         pr.println("get gamelist");
         pr.flush();
         //return getMsgArrayList();
@@ -202,7 +205,7 @@ public class Connection implements Runnable{
      *
      * @return een ArrayList met alle spelers die online zijn
      */
-    public ArrayList getPlayerlist(){
+    public ArrayList getPlayerlist() {
         pr.println("get playerlist");
         pr.flush();
         return getMsgArrayList();
@@ -212,9 +215,9 @@ public class Connection implements Runnable{
      * Een speler uitdagen om een bepaalt spel te spelen
      *
      * @param opponent de naam van de speler die je uitdaagt
-     * @param game het spel waarvoor je de tegenstander uitdaagt
+     * @param game     het spel waarvoor je de tegenstander uitdaagt
      */
-    public void challengePlayer(String opponent, String game){
+    public void challengePlayer(String opponent, String game) {
         pr.println("challenge \"" + opponent + "\" \"" + game);
         pr.flush();
     }
@@ -224,18 +227,12 @@ public class Connection implements Runnable{
      *
      * @param challengeNumber het nummer van de uitdaging (iedere uitdaging heeft een uniek nummer)
      */
-    public void acceptChallenge(String challengeNumber){
+    public void acceptChallenge(String challengeNumber) {
         pr.println("challenge accept " + challengeNumber);
         pr.flush();
     }
 
-
     public void run() {
-        /*try {
-            this.connect();
-        }
-        catch(IOException e){e.printStackTrace();}
 
-         */
     }
 }
