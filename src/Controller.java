@@ -230,7 +230,7 @@ public class Controller {
                 //hashmap: {CHALLENGENUMBER: "<uitdaging nummer>"}
                 break;
 
-            case "(C) Copyright 2015 Hanzehogeschool Groningen":
+            case "(C) Copyright 2021 Hanzehogeschool Groningen":
                 //copyright melding van de Hanze
                 break;
 
