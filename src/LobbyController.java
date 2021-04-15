@@ -24,9 +24,13 @@ public class LobbyController{
     ArrayList<String> playerList;
     static boolean isLobbyWindowOpen;
 
+    /**
+     * dit is de constructor van de klass LobbyController. Hier worden een aantal
+     * instrcuties uitgevoerd die nodig zijn bij het opstarten van het Lobbyscherm
+     */
     public LobbyController() {
         isLobbyWindowOpen = true;
-        Platform.runLater(() -> {
+        Platform.runLater(() -> { // draai de volgende instructies op de JavaFX Thread
             uname.setText(Controller.playerNamestring);
             cbDifficultyAI.getItems().addAll("Normaal", "Moeilijk");
             cbDifficultyAI.setOnAction(e -> setDifficulty(cbDifficultyAI));
@@ -36,9 +40,13 @@ public class LobbyController{
         });
     }
 
+    /**
+     * deze methode wordt aangeroepen wanneer de gebruiker klikt op de "ververs" knop op het Lobby scherm.
+     * wanneer hierop geklikt is worden de methodes updateOnlinePlayers en updateChallengedUs
+     * aangeroepen om de beide GridPanes te voorzien van de nieuwste data
+     */
     @FXML
     public void refresh() {
-        System.out.println(Controller.challengers);
         updateOnlinePlayers();
         updateChallengedUs();
     }
@@ -51,12 +59,12 @@ public class LobbyController{
         clearGrid(challengedYouGrid);
         int j =0;
         if(Controller.challengers != null) {
-            for (String i : Controller.challengers.keySet()) {
-                if (!nameExists(challengedYouGrid, i)) {
+            for (String i : Controller.challengers.keySet()) { // loop door alle keys heen van HashMap challengers
+                if (!nameExists(challengedYouGrid, i)) { // als de naam niet voorkomt in de grid, voegen we de rij toe aan de grid
+
                     Label gebruikersnaam = new Label(i);
                     Label game = new Label((String) (challengers.get(i)).get("GAMETYPE"));
                     Button accepteer = new Button("Accepteer");
-                    System.out.println((challengers.get(i)).get("CHALLENGENUMBER"));
                     String challengerNumber = (String) (challengers.get(i)).get("CHALLENGENUMBER");
                     accepteer.setOnAction(e -> {
                         try {
@@ -121,18 +129,18 @@ public class LobbyController{
 
             case "Boter, kaas en eieren":
                 game = "Tic-tac-toe";
-                System.out.println("Je hebt " + stringPlayerChallenged(cb) + " uigedaagd voor een potje " + game);
+//                System.out.println("Je hebt " + stringPlayerChallenged(cb) + " uigedaagd voor een potje " + game);
                 Controller.con.challengePlayer(name, game); //stuur de playername en game naar de methode van Connection om te kunnen uitdagen
                 break;
 
             case "Reversi":
                 game = "Reversi";
-                System.out.println("Je hebt " + stringPlayerChallenged(cb) + " uigedaagd voor een potje " + game);
+//                System.out.println("Je hebt " + stringPlayerChallenged(cb) + " uigedaagd voor een potje " + game);
                 Controller.con.challengePlayer(stringPlayerChallenged(cb), game); //stuur de playername en game naar de methode van Connection om te kunnen uitdagen
                 break;
 
             default:
-                System.out.println("Geen match");
+//                System.out.println("Geen match");
                 break;
         }
     }
@@ -171,7 +179,7 @@ public class LobbyController{
      * deze methode verwijderd nodes van de bestaande GridPanes
      * wanneer deze gebruikers niet meer online zijn
      *
-     * @param grid is de GridPane die we willen clearen
+     * @param grid is de GridPane die gecleard moet worden
      */
     private void clearGrid(GridPane grid) {
 
@@ -247,7 +255,7 @@ public class LobbyController{
                 while(isLobbyWindowOpen) {
                     updateLobby();
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000); // bepaalt hoelang het duurt voor de thread voordat updateLobby() weer wordt aangeroepen
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -281,6 +289,13 @@ public class LobbyController{
         return numRows;
     }
 
+    /**
+     * Deze methode geeft als return het aantal rijen van de mee gegeven GridPane
+     *
+     * @param grid is de GridPane waarin we willen checken of de naam erin bestaat
+     * @param name is de String waar we op willen controleren of deze in de grid aanwezig is
+     * @return (boolean) true wanneer naam is gevonden. false wanneer niet
+     */
     private boolean nameExists(GridPane grid, String name) {
 
         ObservableList<Node> childrens = grid.getChildren();
@@ -299,6 +314,11 @@ public class LobbyController{
         return false;
     }
 
+    /**
+     * Deze methode wordt aangeroepen wanneer de speler op de checkbox drukt
+     * om de AI voor zich te laten spelen (in Lobby scherm)
+     * en verandert dan de boolean isAI naar de goede waarde
+     */
     public void playerIsAI() {
         if (!Game.isAI) {
             Game.isAI = true;
@@ -307,10 +327,15 @@ public class LobbyController{
         }
     }
 
+    /**
+     * Deze methode wordt aangeroepen wanneer de speler een actie uitvoert op de Combobox
+     * die gaat over de moeilijkheid van de AI. Wanneer de speler een moeilijkheid heeft aangeklikt
+     * wordt de juiste waarde geset op AI.difficulty
+     */
     private void setDifficulty(ComboBox cb) {
         String difficulty = (String) cb.getValue();
 
-        switch (difficulty) {//check for a match
+        switch (difficulty) { //check voor een match
 
             case "Normaal":
                 Platform.runLater(() -> {
