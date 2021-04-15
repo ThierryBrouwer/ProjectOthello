@@ -81,7 +81,6 @@ public class TicTacToe extends Game{
 
 
 
-
     //private methode, wordt alleen gebruikt bij getMoveList
     public boolean validMove(int row, int col) {
         // kijken of de rij en kolom leeg zijn
@@ -123,17 +122,6 @@ public class TicTacToe extends Game{
         return legalmoves1d;
     }
 
-    public void print2dBoard(int[][] board){
-
-        for(int i=0;i < board.length;i++){
-            String s = "";
-            for(int j=0;j < board.length;j++){
-                s = s + board[i][j];
-            }
-            System.out.println(s);
-        }
-        System.out.println("");
-    }
 
     //functie om de beurt om te draaien
     public void changePiece(){
@@ -141,8 +129,6 @@ public class TicTacToe extends Game{
             piece = 2;
         }
         else{piece = 1;}
-        //System.out.println("Nu ben ik piece " + piece);
-
     }
 
     public int[] boardConvertto1d() {
@@ -154,23 +140,7 @@ public class TicTacToe extends Game{
         return board;
     }
 
-    //zet de move op het bord en past de spelerbeurt aan zodat de volgende move van de andere speler is.
-//    public void updateBoard(int move){
-//        board[move] = piece;
-//        if (piece == 1){
-//            piece = 2;
-//        }
-//        else if (piece == 2){
-//            piece = 1;
-//        }
-//    }
 
-
-    // Win functie om de andere 3 win functies aan te roepen
-    // Geeft true als er een winnaar is, false als er geen winnaar is
-    public boolean controleerWinnaar() {
-        return (rijenWinnaar() || kolomWinnaar() || diagonaalWinnaar());
-    }
 
     // Rijen controleren op een winnaar (Verticaal)
     private boolean rijenWinnaar() {
@@ -210,7 +180,6 @@ public class TicTacToe extends Game{
     }
 
 
-    //--------------------------------------------------------------
     public void resetBoard(){
         piece = 1;
         b = new Board(9);

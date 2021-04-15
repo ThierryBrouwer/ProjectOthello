@@ -133,10 +133,9 @@ public class Controller {
                     Platform.runLater(this::tttView);
                 } else if (gameType.equals("Reversi")){
                     game = reversi;
-                    reversi.resetBoard();
                     Platform.runLater(this::reversiView);
                 }
-
+                game.resetBoard();
                 // verwijder de challengers in challenger hashmap
                 challengers.clear();
 

@@ -110,7 +110,7 @@ public class AI {
         while (!board.isMoveLegal(i)) {
             i = r.nextInt(8);
         }
-        game.updateBoard(i);
+        //game.updateBoard(i);
         return i;
 
 
