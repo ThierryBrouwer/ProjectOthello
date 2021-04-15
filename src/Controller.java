@@ -41,7 +41,6 @@ public class Controller {
     public String cleanServermsg;
     public BufferedReader bf;
     public AI ai;
-    //public TicTacToe game;
     public Boolean yourturn;
     public TextField portNumber;
     public TextField ip;
@@ -74,7 +73,6 @@ public class Controller {
         }
 
         con = new Connection(playerNamestring, pr);
-        System.out.println("ik ben speler " + playerNamestring);
 
 
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
@@ -96,12 +94,10 @@ public class Controller {
 
             int i = 0;
             while ((serverMsg = bf.readLine()) != null) {
-                //serverMsg = bf.readLine();
-                //System.out.println(serverMsg);
                 cleanServermsg = con.dissect(serverMsg);
 
-                System.out.println("servermsg " + i + " = " + cleanServermsg);
-                System.out.println(serverMsg);
+                //System.out.println("servermsg " + i + " = " + cleanServermsg);
+                //System.out.println(serverMsg);
                 useServerMessage(cleanServermsg);
                 i++;
             }
@@ -127,7 +123,6 @@ public class Controller {
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
 
                 Object gameType = (String) con.getMsgHashMap().get("GAMETYPE");
-                System.out.println(gameType);
 
                 Game.isGameRunning = true;
                 Game.stateOfGame = 0;
@@ -138,15 +133,13 @@ public class Controller {
                     Platform.runLater(this::tttView);
                 } else if (gameType.equals("Reversi")){
                     game = reversi;
-                    reversi.resetBoard();
                     Platform.runLater(this::reversiView);
-                    //System.out.println("REVERSI");
                 }
-
+                game.resetBoard();
                 // verwijder de challengers in challenger hashmap
                 challengers.clear();
 
-                ai = new AI();
+                ai = new AI(game);
 
                 // set de juiste waarden op de variabelen
                 if (playertomove.equals(playerNamestring)) {
@@ -169,17 +162,14 @@ public class Controller {
                 Game.turn = Game.ourUsername;
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
                 if (Game.isAI) {
-                    System.out.println("binnen");
                     int move3 = ai.makeMove();
-                    reversi.makeMove(move3, true);
-                    //con.makeMove(move3);
+                    game.makeMove(move3, true);
                     yourturn = false;
                 }
 
                 break;
 
             case "SVR GAME MOVE":
-                System.out.println("GAME MOVE");
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
 
                 Object move1 = con.getMsgHashMap().get("MOVE");
@@ -218,21 +208,21 @@ public class Controller {
                 break;
 
             case "SVR GAME CHALLENGE":
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
-                System.out.println(con.getMsgHashMap());
-                //lobbyController.updateChallengers(con.getMsgHashMap());
                 String challengerName = (String) con.getMsgHashMap().get("CHALLENGER");
                 challengers.put(challengerName, con.getMsgHashMap());
                 break;
 
             case "SVR GAME CHALLENGE CANCELLED":
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGENUMBER: "<uitdaging nummer>"}
                 break;
 
-            case "(C) Copyright 2015 Hanzehogeschool Groningen":
+            case "(C) Copyright 2021 Hanzehogeschool Groningen":
                 //copyright melding van de Hanze
+                break;
+
+            case "SVR PLAYERLIST":
+                //nieuwe playerlist ontvangen
                 break;
 
             default:

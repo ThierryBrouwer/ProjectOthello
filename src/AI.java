@@ -9,7 +9,7 @@ import static java.lang.Integer.min;
 /**
  * AI klasse. Hierin worden zetten gevonden en gereturned, afhankelijk van het spel en de moeilijkheidsgraad die geselecteerd is.
  *
- * @author Joost.
+ * @author Joost P
  * @version 15/4/2021
  */
 public class AI {
@@ -23,8 +23,9 @@ public class AI {
     /**
      * Constructor voor AI klasse. Gebruikt de static variabele game uit de Controller klasse.
      */
-    public AI() {
-        this.game = Controller.game;
+    public AI(Game game) {
+        this.game = game;
+
     }
 
 
@@ -140,7 +141,7 @@ public class AI {
         while (!board.isMoveLegal(i)) {
             i = r.nextInt(8);
         }
-        game.updateBoard(i);
+        //game.updateBoard(i);
         return i;
 
 

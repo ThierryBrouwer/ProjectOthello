@@ -26,5 +26,7 @@ public abstract class Game {
 
     public abstract void makeMove(int pos, boolean b);
 
+    public abstract void resetBoard();
+
     //public Board aiGetBoard(){return null;}
 }

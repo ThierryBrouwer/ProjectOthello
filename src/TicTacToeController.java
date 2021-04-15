@@ -97,6 +97,7 @@ public class TicTacToeController {
                             result = node;
                             Button button = (Button) result;
                             button.setText("X");
+                            button.setStyle("-fx-background-color: green; -fx-font-size: 50");
                             break;
                         }
                         if(board[i] == 2) {
@@ -104,6 +105,7 @@ public class TicTacToeController {
                             result = node;
                             Button button = (Button) result;
                             button.setText("O");
+                            button.setStyle("-fx-background-color: green; -fx-font-size: 50");
                             break;
                         }
                     }

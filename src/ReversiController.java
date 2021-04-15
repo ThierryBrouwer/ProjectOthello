@@ -173,12 +173,18 @@ public class ReversiController {
         }
     }
 
+    /**
+     * deze methode verandert de tekst van lblBeurt naar de naam van de speler die op dit moment aan de beurt is
+     */
     public void updateTurn() {
         Platform.runLater(() -> {
             lblBeurt.setText(Game.turn); // set de beurt naar de persoon die aan de beurt is.
         });
     }
 
+    /**
+     * deze methode blijft net zolang draaien tot dat er een ander scherm wordt geopend
+     */
     public void refreshTurnNonStop()
     {
         // Create a Runnable
@@ -190,12 +196,14 @@ public class ReversiController {
                     updateTurn();
 
                     if (!Game.isGameRunning) {
+                        // als het spel afgelopen is wordt de back button zichtbaar en de opgeef knop onzichtbaar
                         btnBack.setVisible(true);
                         btnBack.setDisable(false);
                         btnForfeit.setDisable(true);
                         btnForfeit.setVisible(false);
 
-                        Platform.runLater(() -> {
+                        Platform.runLater(() -> { // draai de volgende instructies op de JavaFX Thread
+
                             // als het potje is afgelopen geven we de user een pop up met daarin de staat van het potje
                             switch (Game.stateOfGame) {//check for a match
 
