@@ -15,8 +15,8 @@ public class AI {
     static int difficulty;
 
 
-    public AI() {
-        this.game = Controller.game;
+    public AI(Game game) {
+        this.game = game;
     }
 
 
