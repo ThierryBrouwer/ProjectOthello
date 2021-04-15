@@ -41,7 +41,6 @@ public class Controller {
     public String cleanServermsg;
     public BufferedReader bf;
     public AI ai;
-    //public TicTacToe game;
     public Boolean yourturn;
     public TextField portNumber;
     public TextField ip;
@@ -165,7 +164,7 @@ public class Controller {
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
                 if (Game.isAI) {
                     int move3 = ai.makeMove();
-                    reversi.makeMove(move3, true);
+                    game.makeMove(move3, true);
                     yourturn = false;
                 }
 
