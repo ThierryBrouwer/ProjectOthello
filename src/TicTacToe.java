@@ -87,14 +87,9 @@ public class TicTacToe extends Game{
         // kijken of de rij en kolom leeg zijn
         if (board2d[row][col] != 0){
             return false;
-        }else{
-            // Kijken welke steen de tegenstander is
-            int opponent = 1;
-            if (piece == 1) {
-                opponent = 2;
-            }
-            return true;
         }
+
+        return true;
     }
 
     public ArrayList<Pair> getMoveList() {
@@ -111,8 +106,6 @@ public class TicTacToe extends Game{
         }
         return legalMoves;
     }
-
-
 
 
 
@@ -222,6 +215,9 @@ public class TicTacToe extends Game{
         piece = 1;
         b = new Board(9);
         board = b.getBoard();
+
+        board2d = new int[3][3];
+        makeBoard2d();
 
     }
 
