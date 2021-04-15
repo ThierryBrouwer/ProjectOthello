@@ -12,7 +12,10 @@ public class LoginCheck {
      */
     public boolean isUsernameValid(String uName) {
 
+
         // Regex om te checken of uName valide is.
+        // Regex to check valid username.
+
         String regex = "^[A-Za-z]\\w{1,15}$";
 
         // compileer de ReGex
