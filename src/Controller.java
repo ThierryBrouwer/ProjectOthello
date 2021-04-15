@@ -74,7 +74,7 @@ public class Controller {
         }
 
         con = new Connection(playerNamestring, pr);
-        System.out.println("ik ben speler " + playerNamestring);
+        //System.out.println("ik ben speler " + playerNamestring);
 
 
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
@@ -100,8 +100,8 @@ public class Controller {
                 //System.out.println(serverMsg);
                 cleanServermsg = con.dissect(serverMsg);
 
-                System.out.println("servermsg " + i + " = " + cleanServermsg);
-                System.out.println(serverMsg);
+                //System.out.println("servermsg " + i + " = " + cleanServermsg);
+                //System.out.println(serverMsg);
                 useServerMessage(cleanServermsg);
                 i++;
             }
@@ -230,8 +230,12 @@ public class Controller {
                 //hashmap: {CHALLENGENUMBER: "<uitdaging nummer>"}
                 break;
 
-            case "(C) Copyright 2015 Hanzehogeschool Groningen":
+            case "(C) Copyright 2021 Hanzehogeschool Groningen":
                 //copyright melding van de Hanze
+                break;
+
+            case "SVR PLAYERLIST":
+                //nieuwe playerlist ontvangen
                 break;
 
             default:
