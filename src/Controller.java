@@ -127,7 +127,7 @@ public class Controller {
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
 
                 Object gameType = (String) con.getMsgHashMap().get("GAMETYPE");
-                System.out.println(gameType);
+//                System.out.println(gameType);
 
                 Game.isGameRunning = true;
                 Game.stateOfGame = 0;
@@ -169,7 +169,6 @@ public class Controller {
                 Game.turn = Game.ourUsername;
                 //hashmap: {TURNMESSAGE: "<bericht voor deze beurt>"}
                 if (Game.isAI) {
-                    System.out.println("binnen");
                     int move3 = ai.makeMove();
                     reversi.makeMove(move3, true);
                     //con.makeMove(move3);
@@ -179,7 +178,7 @@ public class Controller {
                 break;
 
             case "SVR GAME MOVE":
-                System.out.println("GAME MOVE");
+//                System.out.println("GAME MOVE");
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
 
                 Object move1 = con.getMsgHashMap().get("MOVE");
