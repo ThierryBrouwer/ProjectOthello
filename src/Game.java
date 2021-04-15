@@ -28,5 +28,7 @@ public abstract class Game {
 
     public abstract void resetBoard();
 
+    public abstract boolean validMove(int row, int col);
+
     //public Board aiGetBoard(){return null;}
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-image: /WoodenBackground.jpg;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacToeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-image: url('Images/WoodenBackground.jpg');" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacToeController">
    <bottom>
       <AnchorPane prefHeight="500.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
@@ -39,16 +39,16 @@
                   <Button alignment="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerRequestsMove" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: green;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <AnchorPane layoutX="495.0" layoutY="8.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
+            <AnchorPane layoutX="495.0" layoutY="8.0" prefHeight="46.0" prefWidth="200.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
                <children>
-                  <Label alignment="CENTER" layoutX="18.0" layoutY="37.0" text="Boter, kaas en eieren" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="18.0" layoutY="8.0" text="Boter, kaas en eieren" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="495.0" layoutY="117.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
+            <AnchorPane layoutX="495.0" layoutY="62.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;">
                <children>
                   <Label layoutX="5.0" layoutY="3.0" prefHeight="26.0" prefWidth="91.0" text="Ingelogd als: " textFill="WHITE">
                      <font>
@@ -64,8 +64,8 @@
             </AnchorPane>
             <GridPane gridLinesVisible="true" layoutX="495.0" layoutY="200.0" maxWidth="200.0" prefHeight="200.0" style="-fx-background-color: green;">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -76,13 +76,29 @@
                <children>
                   <Label text="Speler" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="21.0" />
                      </font>
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lblPlayer1" text="Speler 1" GridPane.rowIndex="1">
+                  <Label fx:id="lblPlayer1" text="Speler 1" textFill="WHITE" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPlayer2" text="Speler 2" textFill="WHITE" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Beurt" textFill="WHITE" GridPane.rowIndex="3">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -90,7 +106,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblPlayer2" text="Speler 2" GridPane.rowIndex="2">
+                  <Label text="X" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -98,7 +114,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label text="Beurt" GridPane.rowIndex="3">
+                  <Label text="O" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -106,28 +122,12 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label text="X" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="lblBeurt" text="Speler 1" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
                      <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label text="O" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblBeurt" text="Speler 1" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
                </children>
@@ -136,6 +136,15 @@
                <children>
                   <Button fx:id="btnForfeit" layoutX="108.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerRequestsForfeit" prefHeight="36.0" prefWidth="85.0" text="Opgeven" />
                   <Button fx:id="btnBack" layoutX="8.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerRequestsBack" prefHeight="36.0" prefWidth="85.0" text="Ga terug" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="popUpAfterGame" layoutX="495.0" layoutY="118.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: green; -fx-border-color: darkgreen; -fx-border-width: 3;" visible="false">
+               <children>
+                  <Label fx:id="lblStateOfGame" layoutX="5.0" layoutY="3.0" prefHeight="26.0" prefWidth="183.0" text="Je hebt: " textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>

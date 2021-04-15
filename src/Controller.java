@@ -149,7 +149,7 @@ public class Controller {
                     Game.player2 = Game.opponent;
                     break;
                 } else {
-                    reversi.changePiece();
+                    game.changePiece();
                     Game.player1 = (String) con.getMsgHashMap().get("OPPONENT");
                     Game.opponent = (String) con.getMsgHashMap().get("OPPONENT");
                     Game.turn = Game.opponent;

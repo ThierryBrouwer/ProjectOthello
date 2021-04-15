@@ -106,12 +106,19 @@ public class AI {
     //return random mogelijke zet.
     private int moveTicTacToe() {
         Random r = new Random();
-        int i = r.nextInt(8);
-        while (!board.isMoveLegal(i)) {
-            i = r.nextInt(8);
+        int i = r.nextInt(9);
+        int row = i/3;
+        int col = i%3;
+        while (!game.validMove(row, col)) {
+
+            i = r.nextInt(9);
+            row = i/3;
+            col = i%3;
         }
+
+        int index = row*3+col;
         //game.updateBoard(i);
-        return i;
+        return index;
 
 
     }

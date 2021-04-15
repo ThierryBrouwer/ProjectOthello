@@ -11,7 +11,7 @@ public class TicTacToe extends Game{
     private int col;
     private int piece;
     private Board b;
-    private int lastmove;
+    //private int lastmove;
 
     public TicTacToe() {
         resetBoard();
@@ -35,21 +35,8 @@ public class TicTacToe extends Game{
             makeBoard2d();
             board2d[row][col] = piece;
 
-            // Controleren welke 'kleur' (1 of 2) de tegenstander is
-            int opponent = 1;
-            if (piece == 1) {
-                opponent = 2;
-            }
-
-
-
             board = boardConvertto1d();
 
-            //print2dBoard(board2d);
-
-            //swap beurt
-            //changePiece();
-            //print2dBoard(board2d);
             if (turn.equals(ourUsername)) {
                 Controller.con.makeMove(move);
             }
@@ -91,37 +78,6 @@ public class TicTacToe extends Game{
         return true;
     }
 
-    public ArrayList<Pair> getMoveList() {
-
-        ArrayList<Pair> legalMoves = new ArrayList<>();
-        // Het bord controleren of we daarheen mogen bewegen en de coordinaten
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                if (validMove(row, col)) { // Coordinaten opslaan
-                    Pair p = new Pair(row,col);
-                    legalMoves.add(p);
-                }
-            }
-        }
-        return legalMoves;
-    }
-
-
-
-
-    public int[] convertMovesto1d(ArrayList<Pair> legalmoves2d){
-        int[] legalmoves1d = new int[legalmoves2d.size()];
-        for (int i=0;i < legalmoves2d.size();i++){
-            Pair coord = legalmoves2d.get(i);
-            Object key = coord.getKey();
-            Object value = coord.getValue();
-            int row = (int) key;
-            int col = (int) value;
-            legalmoves1d[i] = (3*row+col);
-        }
-        return legalmoves1d;
-    }
-
 
     //functie om de beurt om te draaien
     public void changePiece(){
@@ -129,6 +85,7 @@ public class TicTacToe extends Game{
             piece = 2;
         }
         else{piece = 1;}
+        System.out.println("Nu ben ik piece " + piece);
     }
 
     public int[] boardConvertto1d() {
@@ -140,46 +97,6 @@ public class TicTacToe extends Game{
         return board;
     }
 
-
-
-    // Rijen controleren op een winnaar (Verticaal)
-    private boolean rijenWinnaar() {
-        for (int rij = 0; rij < 3; rij++) {
-            if (controleerRij(board[3 *rij], board[3 * rij + 1], board[3 * rij + 2])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //Kolommen cotroleren op een winnaar (Horizontaal)
-    private boolean kolomWinnaar() {
-        for (int kol = 0; kol < 3; kol++) {
-            if (controleerRij(board[kol], board[kol * 2], board[kol * 3])) {
-                return true;
-            }
-        }
-        return false;
-    }
-    // de twee diagonale mogelijkheden controleren op een winnaar
-    private boolean diagonaalWinnaar() {
-        return ((controleerRij(board[0], board[4], board[8])) || (controleerRij(board[2], board[4], board[6])));
-    }
-
-    // Controleren of de 3 waardes hetzelfde zijn om te kijken of er een winnaar is
-    private boolean controleerRij(int hok1, int hok2, int hok3) {
-        return ((hok1 != 0) && (hok2 == hok3) && (hok1 == hok3));
-    }
-
-
-    public boolean isMoveLegal(int move){
-        if(board[move] != 0){
-            return false;
-        }
-        return board[move] == 0;
-    }
-
-
     public void resetBoard(){
         piece = 1;
         b = new Board(9);
@@ -190,44 +107,9 @@ public class TicTacToe extends Game{
 
     }
 
-    public ArrayList<TicTacToe> getChildren(boolean isOtherPlayer){
-        ArrayList<TicTacToe> children = new ArrayList<>();
-        //System.out.println(isOtherPlayer);
-        if (isOtherPlayer){changePiece();}
-        int[] movelist = convertMovesto1d(getMoveList());
-        for (int i : movelist){
-            TicTacToe child = new TicTacToe();
-            int[] oldboard = getBoard();
-            int[] newboard = copyboard(oldboard);
-
-            child.setBoard(newboard);
-
-            if (isOtherPlayer){child.changePiece();}
-            child.makeMove(i, false);
-            child.lastmove = i;
-            children.add(child);
-        }
-        return children;
-    }
-
-    public int[] copyboard(int[] board) {
-        int[] newboard = new int[64];
-        int j = 0;
-        for (int i : board) {
-            newboard[j] = i;
-            j++;
-        }
-        return newboard;
-    }
-
-    public void setBoard(int[] board){
-        this.board = board;
-        makeBoard2d();
-    }
-
-    public int[] getBoard(){
-        return this.board;
-    }
+//    public int[] getBoard(){
+//        return this.board;
+//    }
 
     public int getPiece(){
         return piece;

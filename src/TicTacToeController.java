@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -24,6 +25,8 @@ public class TicTacToeController {
     public Label lblPlayer1;
     public Label lblPlayer2;
     public Label lblBeurt;
+    public Label lblStateOfGame;
+    public AnchorPane popUpAfterGame;
 
     public TicTacToeController(){
 // default waarden van labels veranderen
@@ -167,6 +170,31 @@ public class TicTacToeController {
                         btnBack.setDisable(false);
                         btnForfeit.setDisable(true);
                         btnForfeit.setVisible(false);
+
+                        Platform.runLater(() -> { // draai de volgende instructies op de JavaFX Thread
+
+                            // als het potje is afgelopen geven we de user een pop up met daarin de staat van het potje
+                            switch (Game.stateOfGame) {//check for a match
+
+                                case 1: // we hebben gewonnen
+                                    lblStateOfGame.setText("Je hebt gewonnen!");
+                                    popUpAfterGame.setVisible(true);
+                                    break;
+
+                                case 2: // we hebben verloren
+                                    lblStateOfGame.setText("Je hebt verloren");
+                                    popUpAfterGame.setVisible(true);
+                                    break;
+
+                                case 3: // we hebben gelijk gespeeld
+                                    lblStateOfGame.setText("Je hebt gelijk gespeeld");
+                                    popUpAfterGame.setVisible(true);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        });
                     }
 
                     try {
