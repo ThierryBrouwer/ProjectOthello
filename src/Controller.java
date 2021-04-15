@@ -146,7 +146,7 @@ public class Controller {
                 // verwijder de challengers in challenger hashmap
                 challengers.clear();
 
-                ai = new AI();
+                ai = new AI(game);
 
                 // set de juiste waarden op de variabelen
                 if (playertomove.equals(playerNamestring)) {
