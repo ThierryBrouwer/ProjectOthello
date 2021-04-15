@@ -74,7 +74,6 @@ public class Controller {
         }
 
         con = new Connection(playerNamestring, pr);
-        //System.out.println("ik ben speler " + playerNamestring);
 
 
         Thread gamethread = new Thread(this::playGame); //weet niet hoe dit werkt, intelliJ deed het automatisch :S
@@ -96,8 +95,6 @@ public class Controller {
 
             int i = 0;
             while ((serverMsg = bf.readLine()) != null) {
-                //serverMsg = bf.readLine();
-                //System.out.println(serverMsg);
                 cleanServermsg = con.dissect(serverMsg);
 
                 //System.out.println("servermsg " + i + " = " + cleanServermsg);
@@ -127,7 +124,6 @@ public class Controller {
                 Object playertomove = con.getMsgHashMap().get("PLAYERTOMOVE");
 
                 Object gameType = (String) con.getMsgHashMap().get("GAMETYPE");
-//                System.out.println(gameType);
 
                 Game.isGameRunning = true;
                 Game.stateOfGame = 0;
@@ -140,7 +136,6 @@ public class Controller {
                     game = reversi;
                     reversi.resetBoard();
                     Platform.runLater(this::reversiView);
-                    //System.out.println("REVERSI");
                 }
 
                 // verwijder de challengers in challenger hashmap
@@ -171,14 +166,12 @@ public class Controller {
                 if (Game.isAI) {
                     int move3 = ai.makeMove();
                     reversi.makeMove(move3, true);
-                    //con.makeMove(move3);
                     yourturn = false;
                 }
 
                 break;
 
             case "SVR GAME MOVE":
-//                System.out.println("GAME MOVE");
                 //hashmap: {PLAYER: "<speler>", DETAILS: "<reactie spel op zet>", MOVE: "<zet>"}
 
                 Object move1 = con.getMsgHashMap().get("MOVE");
@@ -217,16 +210,12 @@ public class Controller {
                 break;
 
             case "SVR GAME CHALLENGE":
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
-                System.out.println(con.getMsgHashMap());
-                //lobbyController.updateChallengers(con.getMsgHashMap());
                 String challengerName = (String) con.getMsgHashMap().get("CHALLENGER");
                 challengers.put(challengerName, con.getMsgHashMap());
                 break;
 
             case "SVR GAME CHALLENGE CANCELLED":
-                //System.out.println(con.getMsgHashMap());
                 //hashmap: {CHALLENGENUMBER: "<uitdaging nummer>"}
                 break;
 

@@ -124,7 +124,7 @@ public class LobbyController{
         String game;
         String name = (String) stringPlayerChallenged(cb);
 
-        System.out.println(stringPlayerChallenged(cb));
+        //System.out.println(stringPlayerChallenged(cb));
         switch (s) {//check for a match
 
             case "Boter, kaas en eieren":
