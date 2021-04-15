@@ -29,7 +29,7 @@ public class Controller {
     public static TicTacToeController tttController;
     public static Connection con;
     public static LobbyController lobbyController;
-    public Game game;
+    public static Game game;
     public TextField playerName;
     public static HashMap<String, HashMap> challengers;
 

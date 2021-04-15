@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 /**
  * Deze klasse is verantwoordelijk voor het opstarten van het hele framework
  *
- * @author
- * @version 15/2/2021
+ * @author Geert, Thierry, Djordy, Joost J, Joost P
+ * @version 14/4/2021
  */
 public class Main extends Application{
 
