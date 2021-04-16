@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class Reversi extends Game {
 
     private int[] board;
-    private int spelerBeurt;
     private int[][] board2d;
+    private int spelerBeurt;
     private int row;
     private int col;
     private int piece;
@@ -152,6 +152,16 @@ public class Reversi extends Game {
         return false; // Geen steen van tegenstander of einde van het bord
     }
 
+    /**
+     * De methode die wordt gebruikt om de steentjes om te draaien.
+     *
+     * @param row de x positie van het uitgangspunt.
+     * @param col de y positie van het uitgangspunt.
+     * @param deltaRow de x richting waarin gecheckt wordt of er stenen van de andere kleur liggen.
+     * @param deltaCol de y richting waarin gecheckt wordt of er stenen van de andere kleur liggen.
+     * @param myPiece de eigen kleur (1 voor zwart, 2 voor wit)
+     * @param opponentPiece de kleur van de tegenstander (1 voor zwart, 2 voor wit)
+     */
     public void flipPieces(int row, int col, int deltaRow, int deltaCol, int myPiece, int opponentPiece) {
         while (board2d[row][col] == opponentPiece) {
             board2d[row][col] = myPiece;
@@ -160,6 +170,11 @@ public class Reversi extends Game {
         }
     }
 
+    /**
+     * @param row de x positie van het uitgangspunt.
+     * @param col de y positie van het uitgangspunt.
+     * @return boolean true als de beurt geldig is, false als de beurt ongeldig is.
+     */
     //private methode, wordt alleen gebruikt bij getMoveList
     public boolean validMove(int row, int col) {
         // kijken of de rij en kolom leeg zijn
