@@ -12,6 +12,12 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Deze klasse wordt gebruikt als Controller voor Lobby.fxml
+ *
+ * @author Thierry
+ */
+
 public class LobbyController{
 
     @FXML

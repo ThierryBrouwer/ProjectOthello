@@ -1,5 +1,12 @@
 import java.util.regex.*;
 
+/**
+ * Deze klasse wordt gebruikt om te checken of ingevoerde gebruikersnamen
+ * valide zijn
+ *
+ * @author Thierry
+ */
+
 public class LoginCheck {
 
     /**
@@ -12,6 +19,10 @@ public class LoginCheck {
      */
     public boolean isUsernameValid(String uName) {
 
+        // als uName null is returnen we false
+        if (uName == null) {
+            return false;
+        }
 
         // Regex om te checken of uName valide is.
         // Regex to check valid username.
@@ -20,11 +31,6 @@ public class LoginCheck {
 
         // compileer de ReGex
         Pattern p = Pattern.compile(regex);
-
-        // als uName null is returnen we false
-        if (uName == null) {
-            return false;
-        }
 
         // nu controlleren we met de matcher() methode of uName aan onze requirements voldoet
         Matcher m = p.matcher(uName);
