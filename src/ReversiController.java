@@ -17,6 +17,11 @@ import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
 
+/**
+ * Deze klasse wordt gebruikt als Controller voor Reversi.fxml
+ *
+ * @author Thierry
+ */
 
 public class ReversiController {
 
