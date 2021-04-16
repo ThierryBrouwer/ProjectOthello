@@ -200,7 +200,7 @@ public class LobbyController{
                             // loop door alle namen van playerList
 
                             for (int i = 0; i < playerList.size(); i++) {
-                                if (playerList.get(i).equals(lb.getText()) && !playerList.get(i).equals(Game.ourUsername)) {
+                                if (playerList.get(i).equals(lb.getText())) {
                                     rowsThatStay.add(grid.getRowIndex(node));
                                 }
                             }
@@ -293,7 +293,7 @@ public class LobbyController{
     }
 
     /**
-     * Deze methode geeft als return het aantal rijen van de mee gegeven GridPane
+     * Deze methode geeft als return true als de naam in de GridPane aanwezig is
      *
      * @param grid is de GridPane waarin we willen checken of de naam erin bestaat
      * @param name is de String waar we op willen controleren of deze in de grid aanwezig is
