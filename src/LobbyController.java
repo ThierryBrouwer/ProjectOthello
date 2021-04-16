@@ -57,7 +57,7 @@ public class LobbyController{
     public void updateChallengedUs() {
         HashMap<String, HashMap>challengers = Controller.challengers;
         clearGrid(challengedYouGrid);
-        int j =0;
+
         if(Controller.challengers != null) {
             for (String i : Controller.challengers.keySet()) { // loop door alle keys heen van HashMap challengers
                 if (!nameExists(challengedYouGrid, i)) { // als de naam niet voorkomt in de grid, voegen we de rij toe aan de grid
@@ -73,10 +73,12 @@ public class LobbyController{
                             ioException.printStackTrace();
                         }
                     });
-                    challengedYouGrid.add(gebruikersnaam, 0, j + 1);
-                    challengedYouGrid.add(game, 1, j + 1);
-                    challengedYouGrid.add(accepteer, 2, j + 1);
-                    j++;
+
+                    int row = getRowCount(challengedYouGrid); // haal het aantal rijen op
+
+                    challengedYouGrid.add(gebruikersnaam, 0, row);
+                    challengedYouGrid.add(game, 1, row);
+                    challengedYouGrid.add(accepteer, 2, row);
                 }
             }
         }
@@ -176,8 +178,8 @@ public class LobbyController{
     }
 
     /**
-     * deze methode verwijderd nodes van de bestaande GridPanes
-     * wanneer deze gebruikers niet meer online zijn
+     * deze methode verwijderd nodes van de mee gegeven GridPane
+     * wanneer gebruikers niet meer online zijn
      *
      * @param grid is de GridPane die gecleard moet worden
      */
@@ -198,7 +200,7 @@ public class LobbyController{
                             // loop door alle namen van playerList
 
                             for (int i = 0; i < playerList.size(); i++) {
-                                if (playerList.get(i).equals(lb.getText())) {
+                                if (playerList.get(i).equals(lb.getText()) && !playerList.get(i).equals(Game.ourUsername)) {
                                     rowsThatStay.add(grid.getRowIndex(node));
                                 }
                             }
@@ -209,7 +211,8 @@ public class LobbyController{
                             }
                         }
                     }
-                    if (!rowsThatStay.contains(grid.getColumnIndex(node))) {
+                    // als de huidige node niet in een rij staat die bestaat in rowsThatStay dan voegen we de node toe aan de lijst om te verwijderen
+                    if (!rowsThatStay.contains(grid.getRowIndex(node))) {
                         deleteNodes.add(node);
                     }
                 }
