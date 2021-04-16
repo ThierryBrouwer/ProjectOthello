@@ -28,6 +28,11 @@ public class TicTacToeController {
     public Label lblStateOfGame;
     public AnchorPane popUpAfterGame;
 
+    /**
+     * De constructor van de TicTacToeController, maakt een background thread voor de Gui aan
+     * Hier word ook updateView aangeroepen om het bord op te halen
+     * isTttOpen boolean wordt op true gezet en refreshTurnNonStop() wordt aangeroepen, deze stopt pas als isTttOpen op false wordt gezet
+     */
     public TicTacToeController() {
 // default waarden van labels veranderen
         Platform.runLater(() -> {
@@ -43,7 +48,11 @@ public class TicTacToeController {
         refreshTurnNonStop();
     }
 
-
+    /**
+     * Deze methode wordt gebruikt als er op het speelveld wordt geklikt door de speler
+     * Er wordt gekeken of het onze beurt is, zo ja dan gebruiken we de makeMove methode
+     * @param actionEvent actionEvent geeft de input door van de speler
+     */
     public void playerRequestsMove(ActionEvent actionEvent) {
 
         Button button = (Button) actionEvent.getSource();
@@ -59,51 +68,49 @@ public class TicTacToeController {
         }
     }
 
+    /**
+     * De updateview haalt met name informatie op van Reversi.java
+     * en update met behulp hiervan het board
+     */
+
+    /**
+     * Deze methode haalt informatie uit de TicTacToe klasse en update de Gui
+     */
     public void updateView() {
+        // sla het huidige board op in int[] board
         int[] board = Controller.ttt.boardConvertto1d();
-        Node result;
+
+        // maak een ObservableList met nodes, zodat we door alle nodes van de grid kunnen loopen
         ObservableList<Node> childrens = grid.getChildren();
 
-        // update labels met de goede informatie
-        Platform.runLater(() -> {
+        for (Node node : childrens) { // loop door alle nodes van de grid
 
-            // update beurt
-            if (Controller.ttt.getPiece() == 1) {
-                lblBeurt.setText(Game.player1);
-            } else {
-                lblBeurt.setText(Game.player2);
-            }
-        });
+            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) { // check of de row en column index niet null zijn, nullpointer exceptions te voorkomen
 
-        for (Node node : childrens) {
-
-            if (grid.getRowIndex(node) != null && grid.getColumnIndex(node) != null) {
-
-                for (int i = 0; i < board.length; i++) {
+                for (int i = 0; i < board.length; i++) { // loop door de lengte van het board
 
                     int row = i / 3;
                     int column = i - 3 * row;
 
                     if (grid.getRowIndex(node) == row && grid.getColumnIndex(node) == column) {
 
-                        if (board[i] == 0) {
-
-                            result = node;
-                            Button button = (Button) result;
-                            button.setText("");
+                        if (board[i] == 0) { // dit vakje is door niemand in bezit
+                            // cast de node naar een button, zodat we de styling hiervan kunnen veranden
+                            Button button = (Button) node;
+                            button.setStyle("-fx-background-color: green;"); // zet style background-color green
                             break;
                         }
                         if (board[i] == 1) {
-
-                            result = node;
-                            Button button = (Button) result;
+                            // cast de node naar een button, zodat we de styling hiervan kunnen veranden
+                            Button button = (Button) node;
+                            // we geven de button een style met image
                             button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/blackX_160px.png')");
                             break;
                         }
                         if (board[i] == 2) {
-
-                            result = node;
-                            Button button = (Button) result;
+                            // cast de node naar een button, zodat we de styling hiervan kunnen veranden
+                            Button button = (Button) node;
+                            // we geven de button een style met image
                             button.setStyle("-fx-background-color: green; -fx-background-image: url('Images/blackCircle_160px.png')");
                             break;
                         }
@@ -113,10 +120,16 @@ public class TicTacToeController {
         }
     }
 
+    /**
+     * Methode die doorgeeft aan de Connection dat je wilt opgeven
+     */
     public void playerRequestsForfeit() {
         Controller.con.forfeit();
     }
 
+    /**
+     * Deze methode wordt aangeroepen wanneer je in de Gui op "Ga terug" klikt, dan wordt de boolean isTttOpen op false gezet en openen we LobbyController.java
+     */
     public void playerRequestsBack() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -145,12 +158,18 @@ public class TicTacToeController {
         }
     }
 
+    /**
+     * Methode die de turn voor de Gui update
+     */
     public void updateTurn() {
         Platform.runLater(() -> {
             lblBeurt.setText(Game.turn);
         });
     }
 
+    /**
+     * Deze methode draait de heletijd draaien totdat er een ander scherm geopend wordt
+     */
     public void refreshTurnNonStop() {
         // Create a Runnable
         Runnable task = new Runnable() {

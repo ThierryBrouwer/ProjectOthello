@@ -9,10 +9,16 @@ public class TicTacToe extends Game {
     private int piece;
     private Board b;
 
+    /**
+     * Constructor van de TicTacToe klasse
+     */
     public TicTacToe() {
         resetBoard();
     }
 
+    /**
+     * Methode die een 2d board maakt en het in een int array stopt
+     */
     public void makeBoard2d() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -21,6 +27,11 @@ public class TicTacToe extends Game {
         }
     }
 
+    /**
+     * Deze methode zet een zet, hier wordt gecontroleerd of je move mag en of de game loopt en update de Gui
+     * @param move De move die jij/ai wilt spelen
+     * @param updateGui Boolean die de Gui update als je true doorgeeft
+     */
     public void makeMove(int move, boolean updateGui) {
         //convert van 1d naar 2d
         row = move / 3;
@@ -57,7 +68,12 @@ public class TicTacToe extends Game {
     }
 
 
-    //private methode, wordt alleen gebruikt bij getMoveList
+    /**
+     * Methode die een boolean terug geeft, als het vak leeg is krijg je true terug, anders false
+     * @param row De row (verticaal)
+     * @param col De col (horizontaal)
+     * @return boolean true of false
+     */
     public boolean validMove(int row, int col) {
         // kijken of de rij en kolom leeg zijn
         if (board2d[row][col] != 0) {
@@ -67,7 +83,9 @@ public class TicTacToe extends Game {
     }
 
 
-    //functie om de beurt om te draaien
+    /**
+     * Methode die de beurt(piece) omdraait
+     */
     public void changePiece() {
         if (piece == 1) {
             piece = 2;
@@ -77,6 +95,10 @@ public class TicTacToe extends Game {
         //System.out.println("Nu ben ik piece " + piece);
     }
 
+    /**
+     * Methode die het 2d board omzet naar een 1d board
+     * @return int return het 1d board
+     */
     public int[] boardConvertto1d() {
         for (int i = 0; i < 9; i++) {
             int row = i / 3;
@@ -86,6 +108,9 @@ public class TicTacToe extends Game {
         return board;
     }
 
+    /**
+     * Deze methode reset het board en geeft standaard waarden mee
+     */
     public void resetBoard() {
         piece = 1;
         b = new Board(9);
@@ -96,11 +121,18 @@ public class TicTacToe extends Game {
 
     }
 
+    /**
+     * Deze methode vraagt de piece op
+     * @return int return de piece
+     */
     public int getPiece() {
         return piece;
     }
 
-    @Override
+    /**
+     * Methode die het board opvraagt
+     * @return Board return het board
+     */
     public Board aiGetBoard() {
         return b;
     }
