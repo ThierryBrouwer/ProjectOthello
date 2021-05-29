@@ -46,6 +46,12 @@ public class Controller {
     public TextField ip;
 
 
+    //automatisch x aantal keer runnen (x2)
+    public int x = 5;
+    public int y = 1;
+    public String challanger;
+
+
     /**
      * Constructor voor objecten van de klasse Controller
      */
@@ -191,6 +197,10 @@ public class Controller {
                 //het laatste item, COMMENT, kan "Player forfeited match" zijn of "Client disconnected"
                 Game.isGameRunning = false;
                 Game.stateOfGame = 2;
+
+                //automatisch draaien voor onderzoek
+                con.challengePlayer(challanger, "Reversi");
+
                 break;
 
             case "SVR GAME WIN":
@@ -198,17 +208,35 @@ public class Controller {
                 //hashmap: {PLAYERONESCORE: "<score speler1>", PLAYERTWOSCORE: "<score speler2>", COMMENT: "Client disconnected"}
                 Game.isGameRunning = false;
                 Game.stateOfGame = 1;
+
+                //automatisch draaien voor onderzoek
+                con.challengePlayer(challanger, "Reversi");
+
                 break;
 
             case "SVR GAME DRAW":
                 Game.isGameRunning = false;
                 Game.stateOfGame = 3;
+
+                //automatisch draaien voor onderzoek
+                con.challengePlayer(challanger, "Reversi");
+
                 break;
 
             case "SVR GAME CHALLENGE":
                 //hashmap: {CHALLENGER: "Sjors", GAMETYPE: "Guess Game", CHALLENGENUMBER: "1"}
                 String challengerName = (String) con.getMsgHashMap().get("CHALLENGER");
                 challengers.put(challengerName, con.getMsgHashMap());
+
+                //automatisch accepteren van de challange
+                String challengenumber = (String) (con.getMsgHashMap().get("CHALLENGENUMBER"));
+                challanger = (String) con.getMsgHashMap().get("CHALLENGER");
+
+                if(y <= x){
+                    con.acceptChallenge(challengenumber);
+                    y++;
+                }
+
                 break;
 
             case "SVR GAME CHALLENGE CANCELLED":

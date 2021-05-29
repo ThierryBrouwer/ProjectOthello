@@ -27,6 +27,21 @@ public class Reversi extends Game {
         resetBoard();
     }
 
+    public int[][] getBoard2d() {
+        return board2d;
+    }
+
+    public int[][] getConvertedBoard2d(int[] board) {
+        int[][] convertedBoard = new int[8][8];
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                convertedBoard[i][j] = board[(i * 8) + j];
+            }
+        }
+        return convertedBoard;
+    }
+
     /**
      * Deze methode convert het 1 dimensionale bord, naar een 2 dimensionaal bord.
      */
