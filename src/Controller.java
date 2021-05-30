@@ -47,7 +47,7 @@ public class Controller {
 
 
     //automatisch x aantal keer runnen (x2) onderzoek
-    public int x = 0;
+    public int x = 100;
     public int y = 1;
     public String challanger;
 

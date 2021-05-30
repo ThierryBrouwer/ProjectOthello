@@ -43,7 +43,7 @@ public class DataPusher {
 
     public void pushData(){
         try {
-            System.out.println("kakkie050");
+            System.out.println("0000101");
 
             /*ResultSet resultSet = statement.executeQuery("SELECT `uitslagen`.`regelNummer`,\n" +
                     "    `uitslagen`.`gameCount`,\n" +

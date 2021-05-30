@@ -348,13 +348,13 @@ public class LobbyController{
 
             case "Normaal":
                 Platform.runLater(() -> {
-                    AI.difficulty = 0; // verander de difficulty van de AI
+                    //AI.difficulty = 0; // verander de difficulty van de AI
                 });
                 break;
 
             case "Moeilijk":
                 Platform.runLater(() -> {
-                    AI.difficulty = 1; // verander de difficulty van de AI
+                    //AI.difficulty = 1; // verander de difficulty van de AI
                 });
                 break;
 
