@@ -13,7 +13,8 @@ public class DataPusher {
     private int validMovesCount;
     private String hasWon;
     private String info;
-    //private Statement statement;
+    private Statement statement;
+    private String lastBoardString = "";
 
     private static DataPusher instance = null;
     //private DataStatements statements;
@@ -26,24 +27,7 @@ public class DataPusher {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/researchdata", "root", "");
 
-            Statement statement = connection.createStatement();
-
-            String query2 = "SELECT `uitslagen`.`regelNummer`,\n" +
-                    "    `uitslagen`.`gameCount`,\n" +
-                    "    `uitslagen`.`turnCount`,\n" +
-                    "    `uitslagen`.`hasWon`,\n" +
-                    "    `uitslagen`.`lastMove`,\n" +
-                    "    `uitslagen`.`validMovesCount`,\n" +
-                    "    `uitslagen`.`lastBoard`\n" +
-                    "FROM `researchdata`.`uitslagen`;";
-
-            //statement.executeUpdate(query1);
-
-            ResultSet resultSet = statement.executeQuery(query2);
-
-            while (resultSet.next() ){
-                System.out.println(resultSet.getString("lastBoard"));
-            }
+            statement = connection.createStatement();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -58,10 +42,10 @@ public class DataPusher {
     }
 
     public void pushData(){
-        /*try {
+        try {
             System.out.println("kakkie050");
 
-            ResultSet resultSet = statement.executeQuery("SELECT `uitslagen`.`regelNummer`,\n" +
+            /*ResultSet resultSet = statement.executeQuery("SELECT `uitslagen`.`regelNummer`,\n" +
                     "    `uitslagen`.`gameCount`,\n" +
                     "    `uitslagen`.`turnCount`,\n" +
                     "    `uitslagen`.`hasWon`,\n" +
@@ -72,10 +56,20 @@ public class DataPusher {
 
             while (resultSet.next() ){
                 System.out.println(resultSet.getString("validMovesCount"));
+            }*/
+
+            lastBoardString = "";
+
+            for (int i = 0; i < lastBoard.length; i++) {
+                lastBoardString = lastBoardString + ", " + i;
             }
+
+            String query1 = "INSERT INTO `researchdata`.`uitslagen` (`gameCount`, `turnCount`, `hasWon`, `lastMove`, `validMovesCount`, `lastBoard`) VALUES( "+gameCount+", "+turnCount+", '"+hasWon+"', "+lastMove+", "+validMovesCount+", '"+lastBoardString+"');";
+
+            statement.executeUpdate(query1);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }*/
+        }
     }
 
     public void setLastMove(int lastMove) {

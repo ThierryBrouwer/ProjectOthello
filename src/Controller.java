@@ -174,6 +174,8 @@ public class Controller {
 
                 turnCount += 1;
                 (DataPusher.getInstance()).setTurnCount(turnCount); //onderzoek
+                (DataPusher.getInstance()).setHasWon("unknown"); //onderzoek
+                (DataPusher.getInstance()).pushData(); //onderzoek
 
                 break;
 
@@ -227,6 +229,7 @@ public class Controller {
 
                 (DataPusher.getInstance()).gameCount(y); //onderzoek
                 (DataPusher.getInstance()).setHasWon("win"); //onderzoek
+                (DataPusher.getInstance()).pushData(); //onderzoek
 
                 break;
 
@@ -241,6 +244,7 @@ public class Controller {
 
                 (DataPusher.getInstance()).gameCount(y); //onderzoek
                 (DataPusher.getInstance()).setHasWon("draw"); //onderzoek
+                (DataPusher.getInstance()).pushData(); //onderzoek
 
                 break;
 
