@@ -55,7 +55,8 @@ public class AI {
             int move = useMiniMax();
             return move;
         } else {
-            int move = useRandomMove();
+            //int move = useRandomMove();
+            int move = useMiniMax();
             return move;
         }
 
@@ -92,6 +93,10 @@ public class AI {
         ArrayList<Pair> movelist2d = rev.getMoveList();
         int[] movelist = rev.convertMovesto1d(movelist2d);
 
+        (DataPusher.getInstance()).setValidMovesCount(movelist.length); //onderzoek
+
+
+
 
         ArrayList<Reversi> children = new ArrayList<>();
 
@@ -99,6 +104,7 @@ public class AI {
         int lowestvalue = Integer.MAX_VALUE;
         int bestmove = movelist[0];
         int[] oldboard = rev.getBoard();
+        (DataPusher.getInstance()).setLastBoard(oldboard); //onderzoek
         for (int i : movelist) {
 
             Reversi child = new Reversi();
@@ -115,13 +121,15 @@ public class AI {
                     highestvalue = value;
                     bestmove = i;
                 }
-                System.out.println("value: " + value + " move: " + i + " bestmove: " + bestmove);
+                //System.out.println("value: " + value + " move: " + i + " bestmove: " + bestmove);
+                (DataPusher.getInstance()).setLastMove(i); //onderzoek
             } else {
                 if (value < lowestvalue) {
                     lowestvalue = value;
                     bestmove = i;
                 }
-                System.out.println("value: " + value + " move: " + i + " bestmove: " + bestmove);
+                //System.out.println("value: " + value + " move: " + i + " bestmove: " + bestmove);
+                (DataPusher.getInstance()).setLastMove(i); //onderzoek
             }
 
 

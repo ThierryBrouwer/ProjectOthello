@@ -30,5 +30,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        Stinky stinky = new Stinky();
     }
 }

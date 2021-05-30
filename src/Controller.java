@@ -46,10 +46,12 @@ public class Controller {
     public TextField ip;
 
 
-    //automatisch x aantal keer runnen (x2)
-    public int x = 5;
+    //automatisch x aantal keer runnen (x2) onderzoek
+    public int x = 0;
     public int y = 1;
     public String challanger;
+
+    private int turnCount = 0;
 
 
     /**
@@ -170,6 +172,9 @@ public class Controller {
                     yourturn = false;
                 }
 
+                turnCount += 1;
+                (DataPusher.getInstance()).setTurnCount(turnCount); //onderzoek
+
                 break;
 
             case "SVR GAME MOVE":
@@ -201,6 +206,12 @@ public class Controller {
                 //automatisch draaien voor onderzoek
                 con.challengePlayer(challanger, "Reversi");
 
+                turnCount = 0;
+
+                (DataPusher.getInstance()).gameCount(y); //onderzoek
+                (DataPusher.getInstance()).setHasWon("loss"); //onderzoek
+                (DataPusher.getInstance()).pushData(); //onderzoek
+
                 break;
 
             case "SVR GAME WIN":
@@ -212,6 +223,11 @@ public class Controller {
                 //automatisch draaien voor onderzoek
                 con.challengePlayer(challanger, "Reversi");
 
+                turnCount = 0;
+
+                (DataPusher.getInstance()).gameCount(y); //onderzoek
+                (DataPusher.getInstance()).setHasWon("win"); //onderzoek
+
                 break;
 
             case "SVR GAME DRAW":
@@ -220,6 +236,11 @@ public class Controller {
 
                 //automatisch draaien voor onderzoek
                 con.challengePlayer(challanger, "Reversi");
+
+                turnCount = 0;
+
+                (DataPusher.getInstance()).gameCount(y); //onderzoek
+                (DataPusher.getInstance()).setHasWon("draw"); //onderzoek
 
                 break;
 
